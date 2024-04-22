@@ -27,7 +27,7 @@
 
 \makeatletter
 \newcommand{\makecoverfile}[0]{%
-  \immediate\write18{latexmk -pdf cover.tex}%
+  \immediate\write18{latexmk -pdf -shell-escape cover.tex}%
 }
 \makeatother
 
@@ -234,7 +234,9 @@
 % Document begins here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \begin{document}
+
 
 % Fix the numbering scheme by having a ghost style for page numbering
 \pagenumbering{Alph}
@@ -243,7 +245,7 @@
 \includepdf[pages=-]{cover.pdf}
 
 % Uncomment to enable English
-%\selectlanguage{english}
+\selectlanguage{english}
 
 
 % Front matter
@@ -367,7 +369,7 @@
 
 % Uncomment to add further chapters
 \include{chapters/chapter1}
-%\include{chapter2}
+\include{chapters/chapter2}
 %\include{chapter3}
 %\include{chapter4}
 

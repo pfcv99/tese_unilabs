@@ -543,7 +543,7 @@
 \fi
 \newcommand{\yourSecondSupervisora}{}
 \ifdefined \ciSecondSupervisoraName
-  \def\yourSecondSupervisora{, e da Doutora {\ciSecondSupervisoraName}, Professora {\ciSecondSupervisoraTitle} {\ciSecondSupervisoraDepart} {\ciSecondSupervisoraSchool}}
+  \def\yourSecondSupervisora{, e supervisão da Doutora {\ciSecondSupervisoraName}, {\ciSecondSupervisoraTitle} {\ciSecondSupervisoraDepart}}
 \fi
 
 \TitlePage
@@ -560,16 +560,16 @@
 Proposta de Tese%
 \else
  \ifdefined \ciDocumentTypeThesis%
-Tese%
+Relatório de estágio currícular%
  \else
     \ifdefined \ciDocumentTypeDissertation%
 Disserta\c c\~ao%
     \fi %
   \fi%
 \fi%
-~apresentada \`a Universidade de Aveiro para cumprimento dos requisitos necess\'arios \`a
+~apresentado \`a Universidade de Aveiro para cumprimento dos requisitos necess\'arios \`a
 \ifdefined \ciDocumentTypeThesisProposal%
-conclusão da unidade curricular Proposta de Tese, condi\c c\~ao necess\'aria para
+conclusão da unidade curricular Estágio, condi\c c\~ao necess\'aria para
 \fi%
 obten\c c\~ao do grau de {\ciDegreeTitle}
 \ifdefined \ciMAPProgram%
@@ -577,9 +577,9 @@ no âmbito do Programa de Doutoramento
 \fi%
 em {\ciDegreeName}
 \ifdefined \ciMAPProgram%
- das Universidades do Minho, Aveiro e Porto (MAP-\ciMAPProgram)
+das Universidades do Minho, Aveiro e Porto (MAP-\ciMAPProgram)
 \fi%
-, realizada sob a orienta\c c\~ao cient\'ifica 
+, realizado sob a orienta\c c\~ao cient\'ifica 
 \ifdefined \ciSupervisoraName%
 da Doutora {\ciSupervisoraName}, Professora {\ciSupervisoraTitle}
 \else
