@@ -7,18 +7,22 @@
 
 
 
-\section{Internship Context and Framework}
+\section{Development}
+\subsection{Environment preparation }
+\subsubsection{\textbf{Windows Subsystem for Linux (WSL)}}
 
-This document represents the final report of the internship carried out as an integral part of the Internship Course (49991) of the second year of studies of the Master's Degree in Clinical Bioinformatics, specializing in Genome Bioinformatics, at the University of Aveiro. The internship lasted for nine months, starting on November 21, 2023, and concluding on July 19, 2024, totaling 1296 hours of work.
+On Windows, developers have access to both the Windows and Linux environments, thanks to the Windows Subsystem for Linux (WSL). With WSL, it is possible to install different Linux distributions, such as Ubuntu, OpenSUSE, Kali, Debian, Arch Linux, among others. This allows Linux applications, utilities and command-line tools to be used directly in Windows, without the need to modify the operating system, resort to virtual machines or dual boot. 
 
-During this period, the intern had the opportunity to apply the knowledge acquired throughout the course and to engage in practical projects related to bioinformatics and genomics. UNILABS, a renowned company in the healthcare sector, provided a professional environment where the intern could collaborate with experienced professionals and actively participate in projects relevant to clinical bioinformatics. This report addresses the activities developed during the internship and the contributions to the projects in which the intern was involved.
+In the context of the development of this tool, the need to install WSL was driven mainly due to the scenario in which many essential tools and software for bioinformatics are designed to work in Linux environments. For this reason, we followed the set of steps recommended on the Microsoft website to configure this environment (Build 19041 or higher). %cite9
 
-This introductory section aims to provide an overview of the context in which the internship was carried out, establishing the groundwork for understanding the activities and results presented throughout the report.
+\subsubsection{\textbf{Anaconda and Conda}}
 
+After installing WSL, the installation step of Anaconda followed, a platform for data science in Python/R that includes conda, a package and environment manager, making it easier for users to manage a collection of more than 7,500 open source packages. %cite10
 
-\section{Motivation and Objectives of the Work}
-\section{Document Structure}
-\section{Characterization of the Host Entity and Work Plan}
-\subsection{UNILABS}
-\subsection{Schedule}
-\section{Theoretical Framework}
+In the case of the creation of the metrics analysis tool, this step was fundamental to allow the installation and maintenance of all the packages and dependencies necessary for the operation of the software. By creating a conda environment, it was possible to ensure that all installed tools work independently without conflicts between versions and packages, thus ensuring the reproducibility of the created software. %cite11
+
+Following the documentation provided by Anaconda, the installation and creation of the conda environment was carried out.  
+
+Additionally, all the dependencies of the attached x-list were installed within the created environment. This installation was carried out by installing package by package, however, an environment.yaml file was made available that allows the bulk installation of all dependencies on the versions compatible with the software.
+
+\subsubsection{\textbf{Git and GitHub}}

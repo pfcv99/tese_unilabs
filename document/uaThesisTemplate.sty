@@ -21,8 +21,10 @@
 \def\ciTitleEN{}
 \def\ciTitlePT{}
 \def\ciAbstract{}
+\def\ciAI{}
 \def\ciKeywords{}
 \def\ciAbstractText{}
+\def\ciAIText{}
 
 %User Hooks
 \newcommand{\DocumentTypeThesis}{\def\ciDocumentTypeThesis{}}
@@ -47,6 +49,19 @@
 }
 \newcommand{\Abstract}[4]{\def\ciAbstractText{#4}
 \listadd{\ciAbstract}{
+  \TitlePage
+    \vspace*{55mm}
+   \SECTION{\textbf{#1}}
+         {#2}
+    \vspace*{10mm}
+    \SECTION{\textbf{#3}}
+         {#4}
+  \EndTitlePage
+  \titlepage\ \endtitlepage % empty page
+ }
+}
+\newcommand{\AI}[4]{\def\ciAIText{#4}
+\listadd{\ciAI}{
   \TitlePage
     \vspace*{55mm}
    \SECTION{\textbf{#1}}
@@ -653,6 +668,7 @@ do {\ua@textA} {\ua@textB} da Universidade de Aveiro{\yourSecondSupervisor}{\you
 \hbadness=10000
 
 \dolistloop{\ciAbstract}
+\dolistloop{\ciAI}
 
 }
 
