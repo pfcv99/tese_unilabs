@@ -1,10 +1,15 @@
-\chapter{Analysis tool}
+\chapter{Software development process}
 \label{chapter:Analysis tool}
 
 \begin{introduction}
     "The only source of knowledge is experience." - Albert Einstein
 \end{introduction}
 
+\section{Analysis}
+
+\section{Planning}
+
+\section{Design}
 
 
 \section{Development}
@@ -13,16 +18,91 @@
 
 On Windows, developers have access to both the Windows and Linux environments, thanks to the Windows Subsystem for Linux (WSL). With WSL, it is possible to install different Linux distributions, such as Ubuntu, OpenSUSE, Kali, Debian, Arch Linux, among others. This allows Linux applications, utilities and command-line tools to be used directly in Windows, without the need to modify the operating system, resort to virtual machines or dual boot. 
 
-In the context of the development of this tool, the need to install WSL was driven mainly due to the scenario in which many essential tools and software for bioinformatics are designed to work in Linux environments. For this reason, we followed the set of steps recommended on the Microsoft website to configure this environment (Build 19041 or higher). %cite9
+In the context of the development of this tool, the need to install WSL was driven mainly due to the scenario in which many essential tools and software for bioinformatics are designed to work in Linux environments. For this reason, we followed the set of steps recommended on the Microsoft website to configure this environment (Build 19041 or higher). \cite{wsl}
 
 \subsubsection{\textbf{Anaconda and Conda}}
 
-After installing WSL, the installation step of Anaconda followed, a platform for data science in Python/R that includes conda, a package and environment manager, making it easier for users to manage a collection of more than 7,500 open source packages. %cite10
+After installing WSL, the installation step of Anaconda followed, a platform for data science in Python/R that includes conda, a package and environment manager, making it easier for users to manage a collection of more than 7,500 open source packages. \cite{anaconda1}
 
-In the case of the creation of the metrics analysis tool, this step was fundamental to allow the installation and maintenance of all the packages and dependencies necessary for the operation of the software. By creating a conda environment, it was possible to ensure that all installed tools work independently without conflicts between versions and packages, thus ensuring the reproducibility of the created software. %cite11
+In the case of the creation of the metrics analysis tool, this step was fundamental to allow the installation and maintenance of all the packages and dependencies necessary for the operation of the software. By creating a conda environment, it was possible to ensure that all installed tools work independently without conflicts between versions and packages, thus ensuring the reproducibility of the created software. \cite{anaconda2}
 
-Following the documentation provided by Anaconda, the installation and creation of the conda environment was carried out.  
+Following the documentation provided by Anaconda, the installation and creation of the conda environment was carried out. \cite{anaconda3} 
 
-Additionally, all the dependencies of the attached x-list were installed within the created environment. This installation was carried out by installing package by package, however, an environment.yaml file was made available that allows the bulk installation of all dependencies on the versions compatible with the software.
+Additionally, all the dependencies of the attached x-list were installed within the created environment. This installation was carried out by installing package by package, however, an environment.yaml file was made available that allows the bulk installation \cite{anaconda4} of all dependencies on the versions compatible with the software.
 
 \subsubsection{\textbf{Git and GitHub}}
+
+GitHub is a platform that allows users to store, share, and collaborate on code writing with others.
+
+Its operation is based on repositories managed by Git, a version control system that tracks all changes made by one or more users in a project.
+
+When files are uploaded to GitHub, they become part of the created repository. Any change (commit) to any file is automatically tracked. These changes, made locally, are usually synchronized continuously by pushing the committed changes. Similarly, any changes made locally by another user and synchronized on GitHub can be retrieved by making a pull request.
+
+Thus, by using the documentation of Git and GitHub, this practice was implemented, which not only ensures that each version of the created software is recorded—guaranteeing that the work is not lost and allowing for version rollback in case of bugs—but also ensures that all software produced is reproducible and available for deployment by any user. \cite{github}
+
+
+\subsubsection{\textbf{SAMtools}}
+
+SAMtools is an essential tool for the manipulation and analysis of DNA sequencing data. First released in 2009, it allows for converting, manipulating, sorting, querying, calculating statistics, calling variants, and analyzing sequencing data in SAM, BAM, and CRAM formats.
+
+Among the many functionalities of SAMtools, the most notable are its ability to convert formats, manipulate and index files, visualize and export data, and calculate statistics, such as "depth," which served as the basis for the tool created. \cite{samtools}
+
+In this case, a Python function was developed to generate a .depth file with the desired metrics, using SAMtools depth.
+
+\begin{listing}[h]
+\begin{minted}{python}
+import subprocess
+
+def depth(bam_path, bed_path, depth_path, gene_selection=None, exon_selection=None): 
+    """ 
+    Calculate the depth of coverage for specific exons of genes in a BAM file using samtools.
+s
+    Args: 
+        bam_path (str): Path to the BAM file.
+        bed_path (str): Path to the Universal BED file containing exon coordinates.
+        depth_path (str): Path to save the depth output.
+        gene_selection (list or None): List of gene names to include in the depth calculation. 
+                                       If None, all genes will be included.
+        exon_selection (list or None): List of exon numbers to include in the depth calculation. 
+                                       If None, all exons will be included.
+
+    Returns: 
+        None
+    """ 
+    
+    gene_filter = ','.join(map(str, gene_selection)) if gene_selection else '' 
+    exon_filter = ','.join(map(str, exon_selection)) if exon_selection else ''
+    
+    # Construct awk command to filter based on gene and exon selection
+    awk_command = (f'awk -v gene_filter={gene_filter} -v exon_filter={exon_filter} '
+                   f'\'{{split(exon_filter, arr, ","); '
+                   f'if (($4 == gene_filter || gene_filter == "") && '
+                   f'("" in arr || $5 == arr[1])) {{sub(/^chr/, "", $1); print}}}}\' {bed_path}')
+    
+    # Construct samtools command to calculate depth
+    samtools_command = f'samtools depth -b - {bam_path} > {depth_path}'
+    
+    # Run the commands using subprocess
+    try:
+        subprocess.run(f'{awk_command} | {samtools_command}', shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred: {e}")
+\end{minted}
+\caption{Python function to calculate depth of coverage using samtools and awk.}
+\label{lbl:snippet-test}
+\end{listing}
+
+
+\section{Testing and validation}
+
+
+\section{Optimization}
+
+
+\section{Deployment}
+
+
+\section{Documentation}
+
+
+\section{Maintenance}

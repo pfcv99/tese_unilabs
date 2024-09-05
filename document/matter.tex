@@ -200,7 +200,8 @@
   \oldchapter#1{#2}
 }
 
-
+\usepackage{booktabs}
+\usepackage{multirow}
 
 % Use the built-in division styling
 \headstyles{memman}
@@ -339,8 +340,8 @@
     {\oldchapter#1{#2}}
 }
 
-\renewcommand{\listingscaption}{Código}
-\renewcommand{\listoflistingscaption}{Lista de Excertos de Código}
+\renewcommand{\listingscaption}{Code}
+\renewcommand{\listoflistingscaption}{List of Code Snippets}
 \cleardoublepage
 {\small\listoflistings}
 \addcontentsline{toc}{chapter}{\listoflistingscaption}
