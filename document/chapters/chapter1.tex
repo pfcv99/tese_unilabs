@@ -1,4 +1,4 @@
-\chapter{Introduction}
+\chapter{Introduction} 
 \label{chapter:introduction}
 
 \begin{introduction}
@@ -7,7 +7,7 @@
 
 
 
-\section{Internship Context and Framework}
+\section{Internship Context and Framework} \label{sec:intro_context}
 
 This document represents the final report of the internship carried out as part of the Internship Curricular Unit (49991) of the second year of studies of the Master's Degree in Clinical Bioinformatics, with specialization in Genome Bioinformatics, at the University of Aveiro. The internship lasted nine months, starting on November 21st, 2023, and ending on July 19th, 2024, totalling 1296 hours of work. 
 
@@ -16,7 +16,7 @@ During this period, the trainee had the opportunity to apply the knowledge acqui
 This introductory section aims to offer an overview of the context in which the internship was carried out, laying the foundations for understanding the activities and results presented throughout the report.
 
 
-\section{Project motivation and objectives}
+\section{Project motivation and objectives} \label{sec:intro_motivation}
 
 Currently, Unilabs uses a genomic intelligence platform that uses natural language processing to analyse new scientific publications of a genetic nature and incorporate them into an always updated knowledge base. This platform is particularly useful in prioritizing sequenced variants, for genetic diagnosis purposes, in their interpretation and in the production of clinical reports, thus enabling the provision of increasingly personalized care. 
 
@@ -24,19 +24,23 @@ However, at the time of this internship, Unilabs was in the migration phase to t
 
 As will be explained in detail below, the software created and described in this report allows the obtaining of Average Read Depth and Percentage of Coverage at 1x, 10x, 15x, 20x, 30x, 50x, 100x, and 500x per gene and per panel in analysis of gene panels. Additionally, in addition to the presentation of metrics by panel, single gene and exome analysis was also implemented.
 
-\section{Document Structure}
-This document is divided into five chapters, each with several sections. 
+\section{Document Structure} \label{sec:doc_structure}
+This document is divided into five main chapters, each with several sections, and includes additional content at the end.
 
-The first chapter, the Introduction, begins with a contextualization and framing of the internship carried out, followed by a brief presentation of the motivation and objectives of the work. The host entity is also described, in addition to a brief theoretical foundation that supports the solution presented. 
+The first chapter, \textbf{Introduction}, begins with the \textbf{Internship Context and Framework}, providing an overview of the internship setting and its relevance. This is followed by a presentation of the \textbf{Project Motivation and Objectives}, outlining the purpose and goals of the work. The chapter also includes the \textbf{Document Structure}, this section, which explains how the document is organized. The \textbf{Characterization of the Host Entity and Work Plan} section describes the host entities, including Unilabs Portugal and Unilabs Genetics, and provides the schedule for the work. Finally, the \textbf{Theoretical Framework} section covers important concepts in Genetics and Genomics, Sequencing Methods and Characteristics, and Bioinformatics, including sub-sections on the evolution of genetics, the structure and function of DNA, the discovery of the double helix, DNA packaging, mutations, and genetic variations, as well as Next Generation Sequencing and a SWOT analysis.
 
-The second chapter, Analysis Tool, includes several sections. The first is Development, which explains the bioinformatic process involved in the creation of the software, including the configuration of the work environment, the programming languages and software used, and the calculations performed. The following section, Operation, details step-by-step how the software operates to obtain the desired metrics. The Validation section compares the metrics obtained by the software with other tools. Next, the Documentation section describes the process of documenting the software to ensure its reproducibility. Finally, the Distribution section explains how software can be distributed and deployed. 
+The second chapter, \textbf{Software Development Process}, is detailed as follows: The \textbf{Analysis} section outlines the preliminary work, followed by \textbf{Planning}, which covers the project planning phase. The \textbf{Design} section describes the design phase, and \textbf{Development} covers the creation of the software, including \textbf{Environment Preparation}. The chapter also includes sections on \textbf{Testing and Validation}, \textbf{Optimization}, \textbf{Deployment}, \textbf{Documentation}, and \textbf{Maintenance}, explaining how each phase contributes to the software development lifecycle. This structure of software presentation is based on the SWEBOK Guide \cite{SWEBOK}, which provides a comprehensive overview of software engineering practices.
 
-The third chapter, Discussion, is intended to debate the ideas associated with the work, analysing and interpreting the results in the context of existing knowledge in the area. It emphasizes possible practical applications, limitations, and implications of the results. 
+The third chapter, \textbf{Additional Activities During the Internship}, highlights other activities and experiences gained during the internship.
 
-The last two chapters are, respectively, Final Considerations, where possible improvements and new features for future versions of the software are presented, and Bibliography, which lists all the sources consulted and cited in the work.
+The fourth chapter, \textbf{Discussion}, provides a comprehensive analysis of the work, interpreting results in the context of existing knowledge and discussing practical applications, limitations, and implications.
 
-\section{Characterization of the Host Entity and Work Plan}
-\subsection{Unilabs Portugal}
+The fifth chapter, \textbf{Final Remarks}, presents conclusions drawn from the work and suggests possible improvements and new features for future versions of the software.
+
+The document concludes with a \textbf{Bibliography} listing all consulted and cited sources, followed by Additional Content which includes supplementary material relevant to the work.
+
+\section{Characterization of the Host Entity and Work Plan} \label{sec:intro_characterization}
+\subsection{Unilabs Portugal} \label{subsec:unilabs}
 
 Since the beginning of 2006, Unilabs has established solid roots in Portugal. It began its journey with the acquisition of most of the shares of the company "Medicina Laboratorial Dr. Carlos Torres" and since then it has grown steadily, following a strategy of acquiring high-quality laboratories and partners throughout the country. 
 
@@ -46,47 +50,27 @@ In 2017, Unilabs took an important step by acquiring BASE Holding. With this acq
 
 Currently, it offers a wide variety of services in various areas, including Clinical Analysis, Pathological Anatomy, Cardiology, Gastroenterology, Medical Genetics, Nuclear Medicine and Radiology. The company maintains its commitment to being close to people, providing answers that contribute to a healthier future. \cite{unilabs_sobre}
 
-\subsection{Unilabs Genetics}
+\subsection{Unilabs Genetics} \label{subsec:unilabs_genetics}
 Unilabs Genetics (formerly called CGC Genetics) was founded three decades ago and was the first private Medical Genetics laboratory in Portugal. It has been present on the national scene regarding diagnosis through genetic studies. It has a wide selection of tests and is known for its collaborative and thorough approach, meeting the demands of clinicians in a variety of specialist areas. 
 
 It is a leader in Europe in Medical Genetics, with special emphasis on rare diseases. It provides accurate diagnoses for public and private healthcare institutions, providing physicians and patients with detailed information about the nature of diseases, prognosis, and treatment options. In addition, the company supports academic institutions, research centres and the pharmaceutical industry with data and knowledge that contributes to the discovery of biomarkers and the development of new drugs. 
 
 The Unilabs Genetics laboratory is located in the city of Porto and combines advanced technologies, bioinformatics and artificial intelligence, with a highly qualified team of medical geneticists, specialists in genetic counselling and laboratory technicians. The company follows the strictest quality and ethics policies, having certifications (\ac{clia}, \ac{iso} 15189, \ac{iso} 9001) that guarantee excellence in its services. \cite{unilabs_genetica}
 
+The Table \ref{tab:test_catalog} presents the test catalog provided by Unilabs Genetics.
 
-\begin{table}[H]
-    \centering
-    \caption{Unilabs test catalog}
-    \label{tab:test_catalog}
-    \begin{tabular}{@{}l@{}}
-    \toprule
-    \multicolumn{1}{c}{\textbf{Test Catalog}}               \\ \midrule
-    \ac{wes}                                                \\
-    \acl{ngs}                                               \\
-    Sanger Sequencing                                       \\
-    \ac{acgh}                                               \\
-    Karyotyping                                             \\
-    \ac{fish}                                               \\
-    QF-PCR, qPCR, RT-PCR                                    \\
-    Fragment and Expansion Analysis                         \\
-    \ac{mlpa}                                               \\
-    Single Gene Analysis                                    \\
-    Variant Analysis                                        \\
-    Cytogenetics                                            \\
-    NIPT | Tomorrow                                         \\ \bottomrule
-    \end{tabular}
-    \end{table}
-\subsection{Schedule}
+\subsection{Schedule} \label{subsec:schedule}
+The internship at Unilabs followed a structured schedule, aimed at ensuring the successful completion of all assigned tasks. The timeline was designed to provide a clear framework for the development and implementation of various activities throughout the internship period. This detailed plan served as a guide to ensure that each phase of the project was completed efficiently and on time, while also allowing the necessary flexibility to accommodate any adjustments. The Figure \ref{fig:schedule} outlines the key milestones and deadlines that were met during this internship.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{figs/schedule.png}
     \caption{Imagem provisória do cronograma do estágio.}
-    \label{fig:timeline}
+    \label{fig:schedule}
 \end{figure}
 
-\section{Theoretical Framework - Genetics and Genomics} 
-\subsection{Evolution of genetics over the years}
+\section{Theoretical Framework - Genetics and Genomics} \label{sec:intro_theoretical}
+\subsection{Evolution of genetics over the years} \label{subsec:genetics_evolution}
 
 The history of genetics formally began in 1865 with Gregor Mendel's work on plant hybridization. However, the term "genetics" was only coined in 1906 by the English biologist William Bateson to define the new science of heredity. Based on Mendel's laws, genetics introduced groundbreaking concepts such as gene, genotype, and phenotype. By the 1910s, Mendelian genetics merged with the chromosomal theory of inheritance, giving rise to classical genetics. In this framework, the gene was seen as a unit of function, transmission, recombination, and mutation. \cite{genetictimeline2}
 
@@ -107,17 +91,17 @@ Figure \ref{fig:timeline} presents a timeline with some of the major historical 
     \label{fig:timeline}
 \end{figure}
 
-\subsection{Genetics vs Genomics}
+\subsection{Genetics vs Genomics} \label{subsec:genetics_genomics}
 
 Genetics and genomics are both fields of study that explore the roles of genes in living organisms, but they focus on different aspects of heredity and \ac{dna}. Genetics is the study of specific genes and their influence on traits and conditions that are passed from one generation to the next. It examines how certain genes cause inherited disorders, such as cystic fibrosis and Huntington's disease. \cite{NHGRI2018}
 
 In contrast, genomics is a more recent field that encompasses the study of all the genes within an organism, referred to as the genome, and how these genes interact with each other and the environment. Unlike genetics, which focuses on individual genes, genomics uses advanced technologies like bioinformatics and high-performance computing to analyze vast amounts of genetic data. This comprehensive approach is crucial for studying complex diseases, such as cancer and diabetes, which result from the interplay between multiple genes and environmental factors. While both fields contribute to advancements in health and disease treatment, genomics represents a broader, more holistic view of genetic influence. \cite{JAX2017}
 
-\subsection{Structure and function of \ac{dna}, \ac{rna}, and proteins}
+\subsection{Structure and function of \acs{dna}, \acs{rna}, and proteins} \label{subsec:genetics_structure}
 
 Nucleic acids, specifically  \ac{dna} and \ac{rna}, are fundamental molecules in biological systems, playing key roles in storing and transmitting genetic information. \ac{dna}, which exists primarily as a double-stranded helix, encodes the instructions necessary for the growth, development, and reproduction of all living organisms. \ac{rna}, on the other hand, serves multiple purposes, including acting as a messenger that carries genetic information from \ac{dna} to the ribosomes for protein synthesis. The structural complexity and functional versatility of these molecules underscore their importance in the central dogma of molecular biology, which describes the flow of genetic information from \ac{dna} to \ac{rna} to proteins. \cite{Minchin2019}
 
-\subsection{Molecular Structure of \ac{dna}}
+\subsection{Molecular Structure of \acs{dna}} \label{subsec:genetics_molecular}
 
 The molecular structure of \ac{dna} is a polymer composed of repeating units called nucleotides. Each nucleotide consists of three components: a five-carbon sugar (deoxyribose), a phosphate group, and a nitrogenous base. The nitrogenous bases are categorized into two groups: purines (adenine and guanine) and pyrimidines (cytosine and thymine). The nucleotides are linked together by phosphodiester bonds, forming a sugar-phosphate backbone that gives \ac{dna} its structural integrity. \ac{dna} molecules are double-stranded, with two complementary strands running in opposite directions (antiparallel orientation). These strands are held together by hydrogen bonds between specific base pairs: adenine pairs with thymine, and guanine pairs with cytosine. This complementary base pairing is crucial for the accurate replication and transmission of genetic information. \cite{Minchin2019}
 
@@ -126,11 +110,11 @@ The Figure \ref{fig:dna} shows a representation of the molecular structure of \a
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{figs/dna.png}
-    \caption{Representation of \ac{dna} and its constituents. In the top left corner, the nitrogenous bases are illustrated, categorized into Purines (Guanine and Adenine) and Pyrimidines (Thymine and Cytosine). Below this, on the left side, the paired nitrogenous bases are shown, along with their respective hydrogen bonds and the sugar-phosphate backbone connections. On the right side of the image, a chromosome is depicted unraveling, revealing the \ac{dna} structure. \cite{dna}} 
+    \caption{Representation of \ac{dna} and its constituents. In the top left corner, the nitrogenous bases are illustrated, categorized into Purines (Guanine and Adenine) and Pyrimidines (Thymine and Cytosine). Below this, on the left side, the paired nitrogenous bases are shown, along with their respective hydrogen bonds and the sugar-phosphate backbone connections. On the right side of the image, a chromosome is depicted unraveling, revealing the \ac{dna} structure. \cite{DNA}} 
     \label{fig:dna}
 \end{figure}
 
-\subsection{Discovery of the Double Helix}
+\subsection{Discovery of the Double Helix} \label{subsec:genetics_discovery}
 
 The three-dimensional structure of \ac{dna}, famously known as the double helix, was elucidated by James Watson and Francis Crick in 1953. Their discovery was informed by Rosalind Franklin’s X-ray diffraction images, which revealed the helical structure of \ac{dna}. Watson and Crick proposed that the two strands of the helix are wound around each other, with the sugar-phosphate backbone on the outside and the nitrogenous bases on the inside. The helical structure is right-handed, with ten base pairs per turn of the helix. The stability of the double helix is largely due to the hydrogen bonds between the complementary base pairs and the hydrophobic interactions between the stacked bases. This discovery not only explained how \ac{dna} could carry genetic information but also provided insights into how it could be replicated during cell division. \cite{Minchin2019}
 
@@ -153,59 +137,132 @@ The three-dimensional structure of \ac{dna}, famously known as the double helix,
 \end{figure}
 
 
-\subsection{\ac{dna} Packaging in Eukaryotic Cells}
+\subsection{\acs{dna} Packaging in Eukaryotic Cells} \label{subsec:genetics_packaging}
 
 In eukaryotic cells, \ac{dna} is not free-floating within the nucleus; instead, it is highly organized and compacted into structures known as chromosomes. This compaction is achieved through the association of \ac{dna} with histone proteins, forming nucleosomes, which are the basic unit of chromatin. Each nucleosome consists of a segment of \ac{dna} wrapped around a core of histone proteins. These nucleosomes are further coiled and folded into higher-order structures, eventually forming the condensed chromosomes visible during cell division. The packaging of \ac{dna} into chromatin is essential for fitting the large eukaryotic genome into the limited space of the nucleus. Furthermore, chromatin structure plays a crucial role in gene regulation, as regions of tightly packed chromatin (heterochromatin) are generally transcriptionally inactive, while loosely packed regions (euchromatin) are more accessible to transcriptional machinery. \cite{Minchin2019}
 
-\subsection{Mutations and genetic variations}
+\subsection{Mutations and genetic variations} \label{subsec:genetics_mutations}
 
 Mutations are fundamental drivers of genetic diversity, occurring when changes happen in the \ac{dna} sequence. These alterations can range from small-scale mutations, such as the substitution, insertion, or deletion of one or a few nucleotides, to large-scale mutations that involve significant chromosome segments or entire genes. Chromosome mutations specifically impact either individual nucleotides or larger chromosome fragments. They can involve deletions, insertions, inversions, translocations, or even gene duplications. On the other hand, genome mutations refer to changes in the number of whole chromosomes or sets of chromosomes and are studied separately. \cite{merrick2016}
 
 Genetic variation, on the other hand, refers to the observable differences between individuals within a population, which arise from variations in their genotypes. While mutations are the source of new genetic variation, genetic variation encompasses the broader concept of how different alleles at specific loci contribute to diversity within a population. This variation is shaped and refined by evolutionary forces such as natural selection, gene flow, and genetic drift. In cultivated plants, human-directed selection can also manipulate genetic variation to enhance desirable traits. \cite{merrick2016}
 
-\section{Theoretical Framework - Sequencing Methods and Characteristics} 
+\section{Theoretical Framework - Sequencing Methods and Characteristics} \label{sec:intro_sequencing}
 
-\subsection{\acl{ngs}}
+\subsection{\acl{ngs} - Overview} \label{subsec:ngs_overview}
+
+\acl{ngs} technologies have revolutionized genomic medicine, enabling rapid advancements in clinical diagnostics, therapeutic decision-making, and disease prediction. Unlike traditional sequencing methods such as Sanger sequencing, which are limited by low throughput and high cost \cite{cost}, \ac{ngs} allows for the massively parallel sequencing of \ac{dna}, significantly increasing throughput and reducing costs by several orders of magnitude. As a result, clinical laboratories now have the capability to analyze nearly complete exomes or genomes of individuals, thereby improving the diagnostic process for a wide range of genetic conditions. \cite{Rehm2013}
+
+\ac{ngs} is characterized by the use of clonally amplified or single molecule templates, which are sequenced in parallel, providing an unprecedented ability to analyze large amounts of \ac{dna} efficiently. The adoption of \ac{ngs} in clinical settings is growing rapidly, with three primary applications gaining prominence: disease-targeted gene panels, \ac{es}, and \ac{gs}. \cite{Rehm2013}
+
+\subsubsection{\textbf{Disease-targeted gene panels}} \label{subsubsubsec:ngs_panels}
+
+Disease-targeted gene panels focus on a set of known disease-associated genes, allowing for greater depth of coverage and increased analytical sensitivity. This targeted approach improves the detection of heterozygous variants, mosaicism, or low-level heterogeneity, particularly in applications related to mitochondrial diseases or oncology. Targeted panels also allow laboratories to leverage desktop sequencers, reducing the costs of sequencing and data storage. However, follow-up techniques such as Sanger sequencing may be required to fill gaps in the data caused by regions of low coverage. \cite{Rehm2013}
+
+\subsubsection{\textbf{\acl{es}}} \label{subsubsubsec:ngs_es}
+
+\acl{es} targets the coding regions of the genome, which constitute approximately 1-2\% of the entire genome but harbor around 85\% of known disease-causing mutations. \cite{Majewski580} \ac{es} is particularly valuable in "detecting variants in known disease-associated genes as well as for the discovery of novel gene-disease associations" \cite{Rehm2013}, with clinical studies demonstrating a diagnostic success rate of approximately 20\%. \cite{schork_genetic_2013} Despite this potential, \ac{es} faces challenges related to coverage variability, as certain exonic regions may not be captured or sequenced with sufficient depth to make a sequence call, leading to the need for additional sequencing techniques to confirm findings. \cite{Rehm2013}
+
+\subsubsection{\textbf{\acl{gs}}} \label{subsubsubsec:ngs_gs}
+
+\acl{gs} offers a more comprehensive approach by covering both coding and non-coding regions of the genome. This technique simplifies the preparation of samples for sequencing by eliminating the need for pre-sequencing enrichment strategies. While \ac{gs} holds promise for identifying regulatory variants and structural variants that are outside of coding regions, it remains the most expensive \ac{ngs} technology and typically provides lower average depth of coverage. Nonetheless, as technology advances, these limitations are expected to diminish, making \ac{gs} a more accessible option for clinical diagnostics. \cite{Rehm2013}
+
+\ac{ngs} involves three major components: sample preparation, sequencing, and data analysis. These steps are interrelated, and the quality of each influences the overall outcome of the sequencing process. Below is an overview of these essential stages according to the guidelines of \cite{Rehm2013}.
+
+\subsubsection{\textbf{Sample preparation}} \label{subsubsec:ngs_sample}
+
+The \ac{ngs} process begins with the extraction of genomic \ac{dna} from a biological sample, typically from a patient. The quality and quantity of this \ac{dna} are critical to successful sequencing. Laboratories must specify the required sample type and amount based on their validation data. Sample mix-ups must be prevented through robust processes, as even minor errors can significantly affect results. \cite{Rehm2013}
+
+For specific \ac{ngs} applications like targeted panels or \ac{es}, enrichment strategies are employed to focus on a subset of genomic regions. Enrichment ensures that only the regions of interest are sequenced, improving efficiency and reducing costs. Enrichment can be achieved through various methods, including multiplex PCR and hybridization-based capture. \cite{Rehm2013}
+
+\subsubsection{\textbf{Library Generation and Barcoding}} \label{subsubsec:ngs_library}
+
+Library generation is the process of preparing \ac{dna} fragments of a specific size (100-500 base pairs) for sequencing. These fragments are tagged with adapter sequences on both ends, which are essential for downstream sequencing steps. The fragmentation of \ac{dna} can be performed using different methods, each with its advantages and limitations. In most \ac{ngs} workflows, PCR amplification is used to amplify the \ac{dna} library before sequencing. \cite{Rehm2013}
+
+Barcoding is a crucial step in library preparation, where each sample is tagged with a unique sequence identifier. This allows multiple samples to be pooled together in a single sequencing run, reducing the cost per sample. Barcoding is typically integrated into the adapter sequences or added during a PCR enrichment step. \cite{Rehm2013}
+
+\subsubsection{\textbf{Target Enrichment}} \label{subsubsec:ngs_enrichment}
+
+In many \ac{ngs} applications, particularly targeted panels and \ac{es}, only specific regions of the genome are sequenced. Target enrichment methods are used to isolate these regions before sequencing. Target enrichment strategies include PCR-based methods (e.g., single or multiplex PCR) and hybridization-based capture. While PCR-based methods are suitable for smaller panels, hybridization-based approaches are preferred for larger-scale applications like exome sequencing. \cite{Rehm2013}
+
+\subsubsection{\textbf{Sequencing Platforms}} \label{subsubsec:ngs_platforms}
+
+\ac{ngs} platforms are designed to perform millions of parallel chemical reactions, allowing them to sequence vast amounts of \ac{dna} simultaneously. These platforms utilize different sequencing chemistries, such as sequencing by synthesis, sequencing by ligation, and ion sensing. \cite{glenn2011} The choice of sequencing platform depends on various factors, including sequence capacity, read length, run time, cost, and accuracy. \cite{Rehm2013}
+
+Each platform has its own strengths and weaknesses. For example, some platforms excel at producing longer reads, while others are optimized for high-throughput sequencing at a lower cost per sample. The selection of a platform is influenced by the specific clinical or research application. \cite{Rehm2013}
 
 
-\section{Theoretical Framework - Bioinformatics}
+\section{Theoretical Framework - Bioinformatics} \label{sec:intro_bioinformatics}
+
+\subsection{\acl{ngs} - Data Analysis} \label{subsec:ngs_data_analysis}
+
+\ac{ngs} generates an enormous amount of sequence data, necessitating the development of sophisticated data analysis pipelines. These pipelines are designed to process and interpret the raw sequencing data, transforming it into meaningful genomic information. \ac{ngs} data analysis can be divided into four primary steps: Base Calling, Read Alignment, Variant Calling, and Variant Annotation. The bioinformatics analysis stage of \ac{ngs} is essential for converting unprocessed sequencing data into biologically and clinically significant findings. This section provides a bioinformatics overview of these steps and their importance in the \ac{ngs} workflow. \cite{Rehm2013}
+
+\subsubsection{\textbf{Base Calling}} \label{subsubsec:ngs_basecalling}
+
+Finding the nucleotide at each place in a sequencing read is known as \textbf{Base Calling}. In order to ensure that the raw data gathered during sequencing is transformed into a sequence of nucleotides, this step is usually included into the software of the sequencing device. \cite{Rehm2013} For example, the Illumina NovaSeq 6000 Sequencing System uses two-channel sequencing approach, requiring only two images to represent data for all four DNA bases, with one image capturing information from the red channel and the other from the green channel. \cite{NovaSeq}
+
+An 'N' designation, or 'no call' is used when a cluster fails to meet quality filters, registration is unsuccessful, or the cluster is not properly captured in the image. The process involves extracting intensity data for each cluster from both the red and green images and comparing these intensities to identify four distinct populations. Each of these populations is associated with one of the DNA bases, and the base calling process assigns each cluster to the corresponding population. \cite{NovaSeq}
+
+Figure \ref{fig:cluster} illustrates the intensity data for each cluster from both the red and green channels in 2-channel sequencing, as used in the NovaSeq 6000 Sequencing System.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{figs/pipeline.png}
-    \caption{NGS data analysis pipeline. Adapted from \cite{Roy2018}, \cite{pipeline}, \cite{Roy2020}, \cite{Kanzi2020}} 
-    \label{fig:pipeline}
+    \includegraphics[width=0.3\textwidth]{figs/ClusterIntensities.png}
+    \caption{Visualization of cluster intensities in 2-Channel Sequencing (NovaSeq 6000 - Illumina). The image shows the intensity data for each cluster from both the red and green channels, with each cluster representing a different DNA base. Image from \cite{NovaSeq}.} 
+    \label{fig:cluster}
 \end{figure}
 
-\begin{table}[]
+Table \ref{tab:base_call} shows the base calls in 2-channel sequencing, as used in the NovaSeq 6000 Sequencing System.
+
+\begin{table}[H]
     \centering
-    \caption{Samtools - BED file documentation}
-    \label{tab:bed_file}
+    \caption{Base Calls in 2-Channel Sequencing (NovaSeq 6000 - Illumina). Table from \cite{NovaSeq}}
+    \label{tab:base_call}
     \resizebox{\textwidth}{!}{%
-    \begin{tabular}{@{}rllll@{}}
+    \begin{tabular}{@{}cccl@{}}
     \toprule
-    \textbf{Column} & \textbf{BED Field} & \textbf{Type} & \textbf{Regex or range}                                       & \textbf{Brief description} \\ \midrule
-    1  & chrom      & String & {[}[a-zA-Z0-9\_]{1,255}{]}        & Chromosome name        \\
-    2  & chromStart & Int    & {[}0, $2^{64}$ - 1{]}             & Feature start position \\
-    3  & chromEnd   & Int    & {[}0, $2^{64}$ - 1{]}             & Feature end position   \\
-    4  & name       & String & {[}\textbackslash x20-\textbackslash x7e{]}{1,255} & Feature description        \\
-    5  & score      & Int    & {[}0, 1000{]}                     & A numerical value      \\
-    6  & strand     & String & {[}-+.{]}                         & Feature strand         \\
-    7  & thickStart & Int    & {[}0, $2^{64}$ - 1{]}             & Thick start position   \\
-    8  & thickEnd   & Int    & {[}0, $2^{64}$ - 1{]}             & Thick end position     \\
-    9  & itemRgb    & Int,Int,Int & ({[}0, 255{]}, {[}0, 255{]}, {[}0, 255{]}) | 0 & Display color \\
-    10 & blockCount & Int    & {[}0, chromEnd - chromStart{]}    & Number of blocks       \\
-    11 & blockSizes & List{[}Int{]} & ({[}[0-9]{]}+,){blockCount-1}{[}[0-9]{]}+,? & Block sizes \\
-    12 & blockStarts & List{[}Int{]} & ({[}[0-9]{]}+,){blockCount-1}{[}[0-9]{]}+,? & Block start positions \\ \bottomrule
-    \end{tabular}%
+    \textbf{Base} & \textbf{Red Channel} & \textbf{Green Channel} & \multicolumn{1}{c}{\textbf{Result}} \\ \midrule
+    A & 1 (on)  & 1 (on)  & Clusters that show intensity in both the red and green channels. \\
+    C & 1 (on)  & 0 (off) & Clusters that show intensity in the red channel only.            \\
+    G & 0 (off) & 0 (off) & Clusters that show no intensity at a known cluster location.     \\
+    T & 0 (off) & 1 (on)  & Clusters that show intensity in the green channel only.          \\ \bottomrule
+    \end{tabular}
     }
 \end{table}
 
 
-\section{\ac{swot} Analysis}
+\subsubsection{\textbf{Read Alignment}} \label{subsubsec:ngs_alignment}
+
+Base calling is followed by \textbf{Read Alignment}. In this stage, small \ac{dna} sequences (50–400 base pairs), or reads, are positioned in relation to a reference genome. Since exact alignment enables comparison between the sequencing data, it is crucial for the detection of genetic variations. \cite{Rehm2013}
+
+\subsubsection{\textbf{Variant Calling}} \label{subsubsec:ngs_variantcalling}
+
+The next step is \textbf{Variant Calling}, where DNA variants are identified by comparing the sequencing reads to the reference genome. The accuracy of variant calling is influenced by the depth of sequencing coverage; higher coverage generally provides greater confidence in detecting variants. \cite{Rehm2013}
+
+\subsubsection{\textbf{Variant Annotation}} \label{subsubsec:ngs_annotation}
+Once variants are called, \textbf{Variant Annotation} is carried out. This involves adding contextual information to each detected variant, such as determining its location within or near a gene and predicting its potential impact on protein function. Clinical interpretation of variants often includes data from variant databases, evolutionary conservation studies, and in silico predictions of pathogenicity. \cite{Rehm2013} 
+
+Overall, accurate and efficient data analysis in NGS requires significant bioinformatics support and robust computational infrastructure. This aspect of NGS is crucial for translating raw sequencing data into clinically relevant insights.
+
+Figure \ref{fig:pipeline} illustrates a general bioinformatics analysis pipeline for NGS data, highlighting the key steps involved in processing and interpreting sequencing data.
+
+\subsection{\acl{ngs} - Validation} \label{subsec:ngs_bioinformatics}
+
+\subsubsection{\textbf{Average Read Depth}} \label{subsubsec:ngs_ard}
+
+
+\subsubsection{\textbf{Coverage}} \label{subsubsec:ngs_coverage}
+
+
+
+\section{\acs{swot} Analysis} \label{sec:intro_swot}
+
+During the development of the genomic analysis software, a \ac{swot} analysis was performed to assess its strategic positioning. The analysis identified internal strengths, weaknesses, and external opportunities and threats within bioinformatics and genomics. Figure \ref{fig:swot} summarize the key findings, outlining crucial elements that guided the software's development and deployment.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{figs/swot.png}
+    \includegraphics[width=0.85\textwidth]{figs/swot.png}
     \caption{\ac{swot} Analysis.} 
     \label{fig:swot}
 \end{figure}
