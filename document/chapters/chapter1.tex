@@ -27,7 +27,7 @@ As will be explained in detail below, the software created and described in this
 \section{Document Structure} \label{sec:doc_structure}
 This document is divided into five main chapters, each with several sections, and includes additional content at the end.
 
-The first chapter, \textbf{Introduction}, begins with the \textbf{Internship Context and Framework}, providing an overview of the internship setting and its relevance. This is followed by a presentation of the \textbf{Project Motivation and Objectives}, outlining the purpose and goals of the work. The chapter also includes the \textbf{Document Structure}, this section, which explains how the document is organized. The \textbf{Characterization of the Host Entity and Work Plan} section describes the host entities, including Unilabs Portugal and Unilabs Genetics, and provides the schedule for the work. Finally, the \textbf{Theoretical Framework} section covers important concepts in Genetics and Genomics, Sequencing Methods and Characteristics, and Bioinformatics, including sub-sections on the evolution of genetics, the structure and function of DNA, the discovery of the double helix, DNA packaging, mutations, and genetic variations, as well as Next Generation Sequencing and a SWOT analysis.
+The first chapter, \textbf{Introduction}, begins with the \textbf{Internship Context and Framework}, providing an overview of the internship setting and its relevance. This is followed by a presentation of the \textbf{Project Motivation and Objectives}, outlining the purpose and goals of the work. The chapter also includes the \textbf{Document Structure}, this section, which explains how the document is organized. The \textbf{Characterization of the Host Entity and Work Plan} section describes the host entities, including Unilabs Portugal and Unilabs Genetics, and provides the timeline for the work. Finally, the \textbf{Theoretical Framework} section covers important concepts in Genetics and Genomics, Sequencing Methods and Characteristics, and Bioinformatics, including sub-sections on the evolution of genetics, the structure and function of DNA, the discovery of the double helix, DNA packaging, mutations, and genetic variations, as well as Next Generation Sequencing and a SWOT analysis.
 
 The second chapter, \textbf{Software Development Process}, is detailed as follows: The \textbf{Analysis} section outlines the preliminary work, followed by \textbf{Planning}, which covers the project planning phase. The \textbf{Design} section describes the design phase, and \textbf{Development} covers the creation of the software, including \textbf{Environment Preparation}. The chapter also includes sections on \textbf{Testing and Validation}, \textbf{Optimization}, \textbf{Deployment}, \textbf{Documentation}, and \textbf{Maintenance}, explaining how each phase contributes to the software development lifecycle. This structure of software presentation is based on the SWEBOK Guide \cite{SWEBOK}, which provides a comprehensive overview of software engineering practices.
 
@@ -59,14 +59,14 @@ The Unilabs Genetics laboratory is located in the city of Porto and combines adv
 
 The Table \ref{tab:test_catalog} presents the test catalog provided by Unilabs Genetics.
 
-\subsection{Schedule} \label{subsec:schedule}
-The internship at Unilabs followed a structured schedule, aimed at ensuring the successful completion of all assigned tasks. The timeline was designed to provide a clear framework for the development and implementation of various activities throughout the internship period. This detailed plan served as a guide to ensure that each phase of the project was completed efficiently and on time, while also allowing the necessary flexibility to accommodate any adjustments. The Figure \ref{fig:schedule} outlines the key milestones and deadlines that were met during this internship.
+\subsection{Timeline} \label{subsec:timeline}
+The internship at Unilabs followed a structured timeline, aimed at ensuring the successful completion of all assigned tasks. The timeline was designed to provide a clear framework for the development and implementation of various activities throughout the internship period. This detailed plan served as a guide to ensure that each phase of the project was completed efficiently and on time, while also allowing the necessary flexibility to accommodate any adjustments. The Figure \ref{fig:timeline} outlines the key milestones and deadlines that were met during this internship.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{figs/schedule.png}
+    \includegraphics[width=1\textwidth]{figs/timeline2.png}
     \caption{Imagem provisória do cronograma do estágio.}
-    \label{fig:schedule}
+    \label{fig:timeline}
 \end{figure}
 
 \section{Theoretical Framework - Genetics and Genomics} \label{sec:intro_theoretical}
@@ -149,7 +149,8 @@ Genetic variation, on the other hand, refers to the observable differences betwe
 
 \section{Theoretical Framework - Sequencing Methods and Characteristics} \label{sec:intro_sequencing}
 
-\subsection{\acl{ngs} - Overview} \label{subsec:ngs_overview}
+\subsection{\acl{ngs} - Gene Panels, Exome, and Genome Sequencing} \label{subsec:ngs_gp_es_gs}
+
 
 \acl{ngs} technologies have revolutionized genomic medicine, enabling rapid advancements in clinical diagnostics, therapeutic decision-making, and disease prediction. Unlike traditional sequencing methods such as Sanger sequencing, which are limited by low throughput and high cost \cite{cost}, \ac{ngs} allows for the massively parallel sequencing of \ac{dna}, significantly increasing throughput and reducing costs by several orders of magnitude. As a result, clinical laboratories now have the capability to analyze nearly complete exomes or genomes of individuals, thereby improving the diagnostic process for a wide range of genetic conditions. \cite{Rehm2013}
 
@@ -168,6 +169,8 @@ Disease-targeted gene panels focus on a set of known disease-associated genes, a
 \acl{gs} offers a more comprehensive approach by covering both coding and non-coding regions of the genome. This technique simplifies the preparation of samples for sequencing by eliminating the need for pre-sequencing enrichment strategies. While \ac{gs} holds promise for identifying regulatory variants and structural variants that are outside of coding regions, it remains the most expensive \ac{ngs} technology and typically provides lower average depth of coverage. Nonetheless, as technology advances, these limitations are expected to diminish, making \ac{gs} a more accessible option for clinical diagnostics. \cite{Rehm2013}
 
 \ac{ngs} involves three major components: sample preparation, sequencing, and data analysis. These steps are interrelated, and the quality of each influences the overall outcome of the sequencing process. Below is an overview of these essential stages according to the guidelines of \cite{Rehm2013}.
+
+\subsection{\acl{ngs} - Overview} \label{subsec:ngs_overview}
 
 \subsubsection{\textbf{Sample preparation}} \label{subsubsec:ngs_sample}
 
@@ -200,7 +203,9 @@ Each platform has its own strengths and weaknesses. For example, some platforms 
 
 \subsubsection{\textbf{Base Calling}} \label{subsubsec:ngs_basecalling}
 
-Finding the nucleotide at each place in a sequencing read is known as \textbf{Base Calling}. In order to ensure that the raw data gathered during sequencing is transformed into a sequence of nucleotides, this step is usually included into the software of the sequencing device. \cite{Rehm2013} For example, the Illumina NovaSeq 6000 Sequencing System uses two-channel sequencing approach, requiring only two images to represent data for all four DNA bases, with one image capturing information from the red channel and the other from the green channel. \cite{NovaSeq}
+Finding the nucleotide at each place in a sequencing read is known as \textbf{Base Calling}. In order to ensure that the raw data gathered during sequencing is transformed into a sequence of nucleotides, this step is usually included into the software of the sequencing device. \cite{Rehm2013} 
+
+For example, the Illumina NovaSeq 6000 Sequencing System uses two-channel sequencing approach, requiring only two images to represent data for all four DNA bases, with one image capturing information from the red channel and the other from the green channel. \cite{NovaSeq}
 
 An 'N' designation, or 'no call' is used when a cluster fails to meet quality filters, registration is unsuccessful, or the cluster is not properly captured in the image. The process involves extracting intensity data for each cluster from both the red and green images and comparing these intensities to identify four distinct populations. Each of these populations is associated with one of the DNA bases, and the base calling process assigns each cluster to the corresponding population. \cite{NovaSeq}
 
@@ -256,13 +261,4 @@ Figure \ref{fig:pipeline} illustrates a general bioinformatics analysis pipeline
 
 
 
-\section{\acs{swot} Analysis} \label{sec:intro_swot}
 
-During the development of the genomic analysis software, a \ac{swot} analysis was performed to assess its strategic positioning. The analysis identified internal strengths, weaknesses, and external opportunities and threats within bioinformatics and genomics. Figure \ref{fig:swot} summarize the key findings, outlining crucial elements that guided the software's development and deployment.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figs/swot.png}
-    \caption{\ac{swot} Analysis.} 
-    \label{fig:swot}
-\end{figure}
