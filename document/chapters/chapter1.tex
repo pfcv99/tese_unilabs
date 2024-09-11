@@ -27,7 +27,7 @@ As will be explained in detail below, the software created and described in this
 \section{Document Structure} \label{sec:doc_structure}
 This document is divided into five main chapters, each with several sections, and includes additional content at the end.
 
-The first chapter, \textbf{Introduction}, begins with the \textbf{Internship Context and Framework}, providing an overview of the internship setting and its relevance. This is followed by a presentation of the \textbf{Project Motivation and Objectives}, outlining the purpose and goals of the work. The chapter also includes the \textbf{Document Structure}, this section, which explains how the document is organized. The \textbf{Characterization of the Host Entity and Work Plan} section describes the host entities, including Unilabs Portugal and Unilabs Genetics, and provides the timeline for the work. Finally, the \textbf{Theoretical Framework} section covers important concepts in Genetics and Genomics, Sequencing Methods and Characteristics, and Bioinformatics, including sub-sections on the evolution of genetics, the structure and function of DNA, the discovery of the double helix, DNA packaging, mutations, and genetic variations, as well as Next Generation Sequencing and a SWOT analysis.
+The first chapter, \textbf{Introduction}, begins with the \textbf{Internship Context and Framework}, providing an overview of the internship setting and its relevance. This is followed by a presentation of the \textbf{Project Motivation and Objectives}, outlining the purpose and goals of the work. The chapter also includes the \textbf{Document Structure}, this section, which explains how the document is organized. The \textbf{Characterization of the Host Entity and Work Plan} section describes the host entities, including Unilabs Portugal and Unilabs Genetics, and provides the timeline for the work. Finally, the \textbf{Theoretical Framework} section covers important concepts in Genetics and Genomics, Sequencing Methods and Characteristics, and Bioinformatics, including sub-sections on the evolution of genetics, the structure and function of \ac{dna}, the discovery of the double helix, \ac{dna} packaging, mutations, and genetic variations, as well as Next Generation Sequencing and a SWOT analysis.
 
 The second chapter, \textbf{Software Development Process}, is detailed as follows: The \textbf{Analysis} section outlines the preliminary work, followed by \textbf{Planning}, which covers the project planning phase. The \textbf{Design} section describes the design phase, and \textbf{Development} covers the creation of the software, including \textbf{Environment Preparation}. The chapter also includes sections on \textbf{Testing and Validation}, \textbf{Optimization}, \textbf{Deployment}, \textbf{Documentation}, and \textbf{Maintenance}, explaining how each phase contributes to the software development lifecycle. This structure of software presentation is based on the SWEBOK Guide \cite{SWEBOK}, which provides a comprehensive overview of software engineering practices.
 
@@ -149,6 +149,8 @@ Genetic variation, on the other hand, refers to the observable differences betwe
 
 \section{Theoretical Framework - Sequencing Methods and Characteristics} \label{sec:intro_sequencing}
 
+Even though there are several methods for sequencing \ac{dna}, the most widely used technique nowadays is \acl{ngs}. This section focuses only on \ac{ngs} and its applications, including gene panels, exome sequencing, and genome sequencing.
+
 \subsection{\acl{ngs} - Gene Panels, Exome, and Genome Sequencing} \label{subsec:ngs_gp_es_gs}
 
 
@@ -205,20 +207,30 @@ Each platform has its own strengths and weaknesses. For example, some platforms 
 
 Finding the nucleotide at each place in a sequencing read is known as \textbf{Base Calling}. In order to ensure that the raw data gathered during sequencing is transformed into a sequence of nucleotides, this step is usually included into the software of the sequencing device. \cite{Rehm2013} 
 
-For example, the Illumina NovaSeq 6000 Sequencing System uses two-channel sequencing approach, requiring only two images to represent data for all four DNA bases, with one image capturing information from the red channel and the other from the green channel. \cite{NovaSeq}
+For example, the Illumina NovaSeq 6000 Sequencing System uses two-channel sequencing approach, requiring only two images to represent data for all four \ac{dna} bases, with one image capturing information from the red channel and the other from the green channel. \cite{NovaSeq}
 
-An 'N' designation, or 'no call' is used when a cluster fails to meet quality filters, registration is unsuccessful, or the cluster is not properly captured in the image. The process involves extracting intensity data for each cluster from both the red and green images and comparing these intensities to identify four distinct populations. Each of these populations is associated with one of the DNA bases, and the base calling process assigns each cluster to the corresponding population. \cite{NovaSeq}
+An 'N' designation, or 'no call' is used when a cluster fails to meet quality filters, registration is unsuccessful, or the cluster is not properly captured in the image. The process involves extracting intensity data for each cluster from both the red and green images and comparing these intensities to identify four distinct populations. Each of these populations is associated with one of the \ac{dna} bases, and the base calling process assigns each cluster to the corresponding population. \cite{NovaSeq}
 
 Figure \ref{fig:cluster} illustrates the intensity data for each cluster from both the red and green channels in 2-channel sequencing, as used in the NovaSeq 6000 Sequencing System.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.3\textwidth]{figs/ClusterIntensities.png}
-    \caption{Visualization of cluster intensities in 2-Channel Sequencing (NovaSeq 6000 - Illumina). The image shows the intensity data for each cluster from both the red and green channels, with each cluster representing a different DNA base. Image from \cite{NovaSeq}.} 
+    \caption{Visualization of cluster intensities in 2-Channel Sequencing (NovaSeq 6000 - Illumina). The image shows the intensity data for each cluster from both the red and green channels, with each cluster representing a different \ac{dna} base. Image from \cite{NovaSeq}.} 
     \label{fig:cluster}
 \end{figure}
 
-Table \ref{tab:base_call} shows the base calls in 2-channel sequencing, as used in the NovaSeq 6000 Sequencing System.
+Table \ref{tab:base_call} outlines how the signal intensities from red and green fluorescence channels are used to identify \ac{dna} bases (A, C, G, T) during sequencing. Each base is associated with a unique combination of signal intensities from these two channels. The red and green channels either show intensity, marked as "on" (1), or no intensity, marked as "off" (0), at specific cluster locations where \ac{dna} bases are being read.
+
+When both the red and green channels show intensity (1,1), this indicates the presence of adenine (A). The simultaneous detection of both red and green signals suggests that the cluster is emitting light in both spectrums, and this combination is uniquely attributed to adenine.
+
+For cytosine (C), the red channel is on (1), but the green channel is off (0). This means that the cluster emits light in the red spectrum only, and the absence of green emission differentiates it as cytosine.
+
+When neither the red nor the green channel shows intensity (0,0), the system identifies guanine (G). The lack of any signal at a known cluster location suggests that no fluorescence is being emitted, and this corresponds to guanine.
+
+Finally, thymine (T) is identified when the red channel is off (0) and the green channel is on (1). In this case, the cluster is emitting light in the green spectrum only, and the absence of red fluorescence distinguishes it as thymine.
+
+This method of combining red and green fluorescence signals allows the sequencing system to effectively differentiate between the four \ac{dna} bases by associating specific patterns of signal intensity with each base.
 
 \begin{table}[H]
     \centering
@@ -237,28 +249,88 @@ Table \ref{tab:base_call} shows the base calls in 2-channel sequencing, as used 
 \end{table}
 
 
-\subsubsection{\textbf{Read Alignment}} \label{subsubsec:ngs_alignment}
+\subsubsection{\textbf{Read Alignment/Mapping}} \label{subsubsec:ngs_alignment}
 
-Base calling is followed by \textbf{Read Alignment}. In this stage, small \ac{dna} sequences (50–400 base pairs), or reads, are positioned in relation to a reference genome. Since exact alignment enables comparison between the sequencing data, it is crucial for the detection of genetic variations. \cite{Rehm2013}
+Base calling is followed by demultiplexing, the process of separating reads from different samples based on their unique barcodes. After demultiplexing, the next step is store reads in a FASTQ file, a text-based format that includes a read identifier, the nucleotide sequence, a separator, and a quality score string. The quality scores are calculated using the Phred scale, which represents the likelihood of a base call being correct, with higher scores indicating greater confidence. For a given base error probability, P, the Phred quality score, Q, is calculated in Equation \ref{eq:phred}.
+
+\begin{equation}\label{eq:phred}
+    Q = -10 \log_{10} P
+\end{equation}
+
+FASTQ is the standard format for raw sequencing data and is commonly used in single-end and paired-end sequencing. \cite{Larson2023} The Figure \ref{fig:fastq} shows an example of a FASTQ file, with the read identifier, nucleotide sequence, and quality score (highlighting the score for one T base and the respective P error).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figs/fastq.png}
+    \caption{FASTQ file format example. The image shows a read identifier, nucleotide sequence, and quality score string in a FASTQ file. The P error calculation was performed based on the Phred quality score equation and Quality Score Encoding from Table \ref{tab:fastq_encoding}. This file example was adapted from \cite{Wikipedia2024}.} 
+    \label{fig:fastq}
+\end{figure}
+
+Once the raw sequencing data was stored in a FASTQ file, the next step is \textbf{Read Alignment/Mapping}. \cite{Larson2023} In this stage, the small \ac{dna} sequences (50–400 base pairs), reads, are positioned in relation to a reference genome, such as \ac{hg38}.  \cite{Rehm2013} To improve alignment accuracy, low-quality bases and adapter sequences are also trimmed and the results are saved in either \ac{sam} or \ac{bam} formats, with \ac{bam} being more efficient due to compression and indexing capabilities. A more compressed format, \ac{cram}, further reduces file sizes by storing only differences from the reference genome, though it uses lossy compression in some cases (meaning that some \ac{cram} files may not be fully convertible back to \ac{bam}) \ac{cram} is becoming a popular choice for long-term data storage due to its space efficiency - a \ac{cram} file could be 50\%-80\% smaller than a \ac{bam} file. \cite{Larson2023}
 
 \subsubsection{\textbf{Variant Calling}} \label{subsubsec:ngs_variantcalling}
 
-The next step is \textbf{Variant Calling}, where DNA variants are identified by comparing the sequencing reads to the reference genome. The accuracy of variant calling is influenced by the depth of sequencing coverage; higher coverage generally provides greater confidence in detecting variants. \cite{Rehm2013}
+\textbf{Variant Calling} identifies genetic differences between a sample's sequencing reads and a reference genome using specialized algorithms known as variant callers. Common variants, include single-nucleotide polymorphisms (SNPs), single-nucleotide variants (SNVs), small insertions and deletions (INDELs), and copy number variants or alterations (CNVs and CNAs). The first tree are related to Sequence Variants, while the last one is related to Structural Variants. \cite{Roy2018}, \cite{pipeline}, \cite{Roy2020}, \cite{Kanzi2020} SNPs refer to single-base changes in germline DNA, often biallelic, while SNVs cover any point mutation. CNVs involve larger DNA segments that are amplified or deleted, and CNAs specifically refer to somatic changes, often observed in cancer. \cite{Larson2023} There are also other types of variants, such as translocations, inversions, and complex rearrangements, which are less common but can have significant clinical implications. \cite{Roy2018}
+
+The confidence with which variants are called depends heavily on sequencing depth and the variant allele frequency (VAF), which measures the proportion of DNA molecules in a sample that contain the variant allele. For germline heterozygous variants, where the variant is expected to appear in roughly 50\% of reads, reliable detection can typically be achieved at sequencing depths of 20X to 30X. However, somatic variants, especially in cancer samples, tend to have lower VAFs due to tumor heterogeneity and sample contamination, requiring much higher coverage for reliable detection. \cite{Larson2023}
+
+Preprocessing of BAM files is essential before variant calling. Duplicates, originating from the same DNA fragment, must be marked to avoid skewing VAF estimates. Deduplication is recommended for whole-genome or exome sequencing but is usually skipped in PCR-based methods. Base quality scores are also recalibrated to correct systematic errors. After preprocessing, the BAM files are ready for variant detection. \cite{Larson2023}
+
+\textbf{Germline Variant Calling} for SNVs can be done using tools like Samtools or more advanced programs like GATK HaplotypeCaller, which improve accuracy in complex regions by applying local realignments. For biallelic SNPs, the reference allele (REF) is compared to the alternate allele (ALT). Humans, being diploid, have three possible SNP genotypes: homozygous reference (REF, REF), heterozygous (REF, ALT), and homozygous alternate (ALT, ALT), corresponding to variant allele frequencies (VAFs) of 0\%, 50\%, and 100\%. Genotype quality (GQ), similar to base quality scores, reflects the confidence in a genotype call, measured on a Phred scale. \cite{Larson2023}
+
+When detecting copy number variants (CNVs) using NGS data, algorithms primarily rely on sequencing coverage patterns, although they may also take into account the VAFs of overlapping variants. CNV detection in targeted sequencing approaches like whole-exome sequencing (WES) or gene panels can be challenging due to coverage gaps and inconsistencies caused by capture bias. As a result, CNV identification within individual samples is difficult, and many tools designed for this purpose compare the data against a reference set of normal samples. \cite{Larson2023}
+
+\textbf{Somatic Variant Detection} is enhanced by comparing tumor and matched normal tissue sequencing data, allowing inherited germline variants to be filtered out. When matched normal samples are unavailable, a “panel of normals” can serve as a reference. Additionally, classifiers trained on databases of somatic and germline variants can help predict the somatic status of variants found in tumor tissue. Despite these approaches, somatic variant detection still faces challenges, particularly due to the Euro-centric bias of many population allele frequency databases, which may reduce the accuracy of variant calls in underrepresented populations. \cite{Larson2023}
+
+Variants are typically stored in variant call format (VCF) files, which can include data from multiple samples. Genomic VCF (gVCF) files capture both variant and non-variant regions, allowing for easier data merging. Both VCF and gVCF files can be indexed for efficient access. Somatic mutations may also be saved in Mutation Annotation Format (MAF) files, which aggregate variant data from multiple VCFs. \cite{Larson2023}
 
 \subsubsection{\textbf{Variant Annotation}} \label{subsubsec:ngs_annotation}
 Once variants are called, \textbf{Variant Annotation} is carried out. This involves adding contextual information to each detected variant, such as determining its location within or near a gene and predicting its potential impact on protein function. Clinical interpretation of variants often includes data from variant databases, evolutionary conservation studies, and in silico predictions of pathogenicity. \cite{Rehm2013} 
 
+\ac{ngs} often generates numerous variants, including many \ac{vus}, making it difficult to determine which are clinically relevant. Variant annotation helps prioritize and interpret these findings. For protein-coding regions, tools like REVEL \cite{REVEL} predict the functional impact of missense variants, while noncoding variants are assessed using resources such as CADD \cite{CADD}, FunSeq2 \cite{FunSeq2}, and RegulomeDB \cite{RegulomeDB}. These are complemented by data from projects like ENCODE \cite{ENCODE} and Roadmap Epigenomics \cite{REC}, and external databases like gnomAD \cite{gnomAD}, ClinVar \cite{ClinVar}, HGMD \cite{HGMD}, and COSMIC \cite{COSMIC}. Annotation software like ANNOVAR \cite{ANNOVAR} integrates these resources to enrich VCF files with variant details. \cite{Larson2023}
+
 Overall, accurate and efficient data analysis in NGS requires significant bioinformatics support and robust computational infrastructure. This aspect of NGS is crucial for translating raw sequencing data into clinically relevant insights.
 
-Figure \ref{fig:pipeline} illustrates a general bioinformatics analysis pipeline for NGS data, highlighting the key steps involved in processing and interpreting sequencing data.
+Figure \ref{fig:pipeline} illustrates the general bioinformatics analysis pipeline for NGS, highlighting the key steps mentioned previously.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figs/pipeline.png}
+    \caption{NGS data analysis pipeline. Adapted from \cite{Roy2018}, \cite{pipeline}, \cite{Roy2020}, \cite{Kanzi2020}} 
+    \label{fig:pipeline}
+\end{figure}
 
 \subsection{\acl{ngs} - Validation} \label{subsec:ngs_bioinformatics}
 
-\subsubsection{\textbf{Average Read Depth}} \label{subsubsec:ngs_ard}
+In genetic and genomic analysis, namely in \ac{ngs}, a key focus is often placed on the comparison between coverage and sequencing depth. While these terms are related, they offer distinct insights into the quality and reliability of sequencing data. A thorough understanding of both concepts is essential to ensure accurate and meaningful results in genetic studies.
+
+\subsubsection{\textbf{Coverage or Breadth of Coverage}} \label{subsubsec:ngs_coverage}
+
+Several elements could influence the total sequencing output, including the efficiency of the libraries, the extent of sample multiplexing, and the number of sequencing cycles. Given that the number of lanes in the flow cell is fixed, adjusting these factors is key to maximizing throughput. This throughput is commonly described in terms of coverage, which measures the proportion of the genome or target region that has been sequenced at least once. In technical documentation, coverage is often represented by a number followed by "X" such as 30X coverage. \cite{Larson2023}
+
+Coverage focuses on ensuring that a substantial portion of the genome, or a specific target region such as the exome or a gene panel, has been adequately sequenced. It is typically expressed as a percentage. For instance, if 95\% of the intended target region has been sequenced 30X, the coverage at 30X would be expressed as "95\% coverage." However, several factors can influence coverage, including DNA sample quality, sequencing biases, and complexities within the genome, such as regions with high GC content or repetitive sequences, which can be challenging to sequence effectively. \cite{3billion2023}
+
+Coverage is a fundamental metric in bioinformatics, as it directly impacts the reliability of detecting genetic variants. Higher coverage means that more sequencing reads overlap each base, leading to improved sensitivity and accuracy in identifying variations. In contrast, lower coverage can increase the capacity to sequence more samples or cover larger genomic areas at similar costs, although it might compromise the confidence in variant detection. \cite{Larson2023}
+
+Different types of sequencing require varying levels of coverage. For \ac{wgs}, coverage between 30X and 50X is generally recommended, while \ac{wes} typically calls for 100X coverage. In the case of targeted gene panels, the coverage is often much greater-exceeding 500X in some cases-to ensure a high level of confidence in variant detection, particularly for somatic mutations, where greater read depth is crucial for accurate identification. \cite{Larson2023}
 
 
-\subsubsection{\textbf{Coverage}} \label{subsubsec:ngs_coverage}
+\subsubsection{\textbf{Sequencing/Read Depth or Depth of Coverage}} \label{subsubsec:ngs_ard}
 
+Sequencing depth, also referred to as read depth, denotes the number of times a specific nucleotide in the DNA sequence is read during the sequencing process. It provides an indication of how thoroughly each base has been examined. The more times a nucleotide is read, the more confidence researchers can have in the accuracy of the base call, as a greater number of reads help mitigate the risk of sequencing errors and minimize noise. For instance, if a particular nucleotide is read 30 times, the sequencing depth at that location would be expressed as 30X. \cite{3billion2023}
+
+The primary advantage of higher sequencing depth lies in its ability to enhance the precision of variant detection at specific genomic positions. This is particularly valuable when investigating rare genetic variants or when analyzing samples with significant heterogeneity, such as tumor tissues. \cite{3billion2023}
+
+The Figure \ref{fig:depth_coverage} illustrates the relationship between coverage and depth of coverage in a gene. In this example, approximately 10\% of the gene is depicted as not covered, and the depth reaches up to 9X. This visualization highlights the importance of both coverage and read depth in ensuring the reliability of sequencing data.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/depth_coverage.png}
+    \caption{Scheme related to Coverage/ Breadth of Coverage and Read Depth/ Depth of Coverage in a gene. In this case, approximately 10\% of the gene is depicted as not covered, and the depth reaches up to 9x. Adapted from \cite{MedGenome2020}} 
+    \label{fig:depth_coverage}
+\end{figure}
+
+Given the critical importance of validation in next-generation sequencing (NGS), as previously demonstrated, this thesis focuses on the development of the following user-friendly software solution designed to calculate and ensure the accuracy of key metrics such as average read depth and coverage. These metrics are essential for evaluating the quality and reliability of sequencing data. The software presented here not only automates these calculations but also provides a streamlined and accessible interface, making it easier for users to perform NGS validation processes with consistency and precision.
 
 
 

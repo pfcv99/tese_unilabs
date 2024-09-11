@@ -204,6 +204,7 @@
 \usepackage{multirow}
 
 \usepackage{nameref}
+\usepackage{amsmath}
 
 % Use the built-in division styling
 \headstyles{memman}
@@ -245,7 +246,7 @@
 \pagenumbering{Alph}
 
 \ifthenelse{\equal{\useoverleaf}{0}}{}{\makecoverfile{}}%
-\includepdf[pages=-]{cover.pdf}
+\includepdf[pages=-]{build/cover.pdf}
 
 % Uncomment to enable English
 \selectlanguage{english}
