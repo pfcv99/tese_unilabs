@@ -1,241 +1,241 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.7">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.13">
   <diagram name="Página-1" id="6I3-6whCvl6CNenDdRng">
-    <mxGraphModel dx="1967" dy="1242" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2460" dy="834" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="MZae6CX_gooEw79naD3D-101" value="" style="group" parent="1" vertex="1" connectable="0">
+        <mxCell id="MZae6CX_gooEw79naD3D-101" value="" style="group;fontFamily=Computer Modern;" parent="1" vertex="1" connectable="0">
           <mxGeometry x="-20" y="50" width="1320" height="440" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-89" value="&lt;h1&gt;2012&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-89" value="&lt;h1&gt;2012&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="1119" y="170" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-86" value="&lt;h1&gt;2009&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-86" value="&lt;h1&gt;2009&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="1041.5" y="210" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-75" value="&lt;h1&gt;2003&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-75" value="&lt;h1&gt;2003&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="881" y="210" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-23" value="&lt;h1&gt;1869&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-23" value="&lt;h1&gt;1869&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="87.5" y="210" width="105" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-22" value="&lt;h1&gt;1865&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-22" value="&lt;h1&gt;1865&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="20" y="170" width="80" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-48" value="&lt;h1&gt;1906&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-48" value="&lt;h1&gt;1906&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="184" y="170" width="75" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-6" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;endFill=1;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-6" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;endFill=1;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="220.5" y="240" as="sourcePoint" />
             <mxPoint x="220.5" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-47" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-47" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="140" y="200" as="sourcePoint" />
             <mxPoint x="140" y="140" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-39" value="&lt;h1&gt;1966&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-39" value="&lt;h1&gt;1966&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="640" y="170" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-4" value="" style="endArrow=oval;html=1;rounded=0;startArrow=oval;startFill=1;endFill=1;endSize=14;startSize=14;targetPerimeterSpacing=14;sourcePerimeterSpacing=14;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-4" value="" style="endArrow=oval;html=1;rounded=0;startArrow=oval;startFill=1;endFill=1;endSize=14;startSize=14;targetPerimeterSpacing=14;sourcePerimeterSpacing=14;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="60" y="200" as="sourcePoint" />
             <mxPoint x="1180.3703703703704" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-5" value="" style="endArrow=oval;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endFill=1;" parent="MZae6CX_gooEw79naD3D-101" source="MZae6CX_gooEw79naD3D-24" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-5" value="" style="endArrow=oval;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endFill=1;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" source="MZae6CX_gooEw79naD3D-24" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="60" y="280" as="sourcePoint" />
             <mxPoint x="60" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-7" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=0;endSize=7;startSize=7;entryX=0.5;entryY=1.2;entryDx=0;entryDy=0;entryPerimeter=0;" parent="MZae6CX_gooEw79naD3D-101" target="MZae6CX_gooEw79naD3D-34" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-7" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=0;endSize=7;startSize=7;entryX=0.5;entryY=1.2;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" target="MZae6CX_gooEw79naD3D-34" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="299.62" y="200" as="sourcePoint" />
             <mxPoint x="299.62" y="160" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-11" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-11" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="620" y="155" as="sourcePoint" />
             <mxPoint x="620.25" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-24" value="&lt;h2&gt;Beginning of genetics&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-24" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;Beginning of genetics&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry y="350" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-25" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Gregor Mendel’s work on plant&amp;nbsp;&lt;span style=&quot;background-color: initial; font-size: 15px;&quot;&gt;hybridization&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=none;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-25" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Gregor Mendel’s work on plant&amp;nbsp;&lt;span style=&quot;background-color: initial; font-size: 15px;&quot;&gt;hybridization&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=none;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="-20" y="410" width="160" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-27" value="&lt;h2&gt;&quot;Genetics&quot; concept&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-27" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;&quot;Genetics&quot; concept&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="128.25" y="240" width="186.5" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-28" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;The term &quot;genetics&quot; is coined by William Bateson&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-28" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;The term &quot;genetics&quot; is coined by William Bateson&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="130" y="267.38" width="183" height="42.62" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-29" value="&lt;h1&gt;1909&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-29" value="&lt;h1&gt;1909&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="255" y="210" width="90" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-34" value="&lt;h2&gt;Genetic terms&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-34" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;Genetic terms&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="220" y="32.31" width="160" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-35" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Johannsen coined the terms &quot;gene&quot;, &quot;genotype&quot; and phenotype&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-35" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Johannsen coined the terms &quot;gene&quot;, &quot;genotype&quot; and phenotype&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="169.99" y="-17.69" width="260.01" height="47.83" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-36" value="&lt;h1&gt;1950&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-36" value="&lt;h1&gt;1950&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="400" y="210" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-37" value="&lt;h2&gt;A - T&lt;br&gt;G - C&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-37" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;A - T&lt;br style=&quot;font-size: 20px;&quot;&gt;G - C&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="400" y="90.17" width="120" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-40" value="&lt;h2&gt;Genetic code&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-40" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;Genetic code&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="640" y="330" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-44" value="&lt;h1&gt;1952&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-44" value="&lt;h1&gt;1952&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="479.65999999999997" y="170" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-10" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-10" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="539.66" y="200" as="sourcePoint" />
             <mxPoint x="539.66" y="240" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-8" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-8" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="460" y="200" as="sourcePoint" />
             <mxPoint x="460" y="141" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-9" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-9" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="700" y="332" as="sourcePoint" />
             <mxPoint x="700" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-45" value="&lt;h2&gt;DNA isolated&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-45" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;DNA isolated&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="80" y="120" width="120" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-46" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Frederick Miescher isolates DNA from cells for the first time and calls it “nuclein”.&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-46" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Frederick Miescher isolates DNA from cells for the first time and calls it “nuclein”.&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="-10" y="73.34" width="300" height="46.66" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-52" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-52" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="380" y="343" as="sourcePoint" />
             <mxPoint x="379.5" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-53" value="&lt;h2&gt; Chromosomes carry genes&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-53" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt; Chromosomes carry genes&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="318" y="340" width="130" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-54" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Morgan&amp;nbsp; showed that chromosomes carry genes, and also discovered genetic linkage.&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-54" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Morgan&amp;nbsp; showed that chromosomes carry genes, and also discovered genetic linkage.&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="222" y="400" width="306" height="43.64" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-55" value="&lt;h1&gt;1911&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-55" value="&lt;h1&gt;1911&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="330" y="170" width="90" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-57" value="&lt;h2&gt;Genes are made of DNA&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-57" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;Genes are made of DNA&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="434.83" y="240" width="209.66" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-58" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Hershey and Chase showed that only the DNA of a virus needs to enter a bacterium to infect it, providing strong support for the idea that genes are made of DNA&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-58" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Hershey and Chase showed that only the DNA of a virus needs to enter a bacterium to infect it, providing strong support for the idea that genes are made of DNA&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="390" y="277.29" width="299.32" height="55.43" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-41" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 15px;&quot;&gt;Nirenberg, Khorana and Holley&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial; text-align: right; font-size: 15px;&quot;&gt;interpretation of the genetic code and its function in protein synthesis (codons)&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-41" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 15px;&quot;&gt;Nirenberg, Khorana and Holley&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial; text-align: right; font-size: 15px;&quot;&gt;interpretation of the genetic code and its function in protein synthesis (codons)&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="550" y="360" width="300" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-38" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;&lt;div style=&quot;font-size: 15px;&quot;&gt;Chargaff calculates the matching pattern of DNA bases (parity rules)&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-38" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;&lt;div style=&quot;font-size: 15px;&quot;&gt;Chargaff calculates the matching pattern of DNA bases (parity rules)&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="340" y="53.17" width="240" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-63" value="&lt;h2&gt;DNA double helix&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-63" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;DNA double helix&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="537.75" y="140.17" width="165" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-64" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Watson and Crick described the double helix structure of DNA.&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-64" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Watson and Crick described the double helix structure of DNA.&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="504" y="101.26" width="232.5" height="25.48" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-65" value="&lt;h1&gt;1953&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-65" value="&lt;h1&gt;1953&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="565.25" y="210" width="110" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-69" value="&lt;h2&gt;DNA sequencing&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-69" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;DNA sequencing&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="698.75" y="50" width="165" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-70" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Sanger&amp;nbsp;developed rapid DNA sequencing methods&amp;nbsp;with colored dyes used to identify each of the four nucleic acids that make up DNA&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-70" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Sanger&amp;nbsp;developed rapid DNA sequencing methods&amp;nbsp;with colored dyes used to identify each of the four nucleic acids that make up DNA&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="611.25" y="-15.38" width="340" height="65.38" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-71" value="&lt;h1&gt;1975&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-71" value="&lt;h1&gt;1975&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="721.25" y="210" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-13" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-13" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="860" y="250" as="sourcePoint" />
             <mxPoint x="860.25" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-72" value="&lt;h1&gt;1983&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-72" value="&lt;h1&gt;1983&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="799" y="170" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-73" value="&lt;h2&gt;PCR invented&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-73" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;PCR invented&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="799" y="250" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-74" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;This method allowed researchers to quickly make billions of copies of a specific segment of DNA&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-74" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;This method allowed researchers to quickly make billions of copies of a specific segment of DNA&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="720" y="277.29" width="278" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-76" value="&lt;h2&gt;Human Genome Project completed&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-76" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;Human Genome Project completed&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="858.5" y="125" width="165" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-78" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;The finished human genome sequence will be at least 99.99% accurate&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-78" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;The finished human genome sequence will be at least 99.99% accurate&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="810" y="82.52" width="262" height="24.95" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-14" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-14" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="939.75" y="200" as="sourcePoint" />
             <mxPoint x="939.75" y="160" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-12" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-12" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="780" y="200" as="sourcePoint" />
             <mxPoint x="780" y="80" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-79" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-79" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1020" y="326" as="sourcePoint" />
             <mxPoint x="1020" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-80" value="&lt;h1&gt;2005&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-80" value="&lt;h1&gt;2005&lt;/h1&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=default;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="958.75" y="170" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-81" value="&lt;h2&gt;CRISPR&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-81" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;CRISPR&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="958.75" y="330" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-82" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Mojica discovered the CRISPR system in arcanobacteria&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-82" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Mojica discovered the CRISPR system in arcanobacteria&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="897.5" y="364.86" width="242.5" height="35.14" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-84" value="&lt;h2&gt;SNP genotyping&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-84" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;SNP genotyping&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="1019" y="50" width="165" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-85" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;SNP genotyping chip development&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-85" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;SNP genotyping chip development&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="983" y="20.6" width="237" height="29.4" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-87" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-87" value="" style="endArrow=none;html=1;rounded=0;startArrow=oval;startFill=1;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1100.25" y="200" as="sourcePoint" />
             <mxPoint x="1100.25" y="80" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-88" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-88" value="" style="endArrow=oval;html=1;rounded=0;startArrow=none;startFill=0;targetPerimeterSpacing=7;sourcePerimeterSpacing=7;endFill=1;endSize=7;startSize=7;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1180" y="250" as="sourcePoint" />
             <mxPoint x="1180.25" y="200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-90" value="&lt;h2&gt;Genome editing&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-90" value="&lt;h2 style=&quot;font-size: 20px;&quot;&gt;Genome editing&lt;/h2&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;fontFamily=Computer Modern;fontSize=20;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="1097" y="250" width="160" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="MZae6CX_gooEw79naD3D-91" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Charpentier and Doudna CRISPR/Cas9 method for genome editing&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
+        <mxCell id="MZae6CX_gooEw79naD3D-91" value="&lt;div style=&quot;text-align: justify; font-size: 15px;&quot;&gt;Charpentier and Doudna CRISPR/Cas9 method for genome editing&lt;br style=&quot;font-size: 15px;&quot;&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeColor=none;fontSize=15;fontFamily=Computer Modern;" parent="MZae6CX_gooEw79naD3D-101" vertex="1">
           <mxGeometry x="1036" y="283.65" width="282" height="36.35" as="geometry" />
         </mxCell>
       </root>
