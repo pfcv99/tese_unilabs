@@ -10,9 +10,44 @@
 
 During the development of the genomic analysis software, a \ac{swot} analysis was performed to assess its strategic positioning. The analysis identified internal strengths, weaknesses, and external opportunities and threats within bioinformatics and genomics. Figure \ref{fig:swot} summarize the key findings, outlining crucial elements that guided the software's development and deployment.
 
-\begin{figure}[H]
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage[table,xcdraw]{xcolor}
+% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
+\begin{table}[]
     \centering
-    \includegraphics[width=0.85\textwidth]{figs/swot.png}
-    \caption{\ac{swot} Analysis.} 
-    \label{fig:swot}
-\end{figure}
+    \caption{}
+    \label{tab:swot}
+    \begin{tabular}{p{\textwidth}}
+    \rowcolor[HTML]{BECB2F} 
+    \textbf{Strengths} \\ 
+    \textbf{1.} Advanced bioinformatics and genomics concepts were applied in the development of an independent software for essential genomic analysis metrics, such as vertical and horizontal sequencing depth, ensuring compliance with NGS guidelines. \\
+    \textbf{2.} The use of advanced technologies like WSL, Anaconda, Conda, Git, GitHub, Streamlit, and Python ensures robust and efficient development. The software features a user-friendly interface, making it accessible to all users, including those without bioinformatics expertise. \\
+    \textbf{3.} Git and GitHub enable code sharing, ensuring traceability and reproducibility, while Anaconda and Conda create an isolated and reproducible environment for managing packages and dependencies. \\ \\
+    \rowcolor[HTML]{F7AC00} 
+    \textbf{Weaknesses} \\ 
+    \textbf{1.} The requirement for WSL and a Linux environment may limit accessibility for users unfamiliar with these technologies. \\
+    \textbf{2.} While the graphical interface is intuitive, it may not suffice for advanced users who prefer command-line tools for analysis. \\
+    \textbf{3.} The initial setup of the development environment involves multiple steps and requires a solid understanding of the tools, which can be a barrier for less experienced users. \\
+    \textbf{4.} Comparing and validating metrics obtained by the new software with other tools is essential, but ensuring consistent and comparable results can be challenging. \\ \\
+    \rowcolor[HTML]{5CB195} 
+    \textbf{Oportunities} \\ 
+    \textbf{1.} The software can be expanded to include other important genomic analysis metrics. \\
+    \textbf{2.} Unilabs could promote internal use, establishing it as the standard tool for metric analysis. \\
+    \textbf{3.} Releasing the software as an open-source solution could attract a community of developers and users to contribute to its continuous improvement. \\
+    \textbf{4.} The rapid evolution of sequencing technologies and data analysis offers opportunities to continuously enhance and update the tool with new advancements and algorithms. \\ \\
+    \rowcolor[HTML]{E7422F} 
+    \textbf{Threats} \\ 
+    \textbf{1.} Several established tools and platforms in the market offer similar functionalities, which may hinder the adoption of the new software. \\
+    \textbf{2.} Competing with robust commercial software that offers extensive support can be challenging. \\
+    \textbf{3.} The rapid evolution of sequencing technologies and data analysis could render some features obsolete or require frequent updates. \\
+    \textbf{4.} Dependence on third-party software and libraries that may discontinue or significantly change their APIs presents a risk. \\
+    \textbf{5.} Increasing regulation around genomic data and genetic testing may impose additional challenges for the use and distribution of the software. \\ 
+    \end{tabular}
+    \end{table}
+
+    

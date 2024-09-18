@@ -119,7 +119,7 @@ In the case of the creation of the metrics analysis tool, this step was fundamen
 
 Following the documentation provided by Anaconda, the installation and creation of the conda environment was carried out. \cite{anaconda3} 
 
-Additionally, all the dependencies of the attached x-list were installed within the created environment. This installation was carried out by installing package by package, however, an environment.yaml file was made available that allows the bulk installation \cite{anaconda4} of all dependencies on the versions compatible with the software.
+Additionally, all the dependencies of the Table \ref{tab:packages} were installed within the created environment. This installation was carried out by installing package by package, however, an environment.yaml file was made available that allows the bulk installation \cite{anaconda4} of all dependencies on the versions compatible with the software.
 
 \subsubsection{\textbf{Git and GitHub}}
 
@@ -133,56 +133,162 @@ Thus, by using the documentation of Git and GitHub, this practice was implemente
 
 \subsection{Streamlit}
 
+The developed software was built using Streamlit which is an open-source Python library designed to enable the swift and intuitive creation of interactive web applications, primarily aimed at data science and machine learning projects. Introduced in October 2019 and now part of the Snowflake ecosystem, Streamlit has quickly gained recognition within the data science community due to its user-friendly approach. Its main goal is to make transforming machine learning scripts into interactive apps as simple as possible, allowing users to incorporate complex features with minimal effort. \cite{Sehm2022}
+
+Streamlit's core philosophy revolves around a declarative, straightforward interface-building model. It enables developers to create apps using clean, concise code without the need for managing intricate state or setting up callbacks, which is common in other frameworks. This makes Streamlit especially suited for rapid prototyping, as well as for displaying machine learning models and data visualizations. The library also seamlessly integrates with many popular Python frameworks for data analysis and visualization. \cite{Sehm2022}
+
+What further sets Streamlit apart is its flexibility and extensibility. The library's architecture allows the integration of various web components, making it easy to customize applications for different use cases. This versatility, along with its growing popularity and adoption in the data science world, has cemented Streamlit as a valuable tool for building interactive, informative applications that can be easily shared and adapted. \cite{Dayanithi2023}
+
+Various Streamlit widgets were used to create the graphical interface of the software, including buttons, text boxes, selectors, among others. Additionally, the library was employed to display the analysis results, also allowing data export to a CSV file. The integration of Streamlit with Python was crucial in developing an interactive and user-friendly software, meeting the established usability requirements. The functionality and implementation of these widgets are detailed in \cite{streamlit_doc}.
+
+
+
 \subsection{SAMtools}
 
 SAMtools is an essential tool for the manipulation and analysis of DNA sequencing data. First released in 2009, it allows for converting, manipulating, sorting, querying, calculating statistics, calling variants, and analyzing sequencing data in SAM, BAM, and CRAM formats. \cite{samtools}
 
-Among the many functionalities of SAMtools, the most notable are its ability to convert formats, manipulate and index files, visualize and export data, and calculate statistics, such as "depth," which served as the basis for the tool created. \cite{samtools}
+Among the many functionalities of SAMtools, the most notable are its ability to convert formats, manipulate and index files, visualize and export data, and calculate statistics, such as "depth" which served as the basis for the tool created. \cite{samtools}
 
-In this case, a Python function was developed to generate a .depth file with the desired metrics, using SAMtools depth.
+The function \textbf{depth} calculates the depth of coverage for specific genes and exons from a CRAM/BAM file using command-line tools \textbf{samtools} and \textbf{awk}. It filters the regions of interest based on user-defined gene and exon selections, and writes the results to an output file for further analysis.
 
-\begin{listing}[h]
-\begin{minted}{python}
+\begin{listing}[H]
+\begin{minted}[
+    breaklines,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
 import subprocess
+import os
 
-def depth(bam_path, bed_path, depth_path, gene_selection=None, exon_selection=None): 
-    """ 
-    Calculate the depth of coverage for specific exons of genes in a BAM file using samtools.
-s
-    Args: 
-        bam_path (str): Path to the BAM file.
+def depth(cram_path, bed_path, depth_dir, gene_selection=None, exon_selection=None):
+    """
+    Calculate the depth of coverage for specific exons of genes in a CRAM/BAM file using samtools.
+
+    Args:
+        cram_path (str): Path to the CRAM/BAM file.
         bed_path (str): Path to the Universal BED file containing exon coordinates.
-        depth_path (str): Path to save the depth output.
-        gene_selection (list or None): List of gene names to include in the depth calculation. 
-                                       If None, all genes will be included.
-        exon_selection (list or None): List of exon numbers to include in the depth calculation. 
-                                       If None, all exons will be included.
+        depth_dir (str): Directory to save the depth output file.
+        gene_selection (list or None): List of gene names to include in the depth calculation.
+        exon_selection (list or None): List of exon numbers to include in the depth calculation.
 
-    Returns: 
+    Returns:
         None
-    """ 
-    
-    gene_filter = ','.join(map(str, gene_selection)) if gene_selection else '' 
-    exon_filter = ','.join(map(str, exon_selection)) if exon_selection else ''
-    
-    # Construct awk command to filter based on gene and exon selection
-    awk_command = (f'awk -v gene_filter={gene_filter} -v exon_filter={exon_filter} '
-                   f'\'{{split(exon_filter, arr, ","); '
-                   f'if (($4 == gene_filter || gene_filter == "") && '
-                   f'("" in arr || $5 == arr[1])) {{sub(/^chr/, "", $1); print}}}}\' {bed_path}')
-    
-    # Construct samtools command to calculate depth
-    samtools_command = f'samtools depth -b - {bam_path} > {depth_path}'
-    
-    # Run the commands using subprocess
-    try:
-        subprocess.run(f'{awk_command} | {samtools_command}', shell=True, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred: {e}")
+    """
 \end{minted}
-\caption{Python function to calculate depth of coverage using samtools and awk.}
-\label{lbl:snippet-test}
+\caption{Function to calculate depth of coverage using SAMtools.}
+\label{lbl:samtools1}
 \end{listing}
+
+The function starts by validating the paths for the CRAM/BAM file, BED file, and output directory (Code \ref{lbl:samtools2}). It raises an error if any path is invalid, ensuring only valid files and directories are processed. It then constructs the output file path, naming it based on the CRAM/BAM file with a \textbf{.depth} extension.
+
+
+\begin{listing}[H]
+\begin{minted}[
+    breaklines,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+    if not os.path.isdir(depth_dir) or not os.path.isfile(cram_path) or not os.path.isfile(bed_path):
+        raise FileNotFoundError("Invalid directory or file path.")
+    
+    depth_path = os.path.join(depth_dir, f"{os.path.splitext(os.path.basename(cram_path))[0]}.depth")
+\end{minted}
+\caption{Validation of file paths and construction of output file path.}
+\label{lbl:samtools2}
+\end{listing}
+
+The function then filters the BED file using an \textbf{awk} command to select rows that correspond to the specified genes and exons (Code \ref{lbl:samtools3}). If no specific genes or exons are provided, all entries in the BED file are considered. The chromosome prefix \textbf{chr} is removed from the coordinates to ensure compatibility with \textbf{samtools} and CRAM/BAM file structure. Gene and exon filters are applied dynamically, offering flexibility in data processing.
+
+\begin{listing}[H]
+\begin{minted}[
+    breaklines,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+    gene_filter = gene_selection or ''
+    exon_filter = '|'.join(map(str, exon_selection)) if exon_selection else ''
+    command = (
+        f'awk -v gene_filter="{gene_filter}" -v exon_filter="{exon_filter}" '
+        "'{if ((gene_filter == \"\" || $4 == gene_filter) && (exon_filter == \"\" || $5 ~ exon_filter)) "
+        "{sub(/^chr/, \"\", $1); print}}' "
+        f'{bed_path}'
+    )
+    
+    awk_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, text=True)
+    awk_output, _ = awk_process.communicate()
+
+    if not awk_output.strip():
+        print("No matching regions found.")
+        return
+\end{minted}
+\caption{Filtering of BED file regions based on gene and exon selections.}
+\label{lbl:samtools3}
+\end{listing}
+
+After obtaining the filtered regions, the \textbf{samtools depth} command is executed to calculate the depth of coverage for these regions in the CRAM/BAM file (Code \ref{lbl:samtools4}). The results are captured in memory and later written to the specified output file. If no regions are found, the function exits early with a notification.
+
+\begin{listing}[H]
+\begin{minted}[
+    breaklines,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+    samtools_command = ['samtools', 'depth', '-b', '-', cram_path]
+    samtools_process = subprocess.Popen(samtools_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    samtools_output, _ = samtools_process.communicate(input=awk_output)
+\end{minted}
+\caption{Calculation of depth of coverage using samtools.}
+\label{lbl:samtools4}
+\end{listing}
+
+The final step involves writing the output from \textbf{samtools} to a file with a \textbf{.depth} extension, which is then available for further analysis (Code \ref{lbl:samtools5}). A success message confirms the location of the saved output file. This process combines dynamic region filtering with precise depth of coverage calculation.
+
+\begin{listing}[H]
+\begin{minted}[
+    breaklines,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+    with open(depth_path, 'w') as output_file:
+        output_file.write(samtools_output)
+
+    print(f"Output saved to {depth_path}")
+\end{minted}
+\caption{Writing the samtools output to a .depth file.}
+\label{lbl:samtools5}
+\end{listing}
+
+
+\subsubsection{\textbf{Example of use}}
+
+In this example (Code \ref{lbl:samtools6}), the CRAM file is located at \textbf{/path/to/sample.cram}, and the BED file with exon coordinates is located at \textbf{/path/to/regions.bed}. The output directory is \textbf{/path/to/output\_dir}, and the function calculates the depth of coverage for the gene \textbf{BRCA1} and exons \textbf{1}, \textbf{2}, and \textbf{3}. The results are saved in a file within the specified output directory.
+
+\begin{listing}[H]
+\begin{minted}[
+    breaklines,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+    # Example usage of the depth function
+    depth(
+        cram_path="/path/to/sample.cram", 
+        bed_path="/path/to/regions.bed", 
+        depth_dir="/path/to/output_dir", 
+        gene_selection=["BRCA1"], 
+        exon_selection=[1, 2, 3]
+    )
+\end{minted}
+\caption{Example usage of the depth function.}
+\label{lbl:samtools6}
+\end{listing}
+
+
 
 \subsection{Python script for metrics calculation}
 
@@ -190,7 +296,7 @@ s
 
 \section{Feedback and Iteration???}
 
-\section{Optimization}
+\section{Optimization}  
 
 \section{Deployment}
 
