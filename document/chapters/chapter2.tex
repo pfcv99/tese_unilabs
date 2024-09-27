@@ -83,14 +83,22 @@ In Exome analysis, the entire exome is used for the analysis, without requiring 
 The modular design of the software allows for seamless integration between various components, namely Streamlit for the interface, SAMTOOLS for processing sequencing data, and Python scripts for calculating coverage metrics. Each of these steps is interconnected to provide the user with quick, accurate, and real-time results. The software's architecture is designed to be easily scalable and adaptable to different types of genomic analysis, supporting both focused and large-scale analyses (such as whole exome).
 
 The Figure \ref{fig:architecture} shows the scheme of the software architecture, highlighting the main components.
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{figs/architecture.png}
+    \includegraphics[width=0.7\textwidth]{figs/architecture.png}
     \caption{Scheme of the software architecture.} 
     \label{fig:architecture}
 \end{figure}
 
+
+The project is organized in a modular structure to support the development of a metrics-based application. At the top level, the \texttt{metrics\_app} directory contains core components such as the app logic and necessary resources. The \texttt{app} folder houses the main scripts that drive the application, including \texttt{Home.py}, which serves as the entry point, and submodules like \texttt{app\_pages} for UI-specific components such as \texttt{about.py}, \texttt{query.py}, and \texttt{results.py}. The \texttt{components} directory contains functional modules such as \texttt{analysis.py}, \texttt{metrics.py}, and \texttt{bam\_cram.py}, encapsulating core logic for genome analysis, metrics computation, and file handling. The \texttt{data} folder stores essential files, including genomic depth and region data, which are organized by specific analysis types (e.g., exome, gene panel). The project includes setup files like \texttt{environment.yml} for managing dependencies and a \texttt{Dockerfile} to enable containerization for consistent deployment. Overall, the structure supports scalability, modularity, and ease of maintenance. The Figure \ref{fig:tree} shows the software directory structure.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figs/tree.png}
+    \caption{Software directory structure.} 
+    \label{fig:tree}
+\end{figure}
 
 
 \section{Development}
@@ -156,6 +164,7 @@ To facilitate downstream analysis and ensure compatibility with different tools,
 The output of this process was a simplified BED file containing six columns: chromosome number, start position, end position, gene name, exon number, and exon length (calculated as the difference between the start and end positions). Below is an example of the resulting file structure:
 
 \begin{verbatim}
+    
     (...)
     17	41177976	41178064	RND2	3	88
     17	41179199	41179309	RND2	4	110
@@ -1112,13 +1121,7 @@ if "Exon Detail" in tab_dict:
 \end{longlisting}
 
 
-\section{Test and validation}
 
-\section{Feedback and Iteration???}
 
-\section{Optimization}  
 
 \section{Deployment}
-
-
-\section{Impact on the company}
