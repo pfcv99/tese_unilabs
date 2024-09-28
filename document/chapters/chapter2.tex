@@ -151,7 +151,7 @@ Various Streamlit widgets were used to create the graphical interface of the sof
 
 \subsection{Processing and Simplification of BED File for Genomic Analysis}
 
-The original BED files utilized in this study, \textbf{hg19\_Twist\_ILMN\_Exome\_2.0\_Plus\_Panel\_annotated.bed} for GRCh38/hg38 assembly and \textbf{hg38\_Twist\_ILMN\_Exome\_2.0\_Plus\_Panel\_annotated.bed} for GRCh37/hg19 assembly, was highly complex due to its rich annotation, particularly in the fourth column, which contained multiple genes and clinical identifiers associated with the same genomic region. For instance, a single entry could include a large number of comma-separated values representing multiple genes and clinical IDs. Such complexity was unnecessary for our specific analysis, which focused primarily on gene panel-level, gene-level and exon-level metrics. Therefore, it was essential to simplify the file while preserving relevant genomic data, particularly the coodinates, gene names and exon numbers.
+The original BED files utilized in this study was highly complex due to its rich annotation, particularly in the fourth column, which contained multiple genes and clinical identifiers associated with the same genomic region. For instance, a single entry could include a large number of comma-separated values representing multiple genes and clinical IDs. Such complexity was unnecessary for our specific analysis, which focused primarily on gene panel-level, gene-level and exon-level metrics. Therefore, it was essential to simplify the file while preserving relevant genomic data, particularly the coodinates, gene names and exon numbers.
 
 The simplification process involved writing a custom Python script designed to extract and reorganize key elements from the original BED file. The script processes each line of the file, extracting the chromosome, start, and end positions, while simplifying the fourth column to retain only the first gene listed. Additionally, the script calculates exon numbers for each gene based on the sequence of occurrences in the file. This transformation results in a more concise representation, which is more suitable for downstream analysis.
 
@@ -178,7 +178,7 @@ The output of this process was a simplified BED file containing six columns: chr
     (...)
 \end{verbatim}
 
-In this example, the gene \texttt{MORN1} spans several lines, each representing a distinct exon. The exon numbers were automatically assigned based on the gene's occurrence in the file, while the genomic intervals for each exon were derived directly from the original BED file. The final output, now simplified, facilitates a more straightforward analysis of coverage and depth metrics at both the gene and exon levels.
+In this example, the genes spans several lines, each representing a distinct exon. The exon numbers were automatically assigned based on the gene's occurrence in the file, while the genomic intervals for each exon were derived directly from the original BED file. The final output, now simplified, facilitates a more straightforward analysis of coverage and depth metrics at both the gene and exon levels.
 
 The Python script used for this transformation is outlined below:
 
