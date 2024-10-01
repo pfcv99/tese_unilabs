@@ -5,8 +5,6 @@
     “I've learned a painful lesson, that for small programs dynamic typing is great. For large programs, you have to have a more disciplined approach. And it helps if the language actually gives you that discipline, rather than telling you, 'Well, you can do whatever you want.'” - Guido van Rossum, Python's creator
 \end{introduction}
 
-Falar de Metodologia Agile
-
 \section{Requirements}
 
 This section presents the requirements for the developed software, categorized into functional and non-functional requirements. 
@@ -68,7 +66,7 @@ Initially, the user must select the type of analysis they wish to perform. Depen
 
 \subsubsection{\textbf{Single Gene Analysis}}
 
-The user uploads a BAM or CRAM file, containing the sequencing data. Additionally, they automatically receive a universal BED file corresponding to the selected genome assembly. The user then chooses the gene of interest and may specify the exon(s) to be analyzed. SAMTOOLS is invoked to generate a DEPTH file, which contains information about the read depth at each genomic position. This file is processed by a Python script that calculates two key metrics: depth of coverage and breadth of coverage. The results are displayed to the user through a report in the Streamlit interface or can be exported as a CSV file.
+The user uploads a BAM or CRAM file, containing the sequencing data. Additionally, they automatically receive a universal BED file corresponding to the selected genome assembly. The user then chooses the gene of interest and may specify the exon(s) to be analyzed. SAMTOOLS is invoked to generate a DEPTH file, which contains information about the read depth at each genomic position. This file is processed by a Python script that calculates two key metrics: depth of coverage and breadth of coverage. The results are displayed to the user through a report in the Streamlit interface or can be exported as a CSV or PDF file.
 
 \subsubsection{\textbf{Gene Panel Analysis}}
 
@@ -232,20 +230,20 @@ output_file_no_chr = 'data/regions/genome_exons/hg19_Twist_ILMN_Exome_2.0_Plus_P
 process_bed_file(input_file, output_file_with_chr, remove_chr_prefix=False)
 process_bed_file(input_file, output_file_no_chr, remove_chr_prefix=True)
 \end{minted}
+\caption{Python script for processing and simplifying BED files.}
+\label{lbl:bed_script}
 \end{longlisting}
 
 This script efficiently reduces the complexity of the original BED file, preparing it for further analysis and ensuring compatibility with tools that expect a simpler file format.
 
 
-\subsection{SAMtools}
+\subsection{SAMtools Depth Calculation in Python with Streamlit}
 
-SAMtools is a fundamental tool for manipulating and analyzing DNA sequencing data, introduced in 2009. It supports a wide array of operations on SAM, BAM, and CRAM files, including format conversion, sorting, querying, indexing, and statistical analysis, with the "depth" function being central to coverage calculations in sequencing experiments \cite{samtools}.
+The \textbf{depth} function is designed to compute the depth of coverage for specific genes and exons from CRAM or BAM sequencing files. This function integrates SAMtools into a Python workflow, allowing users to filter genomic regions dynamically based on the provided genes and exons. By leveraging Streamlit's session state, it retains filtered BED content and the depth output for subsequent processing and visualization, enabling seamless integration into interactive Streamlit apps. This flexibility is key for both interactive and automated execution of genomic analyses. 
 
-The following section details a Python function that utilizes SAMtools and incorporates it into a Streamlit workflow for calculating the depth of coverage across specific genes and exons in sequencing files. The function allows users to filter the regions of interest and manage outputs dynamically through Streamlit's session state, offering flexibility for both interactive use and programmatic automation.
+\subsubsection{\textbf{Initial Setup and Session State Initialization}}
 
-\subsubsection{\textbf{Overview of the Depth Calculation Function}}
-
-The function \textbf{depth} calculates the depth of coverage for a set of specified genes and exons in a CRAM or BAM file using SAMtools and Streamlit session state. It provides mechanisms for filtering genomic regions through a BED file and storing intermediate results, such as filtered regions and depth outputs, within the session state for further use.
+The function starts by initializing two important variables within the Streamlit session state: \texttt{depth\_output} and \texttt{filtered\_bed}. These variables will hold, respectively, the SAMtools depth output and the filtered BED content after processing (Code \ref{lbl:samtools1}). By storing these variables in session state, the function ensures that intermediate results can persist across different user interactions, making it possible to efficiently manage outputs in real-time applications.
 
 \begin{longlisting}
 \begin{minted}[
@@ -255,33 +253,22 @@ The function \textbf{depth} calculates the depth of coverage for a set of specif
     fontsize=\footnotesize,
     linenos
     ]{python}
-import subprocess
-import streamlit as st
-import os
-
-def depth(cram_path, bed_path, depth_dir='data/depth', gene_selection=None, exon_selection=None):
-    """
-    Calculate the depth of coverage for specific exons of genes in a CRAM/BAM file using samtools.
-    Args:
-        cram_path (str): Path to the CRAM/BAM file.
-        bed_path (str): Path to the Universal BED file containing exon coordinates.
-        depth_dir (str, optional): Directory to save the depth output file (optional if storing in session state).
-        gene_selection (list or None): List of gene names to include in the depth calculation.
-        exon_selection (list or None): List of exon numbers to include in the depth calculation for each gene.
-    Returns:
-        None
-    """
-
+# Initialize session state attributes if they don't exist
+if 'depth_output' not in st.session_state:
+    st.session_state.depth_output = {}
+    
+if 'filtered_bed' not in st.session_state:
+    st.session_state.filtered_bed = ""
 \end{minted}
-\caption{Initial setup for depth calculation.}
+\caption{Session state initialization.}
 \label{lbl:samtools1}
 \end{longlisting}
 
-\subsubsection{\textbf{Validation and Setup}}
+\subsubsection{\textbf{File Validation and Setup for Gene and Exon Selection}}
 
-The first step involves validating the provided file paths for the CRAM/BAM file and the BED file. If any of these paths are incorrect, the function raises an error to prevent further execution with invalid data (Code \ref{lbl:samtools2}). The function also converts gene and exon selections into appropriate formats if necessary.
+Before executing the core logic, the function verifies that the paths provided for the CRAM/BAM and BED files are valid (Code \ref{lbl:samtools2}). This validation ensures that no downstream operations occur with invalid input files, avoiding potential errors during execution. If the provided file paths are incorrect, the function halts, displaying an error message via Streamlit's \texttt{st.error} function.
 
-The function handles both cases where a gene or exon selection is provided and where no such filtering is needed. If no filters are applied, the BED file is used as-is, while filtered regions are stored in Streamlit's session state for further processing.
+In cases where specific genes or exons are provided, the function converts these selections into lists, ensuring proper format handling. If no gene or exon selection is provided, the function defaults to reading the original BED file and storing its contents in the session state. This setup supports two modes of operation: calculating coverage across the entire genome or focusing on specific regions of interest.
 
 \begin{longlisting}
 \begin{minted}[
@@ -291,31 +278,37 @@ The function handles both cases where a gene or exon selection is provided and w
     fontsize=\footnotesize,
     linenos
     ]{python}
+# Check if paths to the CRAM/BAM and BED files are valid
+if not os.path.isfile(cram_path) or not os.path.isfile(bed_path):
+    st.error("Invalid file path provided for CRAM/BAM or BED file.")
+    return  # Stop execution if the paths are invalid
 
-    if not os.path.isfile(cram_path) or not os.path.isfile(bed_path):
-        raise FileNotFoundError("Invalid file path.")
+# Convert gene_selection to a list if it's a string
+if isinstance(gene_selection, str):
+    gene_selection = [gene_selection]
 
-    # Convert gene_selection to a list if it's a string
-    if isinstance(gene_selection, str):
-        gene_selection = [gene_selection]
+# Convert exon_selection to a list of strings if it's a list of numbers
+if exon_selection is not None:
+    exon_selection = list(map(str, exon_selection))  # Convert exon numbers to strings
 
-    # Convert exon_selection to a list of strings if it's a list of numbers
-    if exon_selection is not None:
-        exon_selection = list(map(str, exon_selection))  # Convert exon numbers to strings
-
-    # If no gene or exon selection is provided, use the original BED file
-    if gene_selection is None and exon_selection is None:
-        # Load the original BED content directly
+# If no gene or exon selection is provided, use the original BED file
+if gene_selection is None and exon_selection is None:
+    try:
         with open(bed_path, 'r') as bed_file:
             st.session_state.filtered_bed = bed_file.read()  # Store original BED content in session state
+    except Exception as e:
+        st.error(f"Error loading BED file: {e}")
+        return  # Stop execution in case of file read error
 \end{minted}
-\caption{Handling gene and exon selection for BED file filtering.}
+\caption{Validation and setup for gene and exon selection.}
 \label{lbl:samtools2}
 \end{longlisting}
 
-\subsubsection{\textbf{Dynamic BED File Filtering}}
+\subsubsection{\textbf{Filtering the BED File Based on Gene and Exon Selections}}
 
-When gene or exon selections are provided, the function reads and filters the BED file dynamically, matching entries to the specified genes and exons. The filtered results are then stored in the Streamlit session state (Code \ref{lbl:samtools3}). This step allows flexible customization of regions of interest.
+When specific genes or exons are provided, the function dynamically filters the BED file to isolate only the relevant regions for analysis. This filtering process iterates through the lines of the BED file, matching the genes and exons with the user-provided selections. Any lines that match the criteria are retained and stored in the session state (Code \ref{lbl:samtools3}).
+
+This step employs a \texttt{try-except} block to handle potential file processing errors gracefully. If no regions match the provided criteria, an informational message is displayed to the user, and the function exits early. This dynamic filtering enhances the function's flexibility by allowing users to focus on specific genomic intervals, ensuring that only relevant data is processed in subsequent steps.
 
 \begin{longlisting}
 \begin{minted}[
@@ -325,9 +318,10 @@ When gene or exon selections are provided, the function reads and filters the BE
     fontsize=\footnotesize,
     linenos
     ]{python}
-    else:
-        # Otherwise, filter the BED file based on the gene and exon selection
-        filtered_bed_lines = []
+else:
+    # Otherwise, filter the BED file based on the gene and exon selection
+    filtered_bed_lines = []
+    try:
         with open(bed_path, 'r') as bed_file:
             for line in bed_file:
                 columns = line.strip().split('\t')
@@ -346,18 +340,25 @@ When gene or exon selections are provided, the function reads and filters the BE
 
         # Check if any filtered BED content was found
         if not filtered_bed_lines:
-            raise ValueError("No matching regions found for the provided gene or exon selection.")
+            st.info("No matching regions found for the provided gene or exon selection.")
+            return  # Stop execution if no matching regions found
 
         # Store filtered BED content in Streamlit session state
         st.session_state.filtered_bed = ''.join(filtered_bed_lines)
+
+    except Exception as e:
+        st.error(f"Error filtering BED file: {e}")
+        return  # Stop execution in case of file processing error
 \end{minted}
-\caption{Filtering BED file based on gene and exon selections.}
+\caption{Filtering the BED file based on gene and exon selections.}
 \label{lbl:samtools3}
 \end{longlisting}
 
-\subsubsection{\textbf{Running SAMtools and Storing Output}}
+\subsubsection{\textbf{Running SAMtools and Handling the Depth Output}}
 
-Once the filtered regions are stored, the function constructs a SAMtools command to calculate the depth of coverage. The filtered regions, stored in session state, are passed as input to SAMtools through standard input. The depth calculation is executed, and the results are either saved directly in Streamlit's session state or written to an output file in a specified directory (Code \ref{lbl:samtools4} and \ref{lbl:samtools5}).
+Once the filtered regions are prepared, the function proceeds to run SAMtools' \texttt{depth} command. This step is encapsulated in a \texttt{try-except} block to handle potential errors during SAMtools execution (Code \ref{lbl:samtools4}). The filtered BED content, stored in session state, is passed to SAMtools via standard input, allowing the command to compute the depth of coverage for the specified regions.
+
+After the SAMtools process completes, the function checks whether any depth data was returned. If no data is produced (for example, if no coverage was found in the specified regions), the function exits. If data is present, the depth output is stored in the session state for further use. Optionally, the depth output can also be saved to a file in a specified directory, ensuring that users have access to a persistent output.
 
 \begin{longlisting}
 \begin{minted}[
@@ -367,45 +368,43 @@ Once the filtered regions are stored, the function constructs a SAMtools command
     fontsize=\footnotesize,
     linenos
     ]{python}
-    # Create a unique key for the output based on the CRAM/BAM file name
-    output_key = os.path.splitext(os.path.basename(cram_path))[0]
+# Create a unique key for the output based on the CRAM/BAM file name
+output_key = os.path.splitext(os.path.basename(cram_path))[0]
 
-    # Run samtools depth using the BED content (either original or filtered) from session state
+# Run samtools depth using the BED content (either original or filtered) from session state
+try:
     samtools_command = ['samtools', 'depth', '-b', '-', cram_path]
     samtools_process = subprocess.Popen(samtools_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
     samtools_output, _ = samtools_process.communicate(input=st.session_state.filtered_bed)
 
+    # Check if samtools_output is empty
+    if not samtools_output.strip():  # If no output is found
+        return  # Stop execution if no data is returned
+
     # Store samtools output (.depth content) in Streamlit session state as a dictionary
-    if 'depth_output' not in st.session_state:
-        st.session_state.depth_output = {}
-
     st.session_state.depth_output[output_key] = samtools_output
-\end{minted}
-\caption{Running SAMtools and storing depth output in session state.}
-\label{lbl:samtools4}
-\end{longlisting}
 
-\begin{longlisting}
-\begin{minted}[
-    breaklines,
-    breakanywhere,
-    bgcolor=LightGray,
-    fontsize=\footnotesize,
-    linenos
-    ]{python}
+    # Optionally, save the depth data to a file
     if depth_dir:
+        # Ensure the directory exists
+        os.makedirs(depth_dir, exist_ok=True)
+
         # Define the output depth file path based on the CRAM/BAM file name
         depth_path = os.path.join(depth_dir, f"{output_key}.depth")
         with open(depth_path, 'w') as output_file:
             output_file.write(samtools_output)
+
+except Exception as e:
+    st.error(f"Error running samtools depth: {e}")
+    return  # Stop execution in case of samtools error
 \end{minted}
-\caption{Saving the SAMtools depth output to a file.}
-\label{lbl:samtools5}
+\caption{Running SAMtools and handling depth output.}
+\label{lbl:samtools4}
 \end{longlisting}
 
-\subsubsection{\textbf{Example Usage}}
+\subsubsection{\textbf{Example Usage of the Depth Function}}
 
-This example demonstrates how to use the \textbf{depth} function to calculate the depth of coverage for the gene \textbf{BRCA1} across exons 1, 2, and 3 from a CRAM file. The results are stored in the specified output directory.
+The final section provides an example usage of the \textbf{depth} function. In this scenario, the function is used to compute the depth of coverage for the \textbf{BRCA1} gene across exons 1, 2, and 3 from a given CRAM file. The depth output is stored in a specified directory, ensuring that the results can be accessed for further analysis.
 
 \begin{longlisting}
 \begin{minted}[
@@ -415,25 +414,25 @@ This example demonstrates how to use the \textbf{depth} function to calculate th
     fontsize=\footnotesize,
     linenos
     ]{python}
-    depth(
-        cram_path="/path/to/sample.cram", 
-        bed_path="/path/to/regions.bed", 
-        depth_dir="/path/to/output_dir", 
-        gene_selection=["BRCA1"], 
-        exon_selection=[1, 2, 3]
-    )
+depth(
+    cram_path="/path/to/sample.cram", 
+    bed_path="/path/to/regions.bed", 
+    depth_dir="/path/to/output_dir", 
+    gene_selection=["BRCA1"], 
+    exon_selection=[1, 2, 3]
+)
 \end{minted}
 \caption{Example usage of the depth function.}
 \label{lbl:samtools6}
 \end{longlisting}
 
-\subsection{Python script for metrics calculation}
+\subsection{Detailed Breakdown of the Python Script for Metrics Calculation}
 
-The following section explains a Python script designed to calculate sequencing coverage metrics based on depth of coverage data from BAM/CRAM files and gene/exon information from a BED file. This function operates within a Streamlit session, dynamically filtering data and calculating coverage statistics for different genes and exons. The results are stored and presented in a structured format, making it highly flexible for genomic data analysis workflows.
+This section delves into a Python script designed to compute sequencing coverage metrics from depth of coverage data derived from BAM or CRAM files and region information from a BED file. The script operates within a Streamlit session, facilitating dynamic filtering of genomic regions and providing statistical summaries for individual genes and exons. The calculated results are organized in a structured format, offering flexibility for genomic data analysis workflows. Below, we explore each component of the script in detail, illustrating how it achieves its goal of efficient coverage calculation.
 
-\subsubsection{\textbf{Initialization of Metrics}}
+\subsubsection{1. Importing Necessary Libraries}
 
-The function begins by defining a reusable structure for storing the various metrics that will be calculated during the process. The function \texttt{initialize\_metrics()} creates a dictionary containing keys for metrics such as "Size Coding", "Size Covered", "Average Read Depth", and several thresholds for coverage percentage, such as "Coverage \% (1x)" and "Coverage \% (500x)" (Code \ref{lbl:metrics1}). This structure will be used repeatedly to initialize metrics for both genes and exons.
+The script begins by importing essential Python libraries required for data manipulation and interaction with the Streamlit application. The core libraries include \texttt{pandas} for handling tabular data, \texttt{io} for managing in-memory input and output operations, and \texttt{streamlit} for creating interactive web-based applications.
 
 \begin{longlisting}
 \begin{minted}[
@@ -442,40 +441,69 @@ The function begins by defining a reusable structure for storing the various met
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+import pandas as pd
+import io
+import streamlit as st
+\end{minted}
+\caption{Importing necessary libraries.}
+\label{lbl:metrics_import}
+\end{longlisting}
+
+- The \texttt{pandas} library provides robust data structures, such as DataFrames, which facilitate complex data manipulation and analysis.
+
+- The \texttt{io} module allows the script to handle in-memory streams, which are particularly useful for reading and processing textual data from files stored in memory.
+
+- The \texttt{streamlit} package enables the creation of a user interface for running genomic analysis workflows, ensuring that the script is interactive and easy to use for researchers and analysts.
+
+\subsubsection{2. Defining the Metrics Initialization Function}
+
+Next, the script defines the \texttt{initialize\_metrics()} function, which is responsible for setting up a consistent data structure for storing various sequencing metrics. This function returns a dictionary where each key corresponds to a specific metric, and all metrics are initialized to zero. This standardization ensures that metrics are consistently tracked and updated throughout the calculation process.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+]{python}
 def initialize_metrics():
     return {
         'Size Coding': 0,
         'Size Covered': 0,
+        'Breadth of Coverage %': 0,
         'Average Read Depth': 0,
         'Min Read Depth': 0,
         'Max Read Depth': 0,
-        'Coverage % (1x)': 0,
-        'Coverage % (10x)': 0,
-        'Coverage % (15x)': 0,
-        'Coverage % (20x)': 0,
-        'Coverage % (30x)': 0,
-        'Coverage % (50x)': 0,
-        'Coverage % (100x)': 0,
-        'Coverage % (500x)': 0,
-        'Coverage (>500x)': 0,
-        'Coverage (0-1x)': 0,
-        'Coverage (2-10x)': 0,
-        'Coverage (11-15x)': 0,
-        'Coverage (16-20x)': 0,
-        'Coverage (21-30x)': 0,
-        'Coverage (31-50x)': 0,
-        'Coverage (51-100x)': 0,
-        'Coverage (101-500x)': 0
+        'Depth of Coverage % (1x)': 0,
+        'Depth of Coverage % (10x)': 0,
+        'Depth of Coverage % (15x)': 0,
+        'Depth of Coverage % (20x)': 0,
+        'Depth of Coverage % (30x)': 0,
+        'Depth of Coverage % (50x)': 0,
+        'Depth of Coverage % (100x)': 0,
+        'Depth of Coverage % (500x)': 0,
+        'Depth of Coverage (>500x)': 0,
+        'Depth of Coverage (0-1x)': 0,
+        'Depth of Coverage (2-10x)': 0,
+        'Depth of Coverage (11-15x)': 0,
+        'Depth of Coverage (16-20x)': 0,
+        'Depth of Coverage (21-30x)': 0,
+        'Depth of Coverage (31-50x)': 0,
+        'Depth of Coverage (51-100x)': 0,
+        'Depth of Coverage (101-500x)': 0
     }
 \end{minted}
-\caption{Initialization of metrics structure.}
-\label{lbl:metrics1}
+\caption{Defining the metrics initialization function.}
+\label{lbl:metrics_init}
 \end{longlisting}
 
-\subsubsection{\textbf{Accessing Filtered Data from Session State}}
+This dictionary structure is critical for the script because it ensures that all necessary metrics, such as coverage percentages at various depth thresholds, are included and consistently tracked. By initializing metrics to zero, the function guarantees that all relevant data fields are present, even if no coverage is detected in certain regions, thereby preventing errors later in the script.
 
-The next step is to define the \texttt{calculate\_metrics()} function, which retrieves filtered BED content and depth data from the Streamlit session state (Code \ref{lbl:metrics2}). These datasets represent the regions of interest (filtered gene/exon regions) and the corresponding depth of coverage information. The function first checks if these datasets exist in session state. If not, an error is raised to indicate missing data.
+\subsubsection{3. Accessing Filtered Data from Session State}
+
+The \texttt{calculate\_metrics()} function, which handles the core logic of the script, begins by accessing the filtered BED content and depth data that were stored in Streamlit's session state during earlier steps. These data sources are crucial for the downstream calculations. If either the BED content or the depth data is missing, the function raises a \texttt{ValueError}, ensuring that no further calculations are performed with incomplete or missing data.
 
 \begin{longlisting}
 \begin{minted}[
@@ -484,8 +512,9 @@ The next step is to define the \texttt{calculate\_metrics()} function, which ret
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
 def calculate_metrics():
+    # Access the filtered BED content and depth data from session_state
     bed_content = st.session_state.get('filtered_bed', '')
     depth_dict = st.session_state.get('depth_output', {})
 
@@ -494,14 +523,18 @@ def calculate_metrics():
 
     if not depth_dict:
         raise ValueError("No depth data found in session state.")
+
+    results = {}  # Initialize results dictionary
 \end{minted}
 \caption{Accessing filtered BED and depth data from session state.}
-\label{lbl:metrics2}
+\label{lbl:metrics_access}
 \end{longlisting}
 
-\subsubsection{\textbf{Reading the Filtered BED File}}
+This step of accessing session state data ensures that the script can efficiently handle user-selected regions of interest (genes and exons) and corresponding depth data. This setup also supports interactive workflows where users can refine their selections dynamically, with metrics recalculated based on these selections.
 
-The filtered BED content, representing the genomic regions of interest, is then read into a pandas DataFrame (Code \ref{lbl:metrics3}). The BED file contains columns such as chromosome (\texttt{CHROM}), start and end positions (\texttt{START}, \texttt{END}), gene names (\texttt{GENE}), exon numbers (\texttt{EXON}), and exon sizes (\texttt{SIZE}). This DataFrame will be used later to match the regions in the depth file and calculate the metrics.
+\subsubsection{4. Reading the Filtered BED Content}
+
+The filtered BED content is then read into a pandas DataFrame for easier manipulation. This DataFrame will contain information about the genomic regions (chromosome, start and end positions, gene names, exon numbers, and exon sizes), which will later be cross-referenced with the depth data to compute coverage metrics.
 
 \begin{longlisting}
 \begin{minted}[
@@ -510,16 +543,20 @@ The filtered BED content, representing the genomic regions of interest, is then 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
-    bed_df = pd.read_csv(io.StringIO(bed_content), sep='\t', header=None, names=['CHROM', 'START', 'END', 'GENE', 'EXON', 'SIZE'])
+]{python}
+    # Read the filtered BED content into a DataFrame
+    bed_df = pd.read_csv(io.StringIO(bed_content), sep='\t', header=None,
+                         names=['CHROM', 'START', 'END', 'GENE', 'EXON', 'SIZE'])
 \end{minted}
 \caption{Reading filtered BED content into a DataFrame.}
-\label{lbl:metrics3}
+\label{lbl:metrics_bed_df}
 \end{longlisting}
 
-\subsubsection{\textbf{Processing the Depth Data}}
+By converting the BED content into a DataFrame, the script leverages pandas' powerful data manipulation capabilities, which streamline tasks such as filtering, grouping, and aggregating genomic regions. This enables efficient computation of metrics for different genes and exons in subsequent steps.
 
-For each CRAM/BAM file, the corresponding depth data is also read into a pandas DataFrame. The depth data contains three columns: chromosome (\texttt{CHROM}), position (\texttt{POS}), and depth (\texttt{DEPTH}) at each position (Code \ref{lbl:metrics4}). These values will be used to calculate various metrics for each gene and exon.
+\subsubsection{5. Processing Depth Data for Each File}
+
+Next, the script iterates over each entry in the depth dictionary, where each entry corresponds to a different BAM or CRAM file. For each file, a new DataFrame is created to hold the depth data, which consists of three columns: chromosome (\texttt{CHROM}), position (\texttt{POS}), and depth (\texttt{DEPTH}).
 
 \begin{longlisting}
 \begin{minted}[
@@ -528,17 +565,24 @@ For each CRAM/BAM file, the corresponding depth data is also read into a pandas 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
     for file_name, depth_content in depth_dict.items():
-        depth_df = pd.read_csv(io.StringIO(depth_content), sep='\t', header=None, names=['CHROM', 'POS', 'DEPTH'])
+        # Initialize the results structure for this file
+        results[file_name] = {}
+        
+        # Read the depth content into a DataFrame
+        depth_df = pd.read_csv(io.StringIO(depth_content), sep='\t', header=None,
+                               names=['CHROM', 'POS', 'DEPTH'])
 \end{minted}
-\caption{Reading depth data for each CRAM/BAM file.}
-\label{lbl:metrics4}
+\caption{Processing depth data for each CRAM/BAM file.}
+\label{lbl:metrics_depth_df}
 \end{longlisting}
 
-\subsubsection{\textbf{Calculating Metrics for All Genes}}
+This iterative approach allows the script to handle multiple samples or files, computing metrics independently for each. This flexibility makes the script suitable for batch processing of sequencing data or for analyzing different samples within the same workflow.
 
-Once the data is loaded, the script begins calculating metrics for all the genes combined. For example, it computes the total "Size Coding" by summing the sizes of all exons from the BED file, and the "Average Read Depth" by averaging the depths from the depth file. To calculate the "Average Read Depth (Gene Weighted)", a weighted sum of depths is computed based on the size of each gene (Code \ref{lbl:metrics5}).
+\subsubsection{6. Calculating Metrics for All Genes Combined}
+
+The script then calculates coverage metrics for all genes combined, which provides an overall summary of the sequencing depth and breadth across the entire set of regions. Key metrics include the total size of coding regions (\texttt{Size Coding}), the average depth of coverage (\texttt{Average Read Depth}), and the breadth of coverage, expressed as a percentage of the coding regions that have been covered by sequencing reads.
 
 \begin{longlisting}
 \begin{minted}[
@@ -547,33 +591,44 @@ Once the data is loaded, the script begins calculating metrics for all the genes
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
-    all_genes_metrics['Size Coding'] = bed_df['SIZE'].sum()
-    all_genes_metrics['Average Read Depth'] = all_depths.mean()
+]{python}
+        # Initialize metrics for all genes
+        all_genes_metrics = initialize_metrics()
+        total_positions = len(depth_df)
 
-    weighted_sum = 0
-    total_size = 0
-    for _, row in bed_df.iterrows():
-        start = row['START']
-        end = row['END']
-        size = row['SIZE']
-        gene_depths = depth_df[(depth_df['POS'] >= start) & (depth_df['POS'] <= end)]['DEPTH']
+        if total_positions > 0:
+            # Extract depth values
+            all_depths = depth_df['DEPTH']
 
-        weighted_sum += gene_depths.sum() * size
-        total_size += size
+            # Calculate Size Coding
+            all_genes_metrics['Size Coding'] = bed_df['SIZE'].sum()
 
-    if total_size > 0:
-        all_genes_metrics['Average Read Depth (Gene Weighted)'] = weighted_sum / total_size
-    else:
-        all_genes_metrics['Average Read Depth (Gene Weighted)'] = 0
+            # Calculate Average Read Depth
+            all_genes_metrics['Average Read Depth'] = all_depths.mean()
+            
+            # Calculate Min and Max Read Depth
+            all
+
+_genes_metrics['Min Read Depth'] = all_depths.min()
+            all_genes_metrics['Max Read Depth'] = all_depths.max()
+
+            # Calculate Size Covered
+            all_genes_metrics['Size Covered'] = all_depths.count()
+
+            # Calculate Breadth of Coverage %
+            all_genes_metrics['Breadth of Coverage %'] = (
+                all_genes_metrics['Size Covered'] / all_genes_metrics['Size Coding']
+            ) * 100
 \end{minted}
-\caption{Calculating gene metrics, including weighted average read depth.}
-\label{lbl:metrics5}
+\caption{Calculating metrics for all genes combined.}
+\label{lbl:metrics_all_genes}
 \end{longlisting}
 
-\subsubsection{\textbf{Calculating Coverage Percentages}}
+The calculation of \texttt{Breadth of Coverage \%} is particularly important for assessing the quality of sequencing coverage, as it indicates the proportion of the target regions that have been successfully sequenced. These metrics provide a high-level overview of the data, serving as a starting point for more granular analysis at the gene and exon levels.
 
-The function also calculates coverage percentages for various depth thresholds, such as 1x, 10x, 15x, etc. These percentages are computed by counting the number of positions in the depth data where the coverage is greater than or equal to each threshold and then dividing by the total number of positions (Code \ref{lbl:metrics6}). Additionally, depth intervals such as "Coverage (0-1x)" and "Coverage (101-500x)" are calculated.
+\subsubsection{7. Calculating Depth of Coverage Percentages}
+
+For each depth threshold (e.g., 1x, 10x, 15x, etc.), the script computes the percentage of positions that meet or exceed that depth. These depth thresholds are commonly used in sequencing to assess the reliability of variant calls or to ensure sufficient coverage for accurate analysis.
 
 \begin{longlisting}
 \begin{minted}[
@@ -582,20 +637,30 @@ The function also calculates coverage percentages for various depth thresholds, 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
-    coverage_thresholds = [1, 10, 15, 20, 30, 50, 100, 500]
-    coverage_counts = {threshold: (all_depths >= threshold).sum() for threshold in coverage_thresholds}
+]{python}
+            # Define coverage thresholds
+            coverage_thresholds = [1, 10, 15, 20, 30, 50, 100, 500]
 
-    for threshold in coverage_thresholds:
-        all_genes_metrics[f"Coverage % ({threshold}x)"] = (coverage_counts[threshold] / total_positions) * 100
+            # Calculate counts for each threshold
+            coverage_counts = {
+                threshold: (all_depths >= threshold).sum() for threshold in coverage_thresholds
+            }
+
+            # Calculate percentages
+            for threshold in coverage_thresholds:
+                all_genes_metrics[f"Depth of Coverage % ({threshold}x)"] = (
+                    coverage_counts[threshold] / total_positions
+                ) * 100
 \end{minted}
-\caption{Calculating coverage percentages for different thresholds.}
-\label{lbl:metrics6}
+\caption{Calculating depth of coverage percentages for different thresholds.}
+\label{lbl:metrics_coverage}
 \end{longlisting}
 
-\subsubsection{\textbf{Per-Gene and Per-Exon Metrics}}
+By calculating these percentages, the script provides insight into how well each region is covered at different depths, helping to identify any coverage gaps that might impact downstream analysis. These metrics are critical for quality control and for determining whether additional sequencing is needed.
 
-For each gene, the function calculates individual metrics by iterating over the filtered BED regions and depth data specific to that gene. Similarly, metrics for each exon are computed by breaking down the depth data for each exon. This per-gene and per-exon calculation mirrors the process used for all genes but is applied to specific regions (Code \ref{lbl:metrics7} and \ref{lbl:metrics8}).
+\subsubsection{8. Calculating Depth Intervals}
+
+In addition to calculating coverage percentages for fixed thresholds, the script also computes the number of positions that fall within specific depth intervals. This helps to identify regions of particularly low or high coverage, which may require further investigation or additional sequencing.
 
 \begin{longlisting}
 \begin{minted}[
@@ -604,21 +669,91 @@ For each gene, the function calculates individual metrics by iterating over the 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
-    for gene in genes:
-        gene_metrics = initialize_metrics()
-        gene_bed_df = bed_df[bed_df['GENE'] == gene]
-        gene_depths = pd.Series(dtype=float)
+]{python}
+            # Define depth intervals and calculate counts
+            depth_intervals = {
+                "Depth of Coverage (>500x)": (all_depths > 500).sum(),
+                "Depth of Coverage (101-500x)": ((all_depths > 100) & (all_depths <= 500)).sum(),
+                "Depth of Coverage (51-100x)": ((all_depths >= 51) & (all_depths <= 100)).sum(),
+                "Depth of Coverage (31-50x)": ((all_depths >= 31) & (all_depths <= 50)).sum(),
+                "Depth of Coverage (21-30x)": ((all_depths >= 21) & (all_depths <= 30)).sum(),
+                "Depth of Coverage (16-20x)": ((all_depths >= 16) & (all_depths <= 20)).sum(),
+                "Depth of Coverage (11-15x)": ((all_depths >= 11) & (all_depths <= 15)).sum(),
+                "Depth of Coverage (2-10x)": ((all_depths >= 2) & (all_depths <= 10)).sum(),
+                "Depth of Coverage (0-1x)": (all_depths <= 1).sum(),
+            }
 
-        for _, row in gene_bed_df.iterrows():
-            start = row['START']
-            end = row['END']
-            exon_depths = depth_df[(depth_df['POS'] >= start) & (depth_df['POS'] <= end)]['DEPTH']
-            gene_depths = pd.concat([gene_depths, exon_depths], ignore_index=True)
+            # Update the metrics dictionary
+            all_genes_metrics.update(depth_intervals)
+\end{minted}
+\caption{Calculating counts for specific depth intervals.}
+\label{lbl:metrics_intervals}
+\end{longlisting}
+
+Depth intervals allow the script to provide a more detailed analysis of coverage distribution, helping users understand the variability in sequencing coverage across different regions. For instance, regions with very low coverage (e.g., \texttt{0-1x}) may indicate problems with sequencing or alignment that need to be addressed.
+
+\subsubsection{9. Calculating Metrics for Each Gene}
+
+The script proceeds to calculate individual metrics for each gene. For each gene, it filters the BED DataFrame to extract the corresponding regions, and then accumulates depth values across all positions in those regions. Metrics such as average read depth, minimum and maximum read depths, and coverage percentages are calculated for each gene.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+]{python}
+            # Initialize dictionaries to hold gene and exon metrics
+            genes_data = {}
+            exons_data = {}
+            genes = bed_df['GENE'].unique()
+
+            for gene in genes:
+                # Initialize metrics for the gene
+                gene_metrics = initialize_metrics()
+                gene_bed_df = bed_df[bed_df['GENE'] == gene]
+
+                # Calculate Size Coding for the gene
+                gene_metrics['Size Coding'] = gene_bed_df['SIZE'].sum()
+
+                # Initialize a Series to hold depth values for the gene
+                gene_depths = pd.Series(dtype=float)
+
+                # Accumulate depth values for all exons in the gene
+                for _, row in gene_bed_df.iterrows():
+                    start = row['START']
+                    end = row['END']
+                    exon_depths = depth_df[
+                        (depth_df['POS'] >= start) & (depth_df['POS'] <= end)
+                    ]['DEPTH']
+                    gene_depths = pd.concat([gene_depths, exon_depths], ignore_index=True)
+
+                if len(gene_depths) > 0:
+                    # Calculate metrics for the gene
+                    gene_metrics['Average Read Depth'] = gene_depths.mean()
+                    gene_metrics['Min Read Depth'] = gene_depths.min()
+                    gene_metrics['Max Read Depth'] = gene_depths.max()
+                    gene_metrics['Size Covered'] = gene_depths.count()
+                    gene_metrics['Breadth of Coverage %'] = (
+                        gene_metrics['Size Covered'] / gene_metrics['Size Coding']
+                    ) * 100
+                else:
+                    # Set metrics to zero if no depth data is available
+                    gene_metrics['Average Read Depth'] = 0
+                    gene_metrics['Min Read Depth'] = 0
+                    gene_metrics['Max Read Depth'] = 0
+                    gene_metrics['Size Covered'] = 0
 \end{minted}
 \caption{Calculating metrics for each gene.}
-\label{lbl:metrics7}
+\label{lbl:metrics_gene}
 \end{longlisting}
+
+This gene-specific analysis allows the script to provide detailed metrics that are relevant for studying individual genes. These metrics can be used to assess whether particular genes have been sequenced sufficiently for downstream analyses, such as variant calling or expression analysis.
+
+\subsubsection{10. Calculating Depth of Coverage Percentages for Each Gene}
+
+As with the overall analysis, the script calculates depth of coverage percentages for each gene at various thresholds. This ensures that the analysis can identify specific genes that may have insufficient coverage for reliable variant calling or other analyses.
 
 \begin{longlisting}
 \begin{minted}[
@@ -627,25 +762,38 @@ For each gene, the function calculates individual metrics by iterating over the 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
-    for exon_name in gene_bed_df['EXON'].unique():
-        exon_metrics = initialize_metrics()
-        exon_bed_df = gene_bed_df[gene_bed_df['EXON'] == exon_name]
-        exon_depths = pd.Series(dtype=float)
-        exon_metrics['Size Coding'] = exon_bed_df['SIZE'].sum()
+]{python}
+                # Calculate coverage percentages for the gene
+                coverage_counts_gene = {
+                    threshold: (gene_depths >= threshold).sum() for threshold in coverage_thresholds
+                }
 
-        for _, row in exon_bed_df.iterrows():
-            start = row['START']
-            end = row['END']
-            exon_depths = pd.concat([exon_depths, depth_df[(depth_df['POS'] >= start) & (depth_df['POS'] <= end)]['DEPTH']], ignore_index=True)
+                for threshold in coverage_thresholds:
+                    gene_metrics[f"Depth of Coverage % ({threshold}x)"] = (
+                        coverage_counts_gene[threshold] / gene_metrics['Size Covered']
+                    ) * 100 if gene_metrics['Size Covered'] > 0 else 0
+
+                # Calculate depth intervals for the gene
+                depth_intervals_gene = {
+                    "Depth of Coverage (>500x)": (gene_depths > 500).sum(),
+                    "Depth of Coverage (101-500x)": ((gene_depths > 100) & (gene_depths <= 500)).sum(),
+                    # ... (other intervals)
+                }
+
+                gene_metrics.update(depth_intervals_gene)
+
+                # Store the gene metrics
+                genes_data[gene] = gene_metrics
 \end{minted}
-\caption{Calculating metrics for each exon.}
-\label{lbl:metrics8}
+\caption{Calculating depth percentages and intervals for each gene.}
+\label{lbl:metrics_gene_coverage}
 \end{longlisting}
 
-\subsubsection{\textbf{Final Output Structure}}
+This depth analysis for individual genes allows users to identify genes that may have insufficient coverage for downstream analysis, helping guide decisions about whether additional sequencing is needed.
 
-The final results are stored in a hierarchical structure. For each CRAM/BAM file, the function stores overall metrics for all genes, per-gene metrics, and per-exon metrics. These results are returned as a dictionary, which can be further processed or displayed in the Streamlit application (Code \ref{lbl:metrics9}).
+\subsubsection{11. Calculating Metrics for Each Exon}
+
+The script also calculates metrics for individual exons within each gene. By breaking down the analysis to the exon level, the script provides a finer level of detail that can be useful for studying specific exonic regions, especially in clinical or functional genomics applications.
 
 \begin{longlisting}
 \begin{minted}[
@@ -654,24 +802,107 @@ The final results are stored in a hierarchical structure. For each CRAM/BAM file
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
-    results[file_name]['All Genes'] = all_genes_metrics
-    results[file_name]['Genes'] = genes_data
-    results[file_name]['Exons'] = exons_data
+]{python}
+                # Initialize a dictionary to hold exon metrics for the gene
+                exon_data_for_gene = {}
+                
+                for exon_name in gene_bed_df['EXON'].unique():
+                    # Initialize metrics for the exon
+                    exon_metrics = initialize_metrics()
+                    exon_bed_df = gene_bed_df[gene_bed_df['EXON'] == exon_name]
+                    exon_depths = pd.Series(dtype=float)
+                    
+                    exon_metrics['Size Coding'] = exon_bed_df['SIZE'].sum()
+
+                    for _, row in exon_bed_df.iterrows():
+                        start = row['START']
+                        end = row['END']
+                        exon_depths = pd.concat([
+                            exon_depths,
+                            depth_df[(depth_df['POS'] >= start) & (depth_df['POS'] <= end)]['DEPTH']
+                        ], ignore_index=True)
+
+                    if len(exon_depths) > 0:
+                        # Calculate metrics for the exon
+                        exon_metrics['Average Read Depth'] = exon_depths.mean()
+                        exon_metrics['Min Read Depth'] = exon_depths.min()
+                        exon_metrics['Max Read Depth'] = exon_depths.max()
+                        exon_metrics['Size Covered'] = exon_depths.count()
+                        exon_metrics['Breadth of Coverage %'] = (
+                            exon_metrics['Size Covered'] / exon_metrics['Size Coding']
+                        ) * 100
+                    else:
+                        # Set metrics to zero if no depth data is available
+                        exon_metrics['Average Read Depth'] = 0
+                        exon_metrics['Min Read Depth'] = 0
+                        exon_metrics['Max Read Depth'] = 0
+                        exon_metrics['Size Covered'] = 0
+
+                    # Calculate coverage percentages and intervals for the exon
+                    coverage_counts_exon = {
+                        threshold: (exon_depths >= threshold).sum() for threshold in coverage_thresholds
+                    }
+
+                    for threshold in coverage_thresholds:
+                        exon_metrics[f"Depth of Coverage % ({threshold}x)"] = (
+                            coverage_counts_exon[threshold] / exon_metrics['Size Covered']
+                        ) * 100 if exon_metrics['Size Covered'] > 0 else 0
+
+                    depth_intervals_exon = {
+                        "Depth of Coverage (>500x)": (exon_depths > 500).sum(),
+                        # ... (other intervals)
+                    }
+
+                    exon_metrics.update(depth_intervals_exon)
+
+                    # Store the exon metrics under the gene
+                    exon_data_for_gene[exon_name] = exon_metrics
+
+                # Store all exon metrics for the gene
+                exons_data[gene] = exon_data_for_gene
+\end{minted}
+\caption{Calculating metrics for each exon within each gene.}
+\label{lbl:metrics_exon}
+\end{longlisting}
+
+This level of analysis is especially useful for pinpointing specific exons that may have insufficient coverage for accurate variant detection or expression analysis, which is critical in clinical settings where exonic variants can be associated with disease.
+
+\subsubsection{12. Compiling Final Results}
+
+Finally, the script compiles all the calculated metrics into a comprehensive results structure. This structure contains metrics for the entire set of genes combined, as well as per-gene and per-exon metrics. These results can then be used for visualization, reporting, or further analysis.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+]{python}
+            # Store the overall metrics, gene metrics, and exon metrics in the results
+            results[file_name]['All Genes'] = all_genes_metrics
+            results[file_name]['Genes'] = genes_data
+            results[file_name]['Exons'] = exons_data
 
     return results
 \end{minted}
 \caption{Storing and returning the calculated metrics.}
-\label{lbl:metrics9}
+\label{lbl:metrics_results}
 \end{longlisting}
+
+By organizing the results in this manner, the script ensures that all levels of detail are captured and made accessible for downstream processes, whether that involves visualizing coverage in Streamlit, exporting the data for further analysis, or integrating the metrics into a larger genomic pipeline.
+
+\subsubsection{13. Error Handling and Edge Cases}
+
+Throughout the script, careful attention is given to error handling and edge cases to ensure robustness. For example, the script checks for missing or incomplete data in the session state, handles division by zero errors when calculating percentages, and sets default values when no coverage data is available for a particular gene or exon.
 
 \subsection{Results Generation and Display Functionality}
 
-This section explains the \texttt{results.py} script, which is responsible for generating and displaying sequencing metrics using Streamlit. The script processes coverage data, organizes the results into tables, and provides functionality to download a PDF report. It dynamically handles multiple samples, allowing users to interactively select and filter metrics.
+This section explains the `results.py` script, which is responsible for generating and displaying sequencing metrics using Streamlit. The script processes coverage data, organizes the results into tables, provides functionality to download a PDF report, and dynamically handles multiple samples. It allows users to interactively select and filter metrics, enhancing the flexibility and user-friendliness of the genomic data analysis workflow.
 
-\subsubsection{\textbf{Initializing the Application and Displaying Logos}}
+\subsubsection{\textbf{Importing Necessary Libraries and Displaying Logos}}
 
-The script begins by importing necessary libraries, including Streamlit for the web interface, pandas for data manipulation, and WeasyPrint for generating PDF reports. Two logo images are displayed at the beginning of the app: one for the sidebar and another in the main body (Code \ref{lbl:results1}). Streamlit's \texttt{st.logo()} method is used to load and display these logos.
+The script begins by importing the necessary libraries and modules required for its operation (Code \ref{code:results-imports}). It imports standard libraries such as `pandas` for data manipulation, `numpy` for numerical operations, and `datetime` for handling date and time. It also imports custom components from the `components` package, which includes `metrics`, `plot`, and `session\_state` modules. Additionally, it imports `io` for input\/output operations and `weasyprint` for generating PDF reports. The `base64` module is used for encoding images for embedding in the PDF.
 
 \begin{longlisting}
 \begin{minted}[
@@ -680,30 +911,111 @@ The script begins by importing necessary libraries, including Streamlit for the 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
 import streamlit as st
 import pandas as pd
-from components import metrics
+from components import metrics, plot, session_state
 import numpy as np
 import io
 from weasyprint import HTML
 import base64
 import datetime
+\end{minted}
+\caption{Importing necessary libraries and modules for the script.}
+\label{code:results-imports}
+\end{longlisting}
 
+Next, the script defines the file paths for the sidebar and main body logos (Code \ref{code:results-logos}). These images are used to enhance the visual appeal of the application. The `st.logo()` function is utilized to display the logos within the Streamlit application. The `sidebar\_logo` is displayed in the sidebar, while the `main\_body\_logo` serves as the icon image.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+]{python}
 sidebar_logo = "data/img/unilabs_logo.png"
 main_body_logo = "data/img/thumbnail_image001.png"
-st.logo(sidebar_logo)
-st.logo(main_body_logo)
+st.logo(sidebar_logo, icon_image=main_body_logo)
 
 st.title("Results")
 \end{minted}
-\caption{Initializing the Streamlit app and displaying logos.}
-\label{lbl:results1}
+\caption{Defining logo file paths and displaying them in the application.}
+\label{code:results-logos}
 \end{longlisting}
+
+\subsubsection{\textbf{Defining Metric Filters and Helper Functions}}
+
+The script defines helper functions to facilitate the interactive selection and filtering of metrics displayed to the user. The `render\_metric\_filters` function is responsible for rendering the metric filters within a popover UI element (Code \ref{code:results-render-metric-filters}). It uses Streamlit's `st.popover` to create a popover window where users can select which metrics to display.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+]{python}
+@st.fragment
+def render_metric_filters(tab_name, metrics_dict):
+    with st.popover("Filters"):
+        st.subheader("Select Metrics to Display")
+
+        # Verifies if all metrics are selected
+        all_selected = all(
+            st.session_state.get(f"{tab_name}_metric_{metric}", False)
+            for metrics_list in metrics_dict.values()
+            for metric in metrics_list
+        )
+
+        # Button to select/deselect all metrics
+        if st.button("Select All" if not all_selected else "Deselect All", key=f"{tab_name}_select_all"):
+            select_all_metrics(not all_selected, metrics_dict, tab_name)
+            st.rerun()
+
+        # Divide the UI into 3 columns
+        col1, col2, col3 = st.columns(3)
+        metrics_keys = list(metrics_dict.keys())
+
+        # Display the metrics within the columns
+        for i, section in enumerate(metrics_keys):
+            with [col1, col2, col3][i % 3]:
+                st.write(f"**{section}**")
+                for metric in metrics_dict[section]:
+                    st.checkbox(metric, key=f"{tab_name}_metric_{metric}")
+\end{minted}
+\caption{Defining the `render\_metric\_filters` function for metric selection.}
+\label{code:results-render-metric-filters}
+\end{longlisting}
+
+This function first checks if all metrics are selected by iterating over the metrics in `metrics\_dict` and checking their corresponding values in `st.session\_state`. It then provides a button to select or deselect all metrics. The metrics are displayed in three columns for better readability, and each metric is represented as a checkbox.
+
+Another helper function, `select\_all\_metrics`, is defined to handle the selection or deselection of all metrics (Code \ref{code:results-select-all-metrics}). This function updates the `st.session\_state` for each metric to reflect the user's choice.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+]{python}
+def select_all_metrics(select_all, metrics_dict, key_prefix):
+    """Function to select or deselect all metrics."""
+    for section, metrics_list in metrics_dict.items():
+        for metric in metrics_list:
+            st.session_state[f"{key_prefix}_metric_{metric}"] = select_all
+\end{minted}
+\caption{Defining the `select\_all\_metrics` function to toggle metric selection.}
+\label{code:results-select-all-metrics}
+\end{longlisting}
+
+These helper functions enhance the user experience by providing an intuitive interface for metric selection.
 
 \subsubsection{\textbf{Defining the Desired Metrics Order}}
 
-The next step is to define the desired order for displaying metrics. This order ensures consistency across different DataFrames for genes and exons, listing metrics like "Size Coding", "Average Read Depth", and several coverage thresholds (Code \ref{lbl:results2}). 
+To ensure consistency in the presentation of metrics across different DataFrames, the script defines a list `desired\_order` that specifies the order in which metrics should appear (Code \ref{code:results-desired-order}). This list includes various coverage metrics and thresholds that are relevant for genomic data analysis.
 
 \begin{longlisting}
 \begin{minted}[
@@ -712,22 +1024,26 @@ The next step is to define the desired order for displaying metrics. This order 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+# Desired order of metrics
 desired_order = [
-    'Size Coding', 'Size Covered', 'Average Read Depth', 'Min Read Depth', 'Max Read Depth',
-    'Coverage (0-1x)', 'Coverage (2-10x)', 'Coverage (11-15x)', 'Coverage (16-20x)',
-    'Coverage (21-30x)', 'Coverage (31-50x)', 'Coverage (51-100x)', 'Coverage (101-500x)', 'Coverage (>500x)',
-    'Coverage % (1x)', 'Coverage % (10x)', 'Coverage % (15x)', 'Coverage % (20x)',
-    'Coverage % (30x)', 'Coverage % (50x)', 'Coverage % (100x)', 'Coverage % (500x)'
+    'Size Coding', 'Size Covered', 'Breadth of Coverage %', 'Average Read Depth', 'Min Read Depth', 'Max Read Depth',
+    'Depth of Coverage (0-1x)', 'Depth of Coverage (2-10x)', 'Depth of Coverage (11-15x)', 'Depth of Coverage (16-20x)',
+    'Depth of Coverage (21-30x)', 'Depth of Coverage (31-50x)', 'Depth of Coverage (51-100x)',
+    'Depth of Coverage (101-500x)', 'Depth of Coverage (>500x)',
+    'Depth of Coverage % (1x)', 'Depth of Coverage % (10x)', 'Depth of Coverage % (15x)', 'Depth of Coverage % (20x)',
+    'Depth of Coverage % (30x)', 'Depth of Coverage % (50x)', 'Depth of Coverage % (100x)', 'Depth of Coverage % (500x)'
 ]
 \end{minted}
-\caption{Defining the desired metrics order.}
-\label{lbl:results2}
+\caption{Defining the desired metrics order for display.}
+\label{code:results-desired-order}
 \end{longlisting}
 
-\subsubsection{\textbf{Calling the Metrics Calculation Function}}
+This ordered list is used later in the script when constructing DataFrames to display metrics in the specified sequence.
 
-The script calls the \texttt{calculate\_metrics()} function, defined in the \texttt{metrics} module, to compute sequencing coverage metrics for one or multiple samples. The results are stored in a dictionary, with the sample file names as keys (Code \ref{lbl:results3}). Each file contains metrics for one or multiple genes individually and together, and exons.
+\subsubsection{\textbf{Calculating Metrics and Preparing DataFrames}}
+
+The script calls the `calculate\_metrics()` function from the `metrics` module to compute sequencing coverage metrics for one or multiple samples (Code \ref{code:results-calculate-metrics}). The results are stored in a dictionary, where each key corresponds to a sample file name, and the value is another dictionary containing metrics for that sample.
 
 \begin{longlisting}
 \begin{minted}[
@@ -736,17 +1052,16 @@ The script calls the \texttt{calculate\_metrics()} function, defined in the \tex
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+# Call the calculate_metrics function and store results for multiple depth files
 results = metrics.calculate_metrics()
 file_names = list(results.keys())
 \end{minted}
-\caption{Calling the \texttt{calculate\_metrics()} function to retrieve results.}
-\label{lbl:results3}
+\caption{Calculating metrics and obtaining results for samples.}
+\label{code:results-calculate-metrics}
 \end{longlisting}
 
-\subsubsection{\textbf{Preparing the All Genes DataFrame}}
-
-To display metrics for all genes, the script constructs a DataFrame. The column \texttt{Metric} lists the metric names from \texttt{desired\_order}, and each subsequent column corresponds to a sample file. For each sample, the metrics values are extracted from the results dictionary (Code \ref{lbl:results4}). This table allows users to view metrics for all genes combined across multiple samples.
+To display metrics for all genes combined, the script constructs a DataFrame `all\_genes\_df` (Code \ref{code:results-all-genes-df}). It first creates a list `all\_metrics` that includes an additional metric 'Average Read Depth (Gene Weighted)' inserted at the fourth position. It then initializes the DataFrame with a 'Metric' column containing the metrics from `all\_metrics`. For each sample, it extracts the corresponding metrics from the results dictionary and adds them as columns in the DataFrame.
 
 \begin{longlisting}
 \begin{minted}[
@@ -755,7 +1070,8 @@ To display metrics for all genes, the script constructs a DataFrame. The column 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+# Prepare All Genes DataFrame
 all_metrics = desired_order
 all_metrics.insert(3, 'Average Read Depth (Gene Weighted)')
 all_genes_df = pd.DataFrame({'Metric': all_metrics})
@@ -765,13 +1081,11 @@ for file_key in results:
     metrics_values = [all_genes_metrics.get(metric, np.nan) for metric in all_metrics]
     all_genes_df[file_key] = metrics_values
 \end{minted}
-\caption{Constructing the DataFrame for all genes metrics.}
-\label{lbl:results4}
+\caption{Preparing the DataFrame for all genes metrics.}
+\label{code:results-all-genes-df}
 \end{longlisting}
 
-\subsubsection{\textbf{Preparing the Genes DataFrames}}
-
-The script creates individual DataFrames for each gene by iterating over the results for all samples. First, a set of all genes is compiled. For each gene, the corresponding metrics are extracted from each sample and stored in a DataFrame. The resulting DataFrames are stored in a dictionary for easy access (Code \ref{lbl:results5}).
+For gene-level metrics, the script compiles a set of all genes present in the results and creates individual DataFrames for each gene (Code \ref{code:results-genes-dfs}). It iterates over the list of genes, initializes a DataFrame for each, and populates it with metrics from each sample.
 
 \begin{longlisting}
 \begin{minted}[
@@ -780,7 +1094,8 @@ The script creates individual DataFrames for each gene by iterating over the res
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+# Prepare Genes DataFrames
 all_genes_set = set()
 for file_key in results:
     genes = results[file_key].get('Genes', {}).keys()
@@ -797,12 +1112,10 @@ for gene in genes_list:
     genes_dfs[gene] = gene_metrics_df
 \end{minted}
 \caption{Preparing individual DataFrames for each gene.}
-\label{lbl:results5}
+\label{code:results-genes-dfs}
 \end{longlisting}
 
-\subsubsection{\textbf{Preparing the Exons DataFrames}}
-
-The script handles exon-level metrics similarly to gene-level metrics. For each gene, a set of exons is compiled, and DataFrames are created for each exon across all samples. These DataFrames are stored in a nested dictionary, where the outer key is the gene name and the inner key is the exon name (Code \ref{lbl:results6}).
+Similarly, for exon-level metrics, the script prepares DataFrames for each exon within each gene (Code \ref{code:results-exons-dfs}). It constructs a nested dictionary `exons\_dfs`, where the keys are gene names, and the values are dictionaries of exon DataFrames.
 
 \begin{longlisting}
 \begin{minted}[
@@ -811,7 +1124,8 @@ The script handles exon-level metrics similarly to gene-level metrics. For each 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+# Prepare Exons DataFrames
 exons_dfs = {}
 for gene in genes_list:
     exons_dfs[gene] = {}
@@ -830,12 +1144,14 @@ for gene in genes_list:
         exons_dfs[gene][exon] = exon_metrics_df
 \end{minted}
 \caption{Preparing DataFrames for exon-level metrics.}
-\label{lbl:results6}
+\label{code:results-exons-dfs}
 \end{longlisting}
 
-\subsubsection{\textbf{Downloading the Report}}
+These DataFrames are used later to display metrics in the application and generate reports.
 
-In the report generation section, users are provided with an option to select a sample and download a PDF report. The current date and time are included in the report, and the metrics for the selected sample are added to the HTML content. WeasyPrint is used to convert the HTML string into a PDF file, which users can download (Code \ref{lbl:results7}).
+\subsubsection{\textbf{Generating and Downloading the PDF Report}}
+
+The script includes functionality to generate a PDF report of the metrics for a selected sample. It uses WeasyPrint to convert HTML content into a PDF. The report includes the Unilabs logo, the report generation date, and the metrics tables for the selected sample (Code \ref{code:results-generate-report}).
 
 \begin{longlisting}
 \begin{minted}[
@@ -844,50 +1160,103 @@ In the report generation section, users are provided with an option to select a 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+# Download Report section
 with st.status("Building the report...")as status:
     if len(file_names) > 1:
+        # If there are multiple samples, allow the user to select one
         selected_sample = st.selectbox("Select Sample", file_names)
     else:
+        # If there's only one sample, select it by default
         selected_sample = file_names[0]
-    
+        
+        st.write(f'Download {selected_sample} report file (.pdf)')
+    # Generate PDF report for the selected sample
+    # Get the current date and time
     report_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
+    # Build an HTML string
     html_content = """
     <html>
     <head>
-    <style>...</style>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 10pt;
+    }
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #dddddd;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    h2, h3 {
+        color: #2F5496;
+    }
+    </style>
     </head>
     <body>
     """
-    
+    # Add Unilabs logo
+    # Encode the logo image to base64
     with open(sidebar_logo, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode()
     html_content += f'<img src="data:image/png;base64,{encoded_string}" alt="Unilabs Logo" style="width:200px;"><br><br>'
+    # Add report generation date
     html_content += f'<p>Report generated on: {report_date}</p>'
+    # Add Overview DataFrame for the selected sample
     html_content += f'<h2>Overview - Sample: {selected_sample}</h2>'
-    
-    overview_df = all_genes_df[['Metric', selected_sample]]
-    html_content += overview_df.to_html(index=False)
-    
+    if st.session_state.analysis in ['Gene Panel']:
+        html_content += f'<p>Gene Panel: {st.session_state.panel_name}</p>'
+        overview_df = all_genes_df[['Metric', selected_sample]]
+        html_content += overview_df.to_html(index=False)
+    if st.session_state.analysis in ['Exome']:
+        html_content += f'<p>Exome</p>'
+        overview_df = all_genes_df[['Metric', selected_sample]]
+        html_content += overview_df.to_html(index=False)
+    elif st.session_state.analysis in ['Single Gene']:
+        # Add Gene DataFrames for the selected sample
+        for gene_name, gene_df in genes_dfs.items():
+            gene_sample_df = gene_df[['Metric', selected_sample]]
+            if gene_sample_df[selected_sample].notna().any():
+                html_content += f'<h2>Gene: {gene_name}</h2>'
+                html_content += gene_sample_df.to_html(index=False)
+        # Add Exon DataFrames for the selected sample
+        for gene_name, exons_dict in exons_dfs.items():
+            for exon_name, exon_df in exons_dict.items():
+                exon_sample_df = exon_df[['Metric', selected_sample]]
+                if exon_sample_df[selected_sample].notna().any():
+                    html_content += f'<h3>Exon: {exon_name} (Gene: {gene_name})</h3>'
+                    html_content += exon_sample_df.to_html(index=False)
     html_content += '</body></html>'
+    # Convert HTML to PDF using WeasyPrint
     html_obj = HTML(string=html_content)
     pdf_bytes = html_obj.write_pdf()
-
+    status.update(label="Generating PDF...")
+    # Provide download button
     st.download_button(
         label="Download",
         data=pdf_bytes,
         file_name=f'report_{selected_sample}.pdf',
         mime='application/pdf'
     )
+    status.update(label="Report ready for download", expanded=True)
 \end{minted}
-\caption{Generating and downloading a PDF report.}
-\label{lbl:results7}
+\caption{Generating and downloading a PDF report for the selected sample.}
+\label{code:results-generate-report}
 \end{longlisting}
 
-\subsubsection{\textbf{Displaying Tabs for Metrics}}
+In this code, the script checks the number of samples and allows the user to select one if multiple samples are present. It then builds an HTML string that includes styling, the logo, the report date, and the metrics tables. The HTML content is converted to a PDF, and a download button is provided for the user to save the report.
 
-The script determines which tabs to display based on the type of analysis (gene panel, single gene, or exome). It dynamically creates tabs for "Overview", "Gene Detail", and "Exon Detail" depending on the analysis type. Within each tab, users can filter and display metrics using checkboxes (Code \ref{lbl:results8} and \ref{lbl:results9}).
+\subsubsection{\textbf{Creating Tabs Based on Analysis Type}}
+
+The script determines which tabs to display based on the type of analysis stored in `st.session\_state.analysis` (Code \ref{code:results-create-tabs}). It supports analysis types such as 'Gene Panel', 'Single Gene', and 'Exome'. Depending on the analysis type, it creates appropriate tabs like "Overview", "Gene Detail", and "Exon Detail".
 
 \begin{longlisting}
 \begin{minted}[
@@ -896,7 +1265,8 @@ The script determines which tabs to display based on the type of analysis (gene 
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
+# Determine which tabs to display based on st.session_state.analysis
 if st.session_state.analysis == 'Gene Panel':
     tab_names = ["Overview", "Gene Detail", "Exon Detail"]
 elif st.session_state.analysis in ['Single Gene', 'Exome']:
@@ -905,14 +1275,21 @@ else:
     st.warning("Unsupported analysis type.")
     tab_names = []
 
+# Create the tabs
 tabs = st.tabs(tab_names)
+
+# Map tab names to tab objects for easy reference
 tab_dict = dict(zip(tab_names, tabs))
 \end{minted}
-\caption{Creating tabs for gene and exon metrics.}
-\label{lbl:results8}
+\caption{Creating tabs based on the type of analysis.}
+\label{code:results-create-tabs}
 \end{longlisting}
 
-Each tab contains a popover filter for selecting metrics to display. Users can select or deselect all metrics using a button, and the displayed DataFrame is updated based on the selected metrics (Code \ref{lbl:results9}).
+This dynamic tab creation ensures that the application displays relevant information based on the user's analysis context.
+
+\subsubsection{\textbf{Displaying Metrics in the "Overview" Tab}}
+
+In the "Overview" tab, the script displays general information such as the report date, the analyzed files, and the gene panel name (Code \ref{code:results-overview-tab}). It uses the `render\_metric\_filters` function to allow users to select which metrics to display. The filtered DataFrame is then displayed using `st.dataframe`.
 
 \begin{longlisting}
 \begin{minted}[
@@ -921,63 +1298,60 @@ Each tab contains a popover filter for selecting metrics to display. Users can s
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
-def select_all_metrics(select_all, metrics_dict, key_prefix):
-    """Function to select or deselect all metrics."""
-    for section, metrics_list in metrics_dict.items():
-        for metric in metrics_list:
-            st.session_state[f"{key_prefix}_metric_{metric}"] = select_all
-
+]{python}
 if "Overview" in tab_dict:
     with tab_dict["Overview"]:
         st.write(f"Date: {report_date}")
+        st.write(f"Analyzing file(s): {file_names}")
         st.write(f"Gene Panel: {st.session_state.panel_name}")
 
-        metrics_dict = {
-            "Basic Information": ["Average Read Depth", 'Average Read Depth (Gene Weighted)', "Size Coding", "Size Covered"],
-            "Coverage": ["Coverage (0-1x)", "Coverage (2-10x)", "Coverage (11-15x)", "Coverage (16-20x)", "Coverage (21-30x)", "Coverage (31-50x)", "Coverage (51-100x)", "Coverage (101-500x)", 'Coverage (>500x)'],
-            "Coverage Percentage": ["Coverage % (1x)", "Coverage % (10x)", "Coverage % (15x)", "Coverage % (20x)", "Coverage % (30x)", "Coverage % (50x)", "Coverage % (100x)", "Coverage % (500x)"]
-        }
+        if st.session_state.analysis in ['Gene Panel', 'Exome']:
+            
+            with st.container():
+                # Use 'metrics_dict' instead of 'columns' to represent the metrics
+                metrics_dict = {
+                    "Basic Information": ["Average Read Depth", "Size Coding", "Size Covered",'Breadth of Coverage %', 'Min Read Depth','Max Read Depth'],
+                    "Depth of Coverage": ["Depth of Coverage (0-1x)", "Depth of Coverage (2-10x)", "Depth of Coverage (11-15x)", "Depth of Coverage (16-20x)",
+                                 "Depth of Coverage (21-30x)", "Depth of Coverage (31-50x)", "Depth of Coverage (51-100x)", "Depth of Coverage (101-500x)", 'Depth of Coverage (>500x)'],
+                    "Depth of Coverage Percentage": ["Depth of Coverage % (1x)", "Depth of Coverage % (10x)", "Depth of Coverage % (15x)", "Depth of Coverage % (20x)",
+                                            "Depth of Coverage % (30x)", "Depth of Coverage % (50x)", "Depth of Coverage % (100x)", "Depth of Coverage % (500x)"]
+                }
 
-        with st.popover("Filters"):
-            st.subheader("Select Metrics to Display")
+                # Initialize checkboxes as selected by default if not in session state
+                for category in metrics_dict:
+                    for metric in metrics_dict[category]:
+                        if f"tab1_metric_{metric}" not in st.session_state:
+                            st.session_state[f"tab1_metric_{metric}"] = True
 
-            all_selected = all(
-                st.session_state.get(f"tab1_metric_{metric}", False)
-                for metrics_list in metrics_dict.values()
-                for metric in metrics_list
-            )
+                render_metric_filters("tab1", metrics_dict)
 
-            if st.button("Select All" if not all_selected else "Deselect All", key="tab1_select_all"):
-                select_all_metrics(not all_selected, metrics_dict, "tab1")
-                st.experimental_rerun()
+                # Selecting checked metrics
+                selected_metrics = [
+                    metric
+                    for metrics_list in metrics_dict.values()
+                    for metric in metrics_list
+                    if st.session_state.get(f"tab1_metric_{metric}", False)
+                ]
+                final_metrics = ['Metric'] + [col for col in all_genes_df.columns if col != 'Metric']
+                metrics_df = all_genes_df[all_genes_df['Metric'].isin(selected_metrics)].reset_index(drop=True)
 
-            col1, col2, col3 = st.columns(3)
-            metrics_keys = list(metrics_dict.keys())
-
-            for i, section in enumerate(metrics_keys):
-                with [col1, col2, col3][i % 3]:
-                    st.write(f"**{section}**")
-                    for metric in metrics_dict[section]:
-                        st.checkbox(metric, key=f"tab1_metric_{metric}")
-
-        selected_metrics = [
-            metric
-            for metrics_list in metrics_dict.values()
-            for metric in metrics_list
-            if st.session_state.get(f"tab1_metric_{metric}", False)
-        ]
-
-        metrics_df = all_genes_df[all_genes_df['Metric'].isin(selected_metrics)].reset_index(drop=True)
-        st.dataframe(metrics_df, hide_index=True, height=738, width=800)
+                # Display the DataFrame
+                st.dataframe(metrics_df[final_metrics], hide_index=True, height=842, width=800)
+                if st.session_state.analysis in ['Gene Panel', 'Exome']:
+                    if len(st.session_state.region) < 3:
+                        plot.display_graphs()
+                    else:
+                        st.info("The plot was not generated due to the large volume of data")
 \end{minted}
 \caption{Displaying metrics in the "Overview" tab with filters.}
-\label{lbl:results9}
+\label{code:results-overview-tab}
 \end{longlisting}
 
-\subsubsection{\textbf{Gene Detail and Exon Detail Tabs}}
+In this code, the script initializes metric checkboxes in the session state if they are not already set. It then renders the metric filters and displays the DataFrame containing the selected metrics. It also handles plotting, displaying a message if the data volume is too large.
 
-The "Gene Detail" and "Exon Detail" tabs allow users to select a gene or exon and view the corresponding metrics. The same popover filter system used in the "Overview" tab is applied here to allow filtering of metrics. The script iterates through the list of genes or exons, and users can select the desired gene or exon to view detailed metrics (Code \ref{lbl:results10} and \ref{lbl:results11}).
+\subsubsection{\textbf{Displaying Metrics in the "Gene Detail" Tab}}
+
+In the "Gene Detail" tab, users can select a gene from a dropdown menu and view detailed metrics for that gene (Code \ref{code:results-gene-detail-tab}). The script uses the same metric filtering mechanism as in the "Overview" tab.
 
 \begin{longlisting}
 \begin{minted}[
@@ -986,7 +1360,7 @@ The "Gene Detail" and "Exon Detail" tabs allow users to select a gene or exon an
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
 if "Gene Detail" in tab_dict:
     with tab_dict["Gene Detail"]:
         st.write(f"Date: {report_date}")
@@ -999,10 +1373,13 @@ if "Gene Detail" in tab_dict:
                 gene = st.selectbox("Select Gene", genes_list, key="gene_selectbox")
                 gene_metrics_df = genes_dfs[gene]
 
+                # Filters for tab2
                 metrics_dict = {
-                    "Basic Information": ["Average Read Depth", "Size Coding", "Size Covered"],
-                    "Coverage": ["Coverage (0-1x)", "Coverage (2-10x)", "Coverage (11-15x)", "Coverage (16-20x)", "Coverage (21-30x)", "Coverage (31-50x)", "Coverage (51-100x)", "Coverage (101-500x)", 'Coverage (>500x)'],
-                    "Coverage Percentage": ["Coverage % (1x)", "Coverage % (10x)", "Coverage % (15x)", "Coverage % (20x)", "Coverage % (30x)", "Coverage % (50x)", "Coverage % (100x)", "Coverage % (500x)"]
+                    "Basic Information": ["Average Read Depth", "Size Coding", "Size Covered",'Breadth of Coverage %', 'Min Read Depth','Max Read Depth'],
+                    "Depth of Coverage": ["Depth of Coverage (0-1x)", "Depth of Coverage (2-10x)", "Depth of Coverage (11-15x)", "Depth of Coverage (16-20x)",
+                                 "Depth of Coverage (21-30x)", "Depth of Coverage (31-50x)", "Depth of Coverage (51-100x)", "Depth of Coverage (101-500x)", 'Depth of Coverage (>500x)'],
+                    "Depth of Coverage Percentage": ["Depth of Coverage % (1x)", "Depth of Coverage % (10x)", "Depth of Coverage % (15x)", "Depth of Coverage % (20x)",
+                                            "Depth of Coverage % (30x)", "Depth of Coverage % (50x)", "Depth of Coverage % (100x)", "Depth of Coverage % (500x)"]
                 }
 
                 for category in metrics_dict:
@@ -1010,42 +1387,32 @@ if "Gene Detail" in tab_dict:
                         if f"tab2_metric_{metric}" not in st.session_state:
                             st.session_state[f"tab2_metric_{metric}"] = True
 
-                with st.popover("Filters"):
-                    st.subheader("Select Metrics to Display")
+                render_metric_filters("tab2", metrics_dict)
 
-                    all_selected = all(
-                        st.session_state.get(f"tab2_metric_{metric}", False)
-                        for metrics_list in metrics_dict.values()
-                        for metric in metrics_list
-                    )
-
-                    if st.button("Select All" if not all_selected else "Deselect All", key="tab2_select_all"):
-                        select_all_metrics(not all_selected, metrics_dict, "tab2")
-                        st.experimental_rerun()
-
-                    col1, col2, col3 = st.columns(3)
-                    metrics_keys = list(metrics_dict.keys())
-
-                    for i, section in enumerate(metrics_keys):
-                        with [col1, col2, col3][i % 3]:
-                            st.write(f"**{section}**")
-                            for metric in metrics_dict[section]:
-                                st.checkbox(metric, key=f"tab2_metric_{metric}")
-
+                # Filter the DataFrame based on selected metrics
                 selected_metrics = [
                     metric
                     for metrics_list in metrics_dict.values()
                     for metric in metrics_list
                     if st.session_state.get(f"tab2_metric_{metric}", False)
                 ]
-
                 df = gene_metrics_df[gene_metrics_df['Metric'].isin(selected_metrics)].reset_index(drop=True)
                 final_metrics = ['Metric'] + [col for col in df.columns if col != 'Metric']
-                st.dataframe(df[final_metrics], hide_index=True, height=738, width=800)
+
+                # Display the DataFrame
+                st.dataframe(df[final_metrics], hide_index=True, height=842, width=800)
+                if st.session_state.analysis in ['Single Gene']:
+                    plot.display_graphs()
 \end{minted}
 \caption{Displaying metrics in the "Gene Detail" tab with filters.}
-\label{lbl:results10}
+\label{code:results-gene-detail-tab}
 \end{longlisting}
+
+The script ensures that only relevant genes are displayed and provides a similar filtering interface for selecting metrics.
+
+\subsubsection{\textbf{Displaying Metrics in the "Exon Detail" Tab}}
+
+In the "Exon Detail" tab, users can select a gene and then an exon to view detailed metrics for that exon (Code \ref{code:results-exon-detail-tab}). The script ensures that exons are associated with the selected gene and uses the metric filtering mechanism.
 
 \begin{longlisting}
 \begin{minted}[
@@ -1054,7 +1421,7 @@ if "Gene Detail" in tab_dict:
     bgcolor=LightGray,
     fontsize=\footnotesize,
     linenos
-    ]{python}
+]{python}
 if "Exon Detail" in tab_dict:
     with tab_dict["Exon Detail"]:
         st.write(f"Date: {report_date}")
@@ -1072,10 +1439,13 @@ if "Exon Detail" in tab_dict:
                     exon = st.selectbox("Select Exon", exons_list, key="exon_selectbox")
                     exon_metrics_df = exons_dfs[gene][exon]
 
+                    # Filters for tab3
                     metrics_dict = {
-                        "Basic Information": ["Average Read Depth", "Size Coding", "Size Covered"],
-                        "Coverage": ["Coverage (0-1x)", "Coverage (2-10x)", "Coverage (11-15x)", "Coverage (16-20x)", "Coverage (21-30x)", "Coverage (31-50x)", "Coverage (51-100x)", "Coverage (101-500x)", 'Coverage (>500x)'],
-                        "Coverage Percentage": ["Coverage % (1x)", "Coverage % (10x)", "Coverage % (15x)", "Coverage % (20x)", "Coverage % (30x)", "Coverage % (50x)", "Coverage % (100x)", "Coverage % (500x)"]
+                        "Basic Information": ["Average Read Depth", "Size Coding", "Size Covered",'Breadth of Coverage %', 'Min Read Depth','Max Read Depth'],
+                        "Depth of Coverage": ["Depth of Coverage (0-1x)", "Depth of Coverage (2-10x)", "Depth of Coverage (11-15x)", "Depth of Coverage (16-20x)",
+                                     "Depth of Coverage (21-30x)", "Depth of Coverage (31-50x)", "Depth of Coverage (51-100x)", "Depth of Coverage (101-500x)", 'Depth of Coverage (>500x)'],
+                        "Depth of Coverage Percentage": ["Depth of Coverage % (1x)", "Depth of Coverage % (10x)", "Depth of Coverage % (15x)", "Depth of Coverage % (20x)",
+                                                "Depth of Coverage % (30x)", "Depth of Coverage % (50x)", "Depth of Coverage % (100x)", "Depth of Coverage % (500x)"]
                     }
 
                     for category in metrics_dict:
@@ -1083,45 +1453,25 @@ if "Exon Detail" in tab_dict:
                             if f"tab3_metric_{metric}" not in st.session_state:
                                 st.session_state[f"tab3_metric_{metric}"] = True
 
-                    with st.popover("Filters"):
-                        st.subheader("Select Metrics to Display")
+                    render_metric_filters("tab3", metrics_dict)
 
-                        all_selected = all(
-                            st.session_state.get(f"tab3_metric_{metric}", False)
-                            for metrics_list in metrics_dict.values()
-                            for metric in metrics_list
-                        )
-
-                        if st.button("Select All" if not all_selected else "Deselect All", key="tab3_select_all"):
-                            select_all_metrics(not all_selected, metrics_dict, "tab3")
-                            st.experimental_rerun()
-
-                        col1, col2, col3 = st.columns(3)
-                        metrics_keys = list(metrics_dict.keys())
-
-                        for i, section in enumerate(metrics_keys):
-                            with [col1, col2, col3][i % 3]:
-                                st.write(f"**{section}**")
-                                for metric in metrics_dict[section]:
-                                    st.checkbox(metric, key=f"tab3_metric_{metric}")
-
+                    # Filter the DataFrame based on selected metrics
                     selected_metrics = [
                         metric
                         for metrics_list in metrics_dict.values()
                         for metric in metrics_list
                         if st.session_state.get(f"tab3_metric_{metric}", False)
                     ]
-
                     df = exon_metrics_df[exon_metrics_df['Metric'].isin(selected_metrics)].reset_index(drop=True)
                     final_metrics = ['Metric'] + [col for col in df.columns if col != 'Metric']
-                    st.dataframe(df[final_metrics], hide_index=True, height=738, width=800)
+
+                    # Display the DataFrame
+                    st.dataframe(df[final_metrics], hide_index=True, height=842, width=800)
 \end{minted}
 \caption{Displaying metrics in the "Exon Detail" tab with filters.}
-\label{lbl:results11}
+\label{code:results-exon-detail-tab}
 \end{longlisting}
 
-
-
-
+This code segment ensures that users can drill down to exon-level details, providing a comprehensive view of the sequencing metrics.
 
 \section{Deployment}
