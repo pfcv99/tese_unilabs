@@ -5,51 +5,94 @@
     "The only source of knowledge is experience." - Albert Einstein
 \end{introduction}
 
+This chapter delves into a critical evaluation of the genomic analysis software developed during this project. It explores how the software stands within the broader landscape of bioinformatics and genomics, providing insights into its potential future directions. Additionally, the chapter discusses key optimizations undertaken to improve performance and efficiency, alongside the broader impact the software may have on the company. By analyzing both the internal and external factors affecting the software's development, this discussion highlights the strategic decisions made and their implications for future growth and refinement.
 
-\section{\acs{swot} Analysis} \label{sec:intro_swot}
+\section{\acs{SWOT} Analysis} \label{sec:intro_swot}
 
-During the development of the genomic analysis software, a \ac{swot} analysis was performed to assess its strategic positioning. The analysis identified internal strengths, weaknesses, and external opportunities and threats within bioinformatics and genomics. Figure \ref{fig:swot} summarize the key findings, outlining crucial elements that guided the software's development and deployment.
+During the development of the genomic analysis software, a \ac{SWOT} analysis was conducted to evaluate its strategic position in the field of bioinformatics and genomics. This analysis provided a comprehensive overview of the internal strengths and weaknesses, as well as the external opportunities and threats. The insights gained from this process helped guide the development and deployment of the software. The following subsections detail each component of the \ac{SWOT} analysis.
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
-% \usepackage[table,xcdraw]{xcolor}
-% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
-% \usepackage[table,xcdraw]{xcolor}
-% Beamer presentation requires \usepackage{colortbl} instead of \usepackage[table,xcdraw]{xcolor}
-\begin{table}[]
-    \centering
-    \caption{}
-    \label{tab:swot}
-    \begin{tabular}{p{\textwidth}}
-    \rowcolor[HTML]{BECB2F} 
-    \textbf{Strengths} \\ 
-    \textbf{1.} Advanced bioinformatics and genomics concepts were applied in the development of an independent software for essential genomic analysis metrics, such as vertical and horizontal sequencing depth, ensuring compliance with NGS guidelines. \\
-    \textbf{2.} The use of advanced technologies like WSL, Anaconda, Conda, Git, GitHub, Streamlit, and Python ensures robust and efficient development. The software features a user-friendly interface, making it accessible to all users, including those without bioinformatics expertise. \\
-    \textbf{3.} Git and GitHub enable code sharing, ensuring traceability and reproducibility, while Anaconda and Conda create an isolated and reproducible environment for managing packages and dependencies. \\ \\
-    \rowcolor[HTML]{F7AC00} 
-    \textbf{Weaknesses} \\ 
-    \textbf{1.} The requirement for WSL and a Linux environment may limit accessibility for users unfamiliar with these technologies. \\
-    \textbf{2.} While the graphical interface is intuitive, it may not suffice for advanced users who prefer command-line tools for analysis. \\
-    \textbf{3.} The initial setup of the development environment involves multiple steps and requires a solid understanding of the tools, which can be a barrier for less experienced users. \\
-    \textbf{4.} Comparing and validating metrics obtained by the new software with other tools is essential, but ensuring consistent and comparable results can be challenging. \\ \\
-    \rowcolor[HTML]{5CB195} 
-    \textbf{Oportunities} \\ 
-    \textbf{1.} The software can be expanded to include other important genomic analysis metrics. \\
-    \textbf{2.} Unilabs could promote internal use, establishing it as the standard tool for metric analysis. \\
-    \textbf{3.} Releasing the software as an open-source solution could attract a community of developers and users to contribute to its continuous improvement. \\
-    \textbf{4.} The rapid evolution of sequencing technologies and data analysis offers opportunities to continuously enhance and update the tool with new advancements and algorithms. \\ \\
-    \rowcolor[HTML]{E7422F} 
-    \textbf{Threats} \\ 
-    \textbf{1.} Several established tools and platforms in the market offer similar functionalities, which may hinder the adoption of the new software. \\
-    \textbf{2.} Competing with robust commercial software that offers extensive support can be challenging. \\
-    \textbf{3.} The rapid evolution of sequencing technologies and data analysis could render some features obsolete or require frequent updates. \\
-    \textbf{4.} Dependence on third-party software and libraries that may discontinue or significantly change their APIs presents a risk. \\
-    \textbf{5.} Increasing regulation around genomic data and genetic testing may impose additional challenges for the use and distribution of the software. \\ 
-    \end{tabular}
-    \end{table}
+\subsection{Strengths}
 
-\section{Optimization}
+One of the major strengths of the software lies in its foundation on advanced bioinformatics and genomic concepts. The software was designed to meet critical genomic analysis needs, specifically focusing on Depth of Coverage and Breadth of Coverage, which are key metrics in Next-Generation Sequencing (NGS) compliance. By addressing these metrics, the software ensures high-quality, reliable analysis, adhering to established bioinformatics guidelines.
+
+Another strength is the utilization of modern development tools such as Windows Subsystem for Linux (WSL), Anaconda, Conda, Git, GitHub, Streamlit, and Python. These technologies not only provide a robust and efficient development environment but also facilitate the software's deployment and use across different systems. Additionally, the software boasts a user-friendly interface that makes it accessible even to users without specialized bioinformatics expertise. This accessibility ensures that the tool can be used by a wider audience, including clinicians and lab technicians.
+
+The use of Git and GitHub enhances the software's collaborative potential, ensuring traceability and reproducibility of code. These platforms allow for efficient version control and enable others to contribute to the project. Moreover, the use of Anaconda and Conda ensures that the software is deployed in an isolated and reproducible environment, where package and dependency management is handled efficiently, minimizing compatibility issues across systems.
+
+\subsection{Weaknesses}
+
+Despite its strengths, the software has several limitations. One significant weakness is its reliance on WSL and a Linux-based environment. This requirement may limit its accessibility for users unfamiliar with Linux systems, especially those who predominantly work in Windows or MacOS environments. While WSL enables Windows users to access a Linux environment, its setup and use may still be challenging for some.
+
+Another notable weakness is related to the software's performance on conventional computers. While it can handle smaller panels with a relatively low number of genes, more extensive analyses, such as those involving whole exome sequencing (WES) or large gene panels, require considerably more computational power. On a standard desktop or laptop, the processing time for such large datasets can become impractically long. For more extensive panels or whole-exome analyses, the software would benefit from parallel processing on a cluster or the use of distributed computing tools such as Dask \cite{dask}. These technologies can significantly reduce processing times, making the analysis of large-scale datasets more feasible within a reasonable timeframe.
+
+Although the graphical interface is intuitive, it may not meet the needs of advanced users who prefer command-line tools for performing complex genomic analyses. This limitation could result in a divide between novice and expert users, with the latter potentially favoring other tools that offer more control and flexibility.
+
+Another challenge lies in the initial setup of the development environment. The process involves multiple steps, including setting up the necessary tools and dependencies, which may present a barrier for users with less technical expertise. This complexity could deter adoption by some users, especially those with limited experience in software development and bioinformatics.
+
+Lastly, while the software provides essential metrics, comparing and validating its outputs with those of other established tools can be difficult. Ensuring consistency and accuracy across different platforms is crucial for gaining user trust, but achieving this can be challenging due to variations in algorithms and methodologies used by different tools.
+
+
+\subsection{Opportunities}
+
+The software presents several growth opportunities. One of the most promising is its potential for expansion. The tool can be extended to include additional genomic analysis metrics beyond sequencing depth, providing a more comprehensive solution for genomic researchers and clinicians. Expanding the software's capabilities would make it even more valuable for those in the bioinformatics field.
+
+Furthermore, the software could become a standard internal tool at Unilabs, gaining wider adoption across the organization for genomic metric analysis. This would reinforce its utility in real-world applications and provide valuable feedback for continuous improvement.
+
+Another opportunity lies in the possibility of releasing the software as an open-source project. By doing so, a broader community of developers and users could contribute to its development, ensuring continuous updates, new features, and improvements. Open-sourcing the project could also increase its visibility and credibility within the bioinformatics community.
+
+The rapid advancements in sequencing technologies and data analysis also present an opportunity to continuously enhance the software. New algorithms and methodologies are frequently developed in genomics, and staying updated with these trends could help the software remain relevant and cutting-edge. Regular updates based on the latest developments could position the software as a leading tool in genomic analysis.
+
+\subsection{Threats}
+
+Despite the opportunities, the software faces several external threats. One of the primary threats is the presence of established tools and platforms that offer similar functionalities. Competing with these well-established solutions may hinder the adoption of the new software, especially if the alternatives are more widely known or have more extensive support.
+
+Additionally, commercial software solutions often provide comprehensive support, making it difficult for independent projects to compete. These commercial tools typically have larger development teams and resources, allowing them to quickly address issues, introduce new features, and provide user support, which could make adoption of the new software less appealing.
+
+The rapid pace of evolution in sequencing technologies poses another threat. New advancements could quickly render some of the software's features obsolete or necessitate frequent updates to keep the tool current. The risk of obsolescence is especially high in bioinformatics, where the field is continuously advancing.
+
+Moreover, the software depends on third-party libraries and tools, which introduces the risk of dependency-related issues. If one of the critical libraries or tools is discontinued or undergoes significant changes to its API, it could disrupt the software's functionality and require substantial rework.
+
+Lastly, increasing regulation around genomic data and genetic testing could impose additional challenges for the software's use and distribution. Stringent data protection and privacy laws, particularly in the context of genetic information, could limit the software's adoption, especially in regions with more rigorous regulatory environments.
+
+
+
+\section{Software otimizations} \label{sec:software_optimizations}
+
+Several optimizations have been identified that could enhance its performance, efficiency, and scalability. Although these optimizations have not yet been implemented, they represent critical next steps for future versions of the software.
+
+\subsection{Parallel and Distributed Processing with Dask}
+One of the most significant opportunities for optimization is the integration of parallel and distributed processing using Dask. Currently, the software processes data sequentially, which limits its scalability, especially when handling large datasets such as genomic sequences. By leveraging Dask, the software could distribute workloads across multiple CPU cores or even multiple machines, dramatically reducing execution time and allowing for greater scalability. Dask's ability to handle out-of-core computation would also be beneficial for memory-intensive operations, making the system more efficient when processing large data files.
+
+\subsection{Integration with AWS S3 Storage Service}
+Another key optimization involves the implementation of a connection with the AWS S3 data storage service of Unilabs. By integrating with AWS S3, the software could leverage cloud-based storage for genomic data, enabling faster access, improved data security, and enhanced scalability. The BAM/CRAM files could be acessed and used directly from the cloud, eliminating the need for local storage and reducing the burden on users' systems. 
+
+\subsection{Improvements to the Graphical User Interface}
+The software's graphical user interface (GUI) could also benefit from significant optimization. Presently, the user experience is functional but lacks the fluidity and responsiveness necessary for efficient navigation. Implementing more dynamic and responsive design principles would provide a smoother user experience, particularly when interacting with large datasets or complex visualizations. Furthermore, enhancing the layout to support multi-threaded operations in the backend would ensure that the interface remains responsive even during heavy computation.
+
+\subsection{Secure and Efficient Authentication and Authorization System}
+If the software is to be deployed in a production environment, implementing a secure authentication and authorization system is essential. Currently, the software lacks robust user authentication mechanisms, making it vulnerable to unauthorized access and data breaches. By integrating secure authentication protocols such as OAuth or OpenID Connect, the software could ensure that only authorized users can access sensitive data and functionalities, namely the data stored in the AWS S3 storage service.
+
+\subsection{Enhanced Software Documentation}
+Improving software documentation is another area that requires attention. While the current documentation provides basic guidelines for installation and usage, it lacks comprehensive instructions for developers and users, particularly regarding complex functionalities. Enhancing the documentation to include more detailed explanations of the codebase, installation procedures, and advanced usage scenarios would make the software more accessible to both new users and contributors. Clear and structured documentation would also facilitate future development efforts by providing a solid foundation for understanding the software's architecture and functionality.
+
+\subsection{Implementation of Automated Testing}
+The introduction of automated testing is a crucial step toward improving the software's reliability and maintainability. Currently, testing is performed manually, which can be time-consuming and prone to error. Implementing automated unit tests, integration tests, and end-to-end tests would ensure that the software functions as expected after updates or modifications. Automated testing would also help identify bugs early in the development process, reducing the risk of regressions and ensuring that the software remains robust as new features are added.
+
+\subsection{Code Optimization for Efficiency and Execution Time}
+Optimizing the code to improve execution efficiency and reduce runtime is another significant potential enhancement. Although the software performs adequately for smaller datasets, its performance degrades when processing large-scale genomic data. Refactoring the code to eliminate bottlenecks, streamline algorithms, and reduce memory consumption would enhance the software's performance. Additionally, optimizing the use of external libraries such as SAMtools would further reduce execution times, ensuring that the software can handle large datasets more efficiently.
+
+\subsection{Implementation of Monitoring and Alert Systems}
+Finally, implementing a monitoring and alert system would enable proactive detection of performance issues and anomalies. Currently, the software lacks real-time monitoring, which limits the ability to detect and resolve issues as they arise. By integrating a monitoring system, the software would be able to track key performance metrics such as memory usage, CPU load, and execution times. Additionally, an alert system could notify administrators of critical issues, allowing for faster resolution and ensuring that the software remains operational and efficient under various conditions.
+
+Although these optimizations have yet to be implemented, they represent a roadmap for future development and will be essential for ensuring that the software can meet the demands of large-scale genomic analysis.
+
+\subsection{Impact of MANE Transcripts on Software Metrics}
+At present, the software utilizes the Illumina BED file as the reference for gene and exon coverage metrics. While the Illumina BED file provides a reliable basis for these metrics, it is not standardized across multiple annotation databases. This can lead to discrepancies when interpreting results across different platforms or in clinical settings. A future optimization could involve replacing or complementing the Illumina BED file with the Matched Annotation from NCBI and EMBL-EBI (MANE) transcripts. \cite{Morales2022}
+
+The integration of MANE transcripts would ensure that the gene and exon annotations used for metrics such as average read depth and exonic coverage are aligned with both RefSeq and Ensembl/GENCODE annotations. This alignment would standardize the reference used for calculating these metrics, enhancing consistency and reducing the variability caused by differing annotations in the Illumina BED file. 
+
+By implementing MANE transcripts, the software would improve the accuracy of its key metrics, leading to more reliable interpretations of coverage analysis. Such an optimization would significantly enhance the software's utility in both research and clinical diagnostics by improving the precision and comparability of its metrics. \cite{Morales2022}
+
+
 
 \section{Impact on the company}
