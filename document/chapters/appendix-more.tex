@@ -25,10 +25,7 @@
     }
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
-% \usepackage{graphicx}
-\begin{table}[]
+\begin{table}[H]
     \centering
     \caption{Quality score encoding. Adapter from \cite{BaseSpace}}
     \label{tab:fastq_encoding}
@@ -81,8 +78,7 @@
     }
     \end{table}
 
-
-\begin{table}[]
+\begin{table}[H]
     \centering
     \caption{Samtools - BED file documentation}
     \label{tab:bed_file}
@@ -106,16 +102,27 @@
     }
 \end{table}
 
-
-\begin{table}[]
+\begin{table}[H]
     \centering
-    \caption{ Packages used in the project}
+    \caption{Packages used in the project}
     \label{tab:packages}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{ll}
-    Package Name & Version \\
-                 &         \\
-                 &        
+    \resizebox{0.3\textwidth}{!}{%
+    \begin{tabular}{lr}
+    \textbf{Package Name} & \textbf{Version} \\
+    \hline
+    python & 3.12.1 \\
+    numpy & 1.26.3 \\
+    pandas & 2.1.4 \\
+    plotly & 5.24.1 \\
+    boto3 & 1.34.150 \\
+    weasyprint & 62.3 \\
+    streamlit & 1.38.0 \\
+    openpyxl & 3.1.2 \\
+    cairo & 1.18.0 \\
+    pango & 1.50.14 \\
+    jpeg & - \\
+    gdk-pixbuf & - \\
+    pip & 23.3.1 \\
     \end{tabular}%
     }
-    \end{table}
+\end{table}
