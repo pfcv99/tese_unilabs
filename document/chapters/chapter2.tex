@@ -151,32 +151,23 @@ What further sets Streamlit apart is its flexibility and extensibility. The libr
 
 Various Streamlit widgets were used to create the graphical interface of the software, including buttons, text boxes, selectors, among others. Additionally, the library was employed to display the analysis results, also allowing data export to a \ac{csv}/\ac{pdf} file. The integration of Streamlit with Python was crucial in developing an interactive and user-friendly software, meeting the established usability requirements. The functionality and implementation of these widgets are detailed in \cite{streamlit_doc}.
 
-\subsection{Processing and Simplification of \ac{bed} File for Genomic Analysis}
+\subsection{Universal \ac{bed} - Processing and Simplification of \ac{bed} Files for Genomic Analysis and Integration of \ac{mane} Transcripts}
 
-The \ac{bed} files can be highly complex due to its rich annotation. Such complexity is unnecessary for our specific analysis, which focused primarily on gene panel-level, gene-level and exon-level metrics. Therefore, it's essential to simplify \ac{bed} files while preserving relevant genomic data, particularly the coodinates, gene names and exon numbers.
+The analysis of genomic data often requires simplifying complex genomic annotation files while ensuring that all relevant information is retained. In this work, \ac{bed} files were obtained using Ensembl's BioMart \cite{BioMart} tool, specifically by querying the \ac{mane} Select and \ac{mane} Plus Clinical \cite{Morales2022} transcripts for the GRCh38 genome version, and Ensembl annotations for GRCh37. Since there are no \ac{mane} transcripts available for GRCh37, the \ac{mane} equivalence was determined by leveraging the Ensembl TARK \cite{tark} database, which provides a list of transcripts from GRCh37 that match in 5' UTR, 3' UTR, and CDS with \ac{mane} Select and \ac{mane} Plus Clinical transcripts on GRCh38. The matching was facilitated by using an auxiliary CSV file.
 
-The simplification process involved writing a custom Python script designed to extract and reorganize key elements from the original \ac{bed} file. The script processes each line of the file, extracting the chromosome, start, and end positions, while simplifying the fourth column to retain only the gene name. Additionally, the script distributes exon numbers for each position based on the orientation of the strand.
+The \ac{bed} files retrieved were pre-simplified using specific BioMart queries, which focused on selecting only key columns that are critical for our genomic analysis, namely chromosome name, exon coordinates, gene stable identifier, gene name, exon ID, strand, and transcript ID. This initial pre-processing helped reduce the size of the \ac{bed} files and provided more straightforward data to work with. The following URLs represent the BioMart queries used to generate the \ac{bed} files:
 
-To facilitate downstream analysis and ensure compatibility with different tools, the script also included an option to remove the "chr" prefix from chromosome identifiers. This was particularly important for certain bioinformatics tools that require the chromosome numbers without this prefix. The option to remove the prefix was controlled by a boolean flag, ensuring flexibility in handling different file formats.
+- \href{http://www.ensembl.org/biomart/martview/a07a268477bc2307cce8fde9f6a88a1b?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.structure.chromosome_name|hsapiens_gene_ensembl.default.structure.exon_chrom_start|hsapiens_gene_ensembl.default.structure.exon_chrom_end|hsapiens_gene_ensembl.default.structure.ensembl_gene_id_version|hsapiens_gene_ensembl.default.structure.external_gene_name|hsapiens_gene_ensembl.default.structure.ensembl_exon_id|hsapiens_gene_ensembl.default.structure.strand|hsapiens_gene_ensembl.default.structure.ensembl_transcript_id_version&FILTERS=hsapiens_gene_ensembl.default.filters.mane_select.only&VISIBLEPANEL=resultspanel}{\ac{mane} Select GRCh38}
 
-The output of this process was a simplified \ac{bed} file containing six columns: chromosome number, start position, end position, gene name, exon number, and exon length (calculated as the difference between the start and end positions). Below is an example of the resulting file structure:
+- \href{http://www.ensembl.org/biomart/martview/a07a268477bc2307cce8fde9f6a88a1b?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.structure.chromosome_name|hsapiens_gene_ensembl.default.structure.exon_chrom_start|hsapiens_gene_ensembl.default.structure.exon_chrom_end|hsapiens_gene_ensembl.default.structure.ensembl_gene_id_version|hsapiens_gene_ensembl.default.structure.external_gene_name|hsapiens_gene_ensembl.default.structure.ensembl_exon_id|hsapiens_gene_ensembl.default.structure.strand|hsapiens_gene_ensembl.default.structure.ensembl_transcript_id_version&FILTERS=hsapiens_gene_ensembl.default.filters.mane_plus_clinical.only&VISIBLEPANEL=filterpanel}{\ac{mane} Plus Clinical GRCh38}
 
-\begin{verbatim}
-    
-    (...)
-    17	41177976	41178064	RND2	3	88
-    17	41179199	41179309	RND2	4	110
-    17	41180077	41180212	RND2	5	135
-    17	41180448	41180697	RND2	6	249
-    17	41181106	41181131	RND2	7	25
-    17	41196309	41196310	SNORA40	1	1
-    17	41196331	41196332	BRCA1	1	1
-    17	41196371	41196372	BRCA1	2	1
-    17	41196402	41196403	BRCA1	3	1
-    (...)
-\end{verbatim}
+- \href{http://grch37.ensembl.org/biomart/martview/a77a9f701d17019853f36da352517c7d?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.structure.chromosome_name|hsapiens_gene_ensembl.default.structure.exon_chrom_start|hsapiens_gene_ensembl.default.structure.exon_chrom_end|hsapiens_gene_ensembl.default.structure.ensembl_gene_id_version|hsapiens_gene_ensembl.default.structure.external_gene_name|hsapiens_gene_ensembl.default.structure.ensembl_exon_id|hsapiens_gene_ensembl.default.structure.strand|hsapiens_gene_ensembl.default.structure.ensembl_transcript_id_version&FILTERS=&VISIBLEPANEL=attributepanel}{Ensembl GRCh37}
 
-In this example, the genes spans several lines, each representing a distinct exon. The exon numbers were automatically assigned based on the orientation of the strand, while the genomic intervals for each exon were derived directly from the original \ac{bed} file. The final output, now simplified, facilitates a more straightforward analysis of metrics at both the gene and exon levels. The Python script used for this transformation is outlined in Code \ref{lbl:bed_script}.
+The importance of using \ac{mane} transcripts cannot be understated. The \ac{mane} project, a collaborative effort by NCBI and Ensembl, aims to provide a single, matched transcript for each human protein-coding gene, ensuring a standardized reference across major databases. This integration was crucial for harmonizing the annotations and minimizing discrepancies that may arise from different transcript versions. By focusing on \ac{mane} Select and \ac{mane} Plus Clinical transcripts, the software ensures consistency and reliability in metrics calculation, which is particularly important for both research and clinical genomic analyses.
+
+\subsubsection{\textbf{Data Transformation Process}}
+
+To convert the BioMart output files into a more workable form, a two-step process was followed involving the use of custom Python scripts that can be found in the folder \texttt{tools} of the repository. First, the original \ac{bed} files were converted into \ac{json} format using the script presented below. This step was necessary to facilitate easier parsing and handling of gene-specific information.
 
 \begin{longlisting}
 \begin{minted}[
@@ -186,62 +177,193 @@ In this example, the genes spans several lines, each representing a distinct exo
     fontsize=\footnotesize,
     linenos
     ]{python}
+import json
 import argparse
 
-def process_bed_file(input_file, output_file, remove_chr_prefix=False):
-    last_gene = None
-    exon_count = 0
-    
-    with open(input_file, 'r') as infile, open(output_file, 'w') as outfile:
+def bed_to_json(input_file, output_file):
+    bed_records = []
+
+    with open(input_file, 'r') as infile:
+        # Ignore the header line
+        header = infile.readline()
+
         for line in infile:
+            # Ignore additional header lines or empty lines
+            if line.startswith("#") or line.strip() == "":
+                continue
+
             fields = line.strip().split('\t')
             
-            # Splitting column 4 by the ',' separator
-            gene_info = fields[3].split(',')
-            gene = gene_info[0]
-            
-            # Checking if the gene has changed to count exons
-            if gene != last_gene:
-                exon_count = 1
-            else:
-                exon_count += 1
-            
-            # Calculating the difference between $3 and $2
-            start = int(fields[1])
-            end = int(fields[2])
-            diff = end - start
-            
-            # Remove the "chr" prefix from the chromosome number if needed
-            chromosome = fields[0]
-            if remove_chr_prefix:
-                chromosome = chromosome[3:] if chromosome.startswith("chr") else chromosome
-            
-            # Updating the last gene
-            last_gene = gene
-            
-            # Writing to the output file
-            outfile.write(f"{chromosome}\t{fields[1]}\t{fields[2]}\t{gene}\t{exon_count}\t{diff}\n")
+            # Adjust according to the expected BED format (in this case, 8 columns)
+            if len(fields) >= 8:
+                chromosome = fields[0]
+                start = int(fields[1])
+                end = int(fields[2])
+                gene_stable_id = fields[3]
+                gene_name = fields[4]
+                exon_id = fields[5]
+                strand = fields[6]
+                transcript_id = fields[7]
+
+                bed_records.append({
+                    "chromosome": chromosome,
+                    "start": start,
+                    "end": end,
+                    "gene_stable_id": gene_stable_id,
+                    "gene_name": gene_name,
+                    "exon_id": exon_id,
+                    "strand": strand,
+                    "transcript_id": transcript_id
+                })
+
+    with open(output_file, 'w') as jsonfile:
+        json.dump(bed_records, jsonfile, indent=4)
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Process a BED file and optionally remove 'chr' prefix from chromosome numbers.")
-    
+    parser = argparse.ArgumentParser(description="Convert a BED file to JSON.")
     parser.add_argument('input_file', help="Path to the input BED file.")
-    parser.add_argument('output_file', help="Path to the output BED file.")
-    parser.add_argument('--remove-chr-prefix', action='store_true', 
-                        help="Remove 'chr' prefix from chromosome names.")
-
+    parser.add_argument('output_file', help="Path to the output JSON file.")
     args = parser.parse_args()
-    
-    process_bed_file(args.input_file, args.output_file, args.remove_chr_prefix)
+
+    bed_to_json(args.input_file, args.output_file)
 
 if __name__ == "__main__":
     main()
 \end{minted}
-\caption{Python script for processing and simplifying \ac{bed} files.}
-\label{lbl:bed_script}
+\caption{Python script for converting \ac{bed} files to \ac{json} format.}
+\label{lbl:bed_to_json_script}
 \end{longlisting}
 
-The script takes an input \ac{bed} file, processes each line, and writes the simplified output to a new file. The script also includes an argument parser to handle command-line options, such as specifying the input and output files and whether to remove the "chr" prefix from chromosome numbers. It can be executed from the command line using a command like \texttt{pyhton universal\_bed.py input.bed output.bed} or with the "--remove-chr-prefix" option enabled. This script was instrumental in preparing the \ac{bed} file for subsequent analysis, ensuring that the data was appropriately formatted and structured for downstream processing.
+This script (\texttt{bed\_to\_json.py}) reads the input \ac{bed} file, processes each line, and writes the relevant fields into a structured \ac{json} file. By ignoring the header and retaining only key fields, the script produces a lightweight and usable \ac{json} representation of the \ac{bed} data.
+
+\subsubsection{\textbf{Processing the \ac{json} Files}}
+
+Once the \ac{json} files were obtained, the next step involved processing these files to generate a unified and simplified \ac{bed} file for GRCh37 and for GRCh38 genome assemblies. The script \texttt{universal\_bed.py} achieves this, as described in the following code snippets.
+
+The first step is loading the necessary mappings for gene identifiers and \ac{mane} equivalence. This helps ensure that GRCh37 annotations are harmonized with GRCh38, as shown in Code \ref{lbl:load_mappings_script}.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+import json
+import csv
+
+
+def load_gene_mapping(mapping_file):
+    with open(mapping_file, 'r') as json_file:
+        return json.load(json_file)
+
+
+def load_mane_mapping(mane_csv):
+    mane_mapping = {}
+    with open(mane_csv, 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            gene_name = row['Gene']
+            grch37_id = row['Ensembl StableID GRCh37 (Not MANE)']
+            if grch37_id != '':
+                mane_mapping[grch37_id] = gene_name
+    return mane_mapping
+\end{minted}
+\caption{Loading mappings for gene identifiers and \ac{mane} equivalence.}
+\label{lbl:load_mappings_script}
+\end{longlisting}
+
+The \texttt{load\_gene\_mapping()} function loads a gene mapping from a \ac{json} file, while \texttt{load\_mane\_mapping()} loads \ac{mane} transcript mappings from a CSV file. These mappings are used to reconcile differences between GRCh37 and GRCh38 annotations.
+
+The main function of the script reads the input \ac{json} files and processes the genomic data accordingly. The Code \ref{lbl:process_bed_script} shows the core of the function that performs data transformation.
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+def process_bed_file(input_files, output_file, genome_version, mapping_file=None, mane_file=None, add_chr_prefix=False):
+    gene_mapping = load_gene_mapping(mapping_file) if mapping_file else {}
+    mane_mapping = load_mane_mapping(mane_file) if mane_file else {}
+
+    exon_counts = {}
+    rows = []
+
+    for input_file in input_files:
+        with open(input_file, 'r') as infile:
+            bed_data = json.load(infile)
+            for record in bed_data:
+                chromosome = record['chromosome']
+                start = record['start']
+                end = record['end']
+                gene_id = record['gene_stable_id']
+                gene_name = record.get('gene_name', '')
+                exon_id = record['exon_id']
+                strand = record['strand']
+                transcript_id = record['transcript_id']
+
+                # Only include standard chromosomes (1-22, X, Y)
+                if not re.match(r'^(\d+|X|Y)$', chromosome):
+                    continue
+
+                # Apply MANE filtering for hg37
+                if genome_version == 'hg37' and mane_mapping and transcript_id not in mane_mapping:
+                    continue
+                elif genome_version == 'hg37' and transcript_id in mane_mapping:
+                    gene_name = mane_mapping[transcript_id]
+
+                # Add 'chr' prefix if needed
+                if add_chr_prefix:
+                    chromosome = f'chr{chromosome}'
+
+                rows.append((chromosome, int(start), int(end), gene_name, strand))
+\end{minted}
+\caption{Processing \ac{json} files to generate a simplified \ac{bed} file.}
+\label{lbl:process_bed_script}
+\end{longlisting}
+
+This function reads each record from the \ac{json} files, applies necessary filters (such as selecting standard chromosomes and applying \ac{mane} mapping for GRCh37), and constructs rows for the final \ac{bed} output. Depending on the user's choice, the chromosome names can be prefixed with "chr".
+
+In the final step, the script assigns exon numbers and calculates exon lengths (Code \ref{lbl:assign_exons_script}).
+
+\begin{longlisting}
+\begin{minted}[
+    breaklines,
+    breakanywhere,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+    ]{python}
+    # Assign exon numbers
+    for (gene_name, strand), exon_list in exon_counts.items():
+        if strand == '1':
+            for exon_number, (chromosome, start, end, gene_name, strand) in enumerate(exon_list, start=1):
+                exon_length = end - start
+                updated_rows.append((chromosome, start, end, gene_name, exon_number, exon_length, strand))
+        else:
+            for exon_number, (chromosome, start, end, gene_name, strand) in enumerate(exon_list, start=1):
+                exon_length = end - start
+                updated_rows.append((chromosome, start, end, gene_name, len(exon_list) - exon_number + 1, exon_length, strand))
+
+    rows = updated_rows
+
+    # Write to output file
+    with open(output_file, 'w') as outfile:
+        for row in rows:
+            outfile.write(f"{row[0]}\t{row[1]}\t{row[2]}\t{row[3]}\t{row[4]}\t{row[5]}\t{row[6]}\n")
+\end{minted}
+\caption{Assigning exon numbers and writing to output \ac{bed} file.}
+\label{lbl:assign_exons_script}
+\end{longlisting}
+
+This code snippet assigns exon numbers based on the strand orientation, calculates exon lengths, and writes the final processed data to an output \ac{bed} file. The careful assignment of exon numbers ensures that the output accurately reflects the genomic structure, which is essential for subsequent gene and exon-level analysis.
+
+The processing and simplification of \ac{bed} files, coupled with the integration of \ac{mane} transcripts, ensured that the genomic data was standardized and simplified to facilitate efficient and accurate downstream analysis. The use of \ac{mane} transcripts, in particular, helped minimize discrepancies across different data sources, contributing to the consistency and reliability of key metrics such as Depth of Coverage and Breadth of Coverage. By using a well-defined data transformation process, the software's analysis capabilities were enhanced, making it more suitable for both research and clinical genomic applications.
 
 \subsection{Samtools Depth Calculation in Python with Streamlit}
 
@@ -463,7 +585,7 @@ depth(
 
 This section delves into a Python script designed to compute sequencing coverage metrics from DEPTH file outputed by Samtools. The script operates within a Streamlit session, facilitating dynamic filtering of genomic regions and providing statistical summaries for individual genes and exons. Below, it's explored each component of the script in detail, illustrating how it achieves its goal of efficient metrics calculation.
 
-\subsubsection{\textbf{1. Importing Necessary Libraries}}
+\subsubsection{\textbf{Importing Necessary Libraries}}
 
 The script begins by importing essential Python libraries required for data manipulation and interaction with the Streamlit application. The core libraries include \texttt{pandas}, a library that provides robust data structures, such as DataFrames, which facilitate complex data manipulation and analysis, \texttt{io} a module that allows the script to handle in-memory streams, which are particularly useful for reading and processing textual data from files stored in memory and, finally, \texttt{streamlit}, the package who enables the creation of the user interface.
 
@@ -483,7 +605,7 @@ import streamlit as st
 \label{lbl:metrics_import}
 \end{longlisting}
 
-\subsubsection{\textbf{2. Defining the Metrics Initialization Function}}
+\subsubsection{\textbf{Defining the Metrics Initialization Function}}
 
 Next, the script defines the \texttt{initialize\_metrics()} function, which is responsible for setting up a consistent data structure for storing various sequencing metrics. This function returns a dictionary where each key corresponds to a specific metric, and all metrics are initialized to zero. This standardization ensures that metrics are consistently tracked and updated throughout the calculation process.
 
@@ -528,7 +650,7 @@ def initialize_metrics():
 
 This dictionary structure is critical for the script because it ensures that all necessary metrics, such as Depth of Coverage percentages at various thresholds, are included and consistently tracked. By initializing metrics to zero, the function guarantees that all relevant data fields are present, even if no coverage is detected in certain regions, thereby preventing errors later in the script.
 
-\subsubsection{\textbf{3. Accessing Filtered Data from Session State}}
+\subsubsection{\textbf{Accessing Filtered Data from Session State}}
 
 The \texttt{calculate\_metrics()} function, which handles the core logic of the script, begins by accessing the filtered \ac{bed} content and depth data that were stored in Streamlit's session state during earlier steps. These data sources are crucial for the downstream calculations. If either the \ac{bed} content or the depth data is missing, the function raises a \texttt{ValueError}, ensuring that no further calculations are performed with incomplete or missing data.
 
@@ -559,7 +681,7 @@ def calculate_metrics():
 
 This step of accessing session state data ensures that the script can efficiently handle user-selected regions of interest (genes and exons or gene panels) and corresponding depth data. This setup also supports interactive workflows where users can refine their selections dynamically, with metrics recalculated based on these selections.
 
-\subsubsection{\textbf{4. Reading the Filtered \ac{bed} Content}}
+\subsubsection{\textbf{Reading the Filtered \ac{bed} Content}}
 
 The filtered \ac{bed} content is then read into a Pandas DataFrame for easier manipulation. This DataFrame contains information about the genomic regions (chromosome, start and end positions, gene names, exon numbers, and exon sizes), which will later be cross-referenced with the depth data to compute metrics.
 
@@ -581,7 +703,7 @@ The filtered \ac{bed} content is then read into a Pandas DataFrame for easier ma
 
 By converting the \ac{bed} content into a DataFrame, the script leverages Pandas powerful data manipulation capabilities, which streamline tasks such as filtering, grouping, and aggregating genomic regions. This enables efficient computation of metrics for different genes and exons in subsequent steps.
 
-\subsubsection{\textbf{5. Processing Depth Data for Each File}}
+\subsubsection{\textbf{Processing Depth Data for Each File}}
 
 Next, the script iterates over each entry in the depth dictionary, where each entry corresponds to a different \ac{bam} or \ac{cram} file. For each file, a new DataFrame is created to hold the depth data, which consists of three columns: chromosome (\texttt{CHROM}), position (\texttt{POS}), and depth (\texttt{DEPTH}).
 
@@ -607,7 +729,7 @@ Next, the script iterates over each entry in the depth dictionary, where each en
 
 This iterative approach allows the script to handle multiple samples or files, computing metrics independently for each. This flexibility makes the script suitable for batch processing of sequencing data or for analyzing different samples within the same workflow.
 
-\subsubsection{\textbf{6. Calculating Metrics for All Genes Combined}}
+\subsubsection{\textbf{Calculating Metrics for All Genes Combined}}
 
 The script then calculates metrics for all genes combined, which provides an overall summary of the metrics across the entire set of regions. Key metrics include the total size of coding regions (\texttt{Size Coding}), the Average Depth of Coverage (\texttt{Average Read Depth}), the Breadth of Coverage.
 
@@ -653,7 +775,7 @@ _genes_metrics['Min Read Depth'] = all_depths.min()
 
 The calculation of \texttt{Breadth of Coverage \%} is particularly important for assessing the quality of sequencing coverage, as it indicates the proportion of the target regions that have been successfully sequenced. These metrics provide a high-level overview of the data, serving as a starting point for more granular analysis at the gene and exon levels.
 
-\subsubsection{\textbf{7. Calculating Depth of Coverage Percentages}}
+\subsubsection{\textbf{Calculating Depth of Coverage Percentages}}
 
 For each depth threshold (e.g., 1x, 10x, 15x, etc.), the script computes the percentage of positions that meet or exceed that depth. These depth thresholds are commonly used in sequencing to assess the reliability of variant calls or to ensure sufficient coverage for accurate analysis.
 
@@ -685,7 +807,7 @@ For each depth threshold (e.g., 1x, 10x, 15x, etc.), the script computes the per
 
 By calculating these percentages, the script provides insight into how well each region is covered at different depths, helping to identify any coverage gaps that might impact downstream analysis. These metrics are critical for quality control and for determining whether additional sequencing is needed.
 
-\subsubsection{\textbf{8. Calculating Depth Intervals}}
+\subsubsection{\textbf{Calculating Depth Intervals}}
 
 In addition to calculating Depth of Coverage percentages for fixed thresholds, the script also computes the number of positions that fall within specific depth intervals. This helps to understand the distribution of Depth of Coverage across the different thresholds.
 
@@ -717,7 +839,7 @@ In addition to calculating Depth of Coverage percentages for fixed thresholds, t
 \label{lbl:metrics_intervals}
 \end{longlisting}
 
-\subsubsection{\textbf{9. Calculating Metrics for Each Gene}}
+\subsubsection{\textbf{Calculating Metrics for Each Gene}}
 
 The script proceeds to calculate individual metrics for each gene. It filters the \ac{bed} DataFrame to extract the corresponding regions, and then accumulates depth values across all positions in those regions. Metrics such as Average Read Depth, Minimum and Maximum Read Depth are calculated for each gene.
 
@@ -776,7 +898,7 @@ The script proceeds to calculate individual metrics for each gene. It filters th
 
 This gene-specific analysis allows the script to provide detailed metrics that are relevant for studying individual genes. These metrics can be used to assess whether particular genes have been sequenced sufficiently for downstream analyses, such as variant calling or expression analysis.
 
-\subsubsection{\textbf{10. Calculating Depth of Coverage Percentages for Each Gene}}
+\subsubsection{\textbf{Calculating Depth of Coverage Percentages for Each Gene}}
 
 As with the overall analysis, the script calculates also Depth of Coverage percentages for each gene at various thresholds. This ensures that the analysis can identify specific genes that may have insufficient coverage for reliable variant calling or other analyses.
 
@@ -815,7 +937,7 @@ As with the overall analysis, the script calculates also Depth of Coverage perce
 \end{longlisting}
 
 
-\subsubsection{\textbf{11. Calculating Metrics for Each Exon Within Each Gene}}
+\subsubsection{\textbf{Calculating Metrics for Each Exon Within Each Gene}}
 
 The script also calculates metrics for individual exons within each gene. By breaking down the analysis to the exon level, the script provides a finer level of detail that can be useful for studying specific exonic regions, especially in clinical or functional genomics applications.
 
@@ -891,7 +1013,7 @@ The script also calculates metrics for individual exons within each gene. By bre
 
 This level of analysis is especially useful for pinpointing specific exons that may have insufficient coverage for accurate variant detection or expression analysis, which is critical in clinical settings where exonic variants can be associated with disease.
 
-\subsubsection{\textbf{12. Compiling Final Results}}
+\subsubsection{\textbf{Compiling Final Results}}
 
 Finally, the script compiles all the calculated metrics into a comprehensive results structure. This structure contains metrics for the entire set of genes combined (only if the analyses is Gene Panel), as well as per-gene and per-exon metrics. These results can then be used for visualization, reporting, or further analysis.
 
@@ -914,7 +1036,7 @@ Finally, the script compiles all the calculated metrics into a comprehensive res
 \label{lbl:metrics_results}
 \end{longlisting}
 
-\subsubsection{\textbf{13. Error Handling and Edge Cases}}
+\subsubsection{\textbf{Error Handling and Edge Cases}}
 
 Throughout the script, careful attention is given to error handling and edge cases to ensure robustness. For example, the script checks for missing or incomplete data in the session state, handles division by zero errors when calculating percentages, and sets zero as default value in the Dataframe when no Depth of Coverage data is available for a particular gene or exon.
 
@@ -1330,7 +1452,6 @@ if "Overview" in tab_dict:
                 # Use 'metrics_dict' instead of 'columns' to represent the metrics
                 metrics_dict = {
                     "Basic Information": ["Average Read Depth", "Size Coding", "Size Covered",'Breadth of Coverage %', 'Min Read Depth','Max Read Depth'],
-                    
                     "Depth of Coverage": ["Depth of Coverage (0-1x)", "Depth of Coverage (2-10x)", "Depth of Coverage (11-15x)", "Depth of Coverage (16-20x)", "Depth of Coverage (21-30x)", "Depth of Coverage (31-50x)", "Depth of Coverage (51-100x)", "Depth of Coverage (101-500x)", 'Depth of Coverage (>500x)'],
                     "Depth of Coverage Percentage": ["Depth of Coverage % (1x)", "Depth of Coverage % (10x)", "Depth of Coverage % (15x)", "Depth of Coverage % (20x)","Depth of Coverage % (30x)", "Depth of Coverage % (50x)", "Depth of Coverage % (100x)", "Depth of Coverage % (500x)"]
                 }
@@ -1456,6 +1577,8 @@ if "Exon Detail" in tab_dict:
                     # Filters for tab3
                     metrics_dict = {
                         "Basic Information": ["Average Read Depth", "Size Coding", "Size Covered",'Breadth of Coverage %', 'Min Read Depth','Max Read Depth'],
+
+                        
                         "Depth of Coverage": ["Depth of Coverage (0-1x)", "Depth of Coverage (2-10x)", "Depth of Coverage (11-15x)", "Depth of Coverage (16-20x)","Depth of Coverage (21-30x)", "Depth of Coverage (31-50x)", "Depth of Coverage (51-100x)", "Depth of Coverage (101-500x)", 'Depth of Coverage (>500x)'],
                         "Depth of Coverage Percentage": ["Depth of Coverage % (1x)", "Depth of Coverage % (10x)", "Depth of Coverage % (15x)", "Depth of Coverage % (20x)","Depth of Coverage % (30x)", "Depth of Coverage % (50x)", "Depth of Coverage % (100x)", "Depth of Coverage % (500x)"]
                     }
