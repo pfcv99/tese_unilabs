@@ -169,19 +169,19 @@ The gene TP53 was selected for the Single Gene analysis, and the results obtaine
     \centering
     \caption{Comparison of Metrics between the developed software and Omnomics for Gene TP53}
     \label{tab:omnomicsVSunilabs}
-    \begin{tabular}{lrr}
-    \textbf{Metric}                      & \textbf{Developed software} & \textbf{Omnomics} \\
-    \hline
-    Average Read Depth          & 874,97           & 891      \\
-    Depth of Coverage \% (1x)   & 99.86              & 100      \\
-    Depth of Coverage \% (10x)  & 99.86              & 100      \\
-    Depth of Coverage \% (20x)  & 99.86              & 100      \\
-    Depth of Coverage \% (30x)  & 99.86              & 100      \\
-    Depth of Coverage \% (50x)  & 99.86              & 100      \\
-    Depth of Coverage \% (100x) & 99.79            & 99.90     \\
-    Depth of Coverage \% (500x) & 57.42            & 59      
+    \begin{tabular}{@{}lrr@{}}
+    \toprule
+    \textbf{Metric}             & \textbf{Developed software} & \textbf{Omnomics} \\ \midrule
+    Average Read Depth          & 874,97                      & 891               \\
+    Depth of Coverage \% (1x)   & 99.86                       & 100               \\
+    Depth of Coverage \% (10x)  & 99.86                       & 100               \\
+    Depth of Coverage \% (20x)  & 99.86                       & 100               \\
+    Depth of Coverage \% (30x)  & 99.86                       & 100               \\
+    Depth of Coverage \% (50x)  & 99.86                       & 100               \\
+    Depth of Coverage \% (100x) & 99.79                       & 99.90             \\
+    Depth of Coverage \% (500x) & 57.42                       & 59                \\ \bottomrule
     \end{tabular}
-\end{table}
+    \end{table}
 
 The comparison of results between the two software solutions reveals some minor discrepancies. In the Average Read Depth metric, the developed software reported an average depth of 874.97, whereas Omnomics recorded a slightly higher value of 891. These differences can be primarily attributed to the variations in the reference \ac{bed} files used by each tool. The developed software relies on an optimized \ac{bed} file from \ac{mane}, while Omnomics utilizes a GENCODE \ac{bed} created through the Table Browser tool of the Genome Browser, specifically targeting the TP53 gene with an extension of 8 base pairs. These differing \ac{bed} files lead to variations in the covered regions, directly influencing metrics such as Average Read Depth.
 
@@ -199,16 +199,17 @@ For the analysis of a gene panel the previous panel "Cancro da mama e ovário (2
     \centering
     \caption{Comparison of Metrics between the developed software and Omnomics for Gene Panel: Cancro da mama e ovário (27 genes)}
     \label{tab:panel_omnomicsVSunilabs}
-    \begin{tabular}{lrr}
-    \textbf{Metric}                      & \textbf{Developed software} & \textbf{Omnomics} \\ \hline
-    Average Read Depth          & 263.93           & 388      \\
-    Depth of Coverage \% (1x)   & 100              & 99.60     \\
-    Depth of Coverage \% (10x)  & 95.19            & 99.50     \\
-    Depth of Coverage \% (20x)  & 93.69            & 99.40     \\
-    Depth of Coverage \% (30x)  & 92.78            & 99.20     \\
-    Depth of Coverage \% (50x)  & 91.21            & 98.80     \\
-    Depth of Coverage \% (100x) & 87.28            & 96.10     \\
-    Depth of Coverage \% (500x) & 1.89             & 27.60    
+    \begin{tabular}{@{}lrr@{}}
+    \toprule
+    \textbf{Metric}             & \textbf{Developed software} & \textbf{Omnomics} \\ \midrule
+    Average Read Depth          & 263.93                      & 388               \\
+    Depth of Coverage \% (1x)   & 100                         & 99.60             \\
+    Depth of Coverage \% (10x)  & 95.19                       & 99.50             \\
+    Depth of Coverage \% (20x)  & 93.69                       & 99.40             \\
+    Depth of Coverage \% (30x)  & 92.78                       & 99.20             \\
+    Depth of Coverage \% (50x)  & 91.21                       & 98.80             \\
+    Depth of Coverage \% (100x) & 87.28                       & 96.10             \\
+    Depth of Coverage \% (500x) & 1.89                        & 27.60             \\ \bottomrule
     \end{tabular}
     \end{table}
     
@@ -223,24 +224,112 @@ For the analysis of a gene panel the previous panel "Cancro da mama e ovário (2
 
 \section{Performance}
 
+This section presents the performance analysis of the software for both single gene and gene panel analyses. The tests were carried out manually using different sample sizes to evaluate the scalability of the software and the impact on execution time, \ac{cpu} usage, and memory consumption. Two scenarios were tested: the "Single Gene" analysis for the JAK2 gene with 1, 10, and 20 samples, and the "Gene Panel" analysis for the "Breast Cancer Panel," which includes 27 genes, with 1 and 2 samples.
+
+\subsection{Single Gene Analysis: JAK2}
+
+The results for the single gene analysis are summarized in Table \ref{tab:single-gene-performance}. The execution time, \ac{cpu} usage, and memory usage were measured for three main functions: loading the Streamlit interface, running the \texttt{samtools depth} function, and generating the final report and coverage plots. As the number of samples increased, a clear growth in resource usage was observed.
+
+For the "Streamlit load" function, the execution time remained relatively consistent across the different sample sizes, ranging from 0.28 to 0.29 seconds, with \ac{cpu} usage stabilizing around 11-12\%. Memory usage remained between 12.51 \ac{mb} and 12.95 \ac{mb}, showing minor variation as the number of samples increased.
+
+The \texttt{samtools depth} function exhibited significant variability depending on the number of samples. With only 1 sample, the execution time was 0.32 seconds, but it increased substantially to 5.41 seconds with 20 samples. Similarly, \ac{cpu} usage rose from 0.90\% to 1.80\%, and memory usage increased from 4.46 \ac{mb} to 11.15 \ac{mb}, highlighting the resource intensiveness of this operation as more samples were processed.
+
+The report generation phase also experienced an increase in resource demand. The execution time grew from 1.47 seconds for a single sample to 1.85 seconds for 20 samples, while \ac{cpu} usage and memory usage saw corresponding rises, particularly memory consumption, which peaked at 19.30 \ac{mb} for 20 samples.
+
+\begin{table}[htbp] 
+    \centering 
+    \caption{Performance of Single Gene Analysis (JAK2) for 1, 10, and 20 Samples}
+    \label{tab:single-gene-performance}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}l>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}@{}}
+    \toprule
+    \textbf{Function} & \multicolumn{3}{c}{\textbf{Execution Time (s)}} & \multicolumn{3}{c}{\textbf{\ac{cpu} usage (\%)}} & \multicolumn{3}{c}{\textbf{Memory Usage (\ac{mb})}} \\ \midrule
+    Streamlit load            & 0.28 & 0.28 & 0.29  & 11.20 & 11.90 & 12.30 & 12.51 & 12.58 & 12.95  \\
+    Samtools depth function    & 0.32 & 3.26 & 5.41  & 0.90  & 1.70  & 1.80  & 4.46  & 7.58  & 11.15  \\
+    Report build               & 1.47 & 1.67 & 1.85  & 2.10  & 3.00  & 4.00  & 7.96  & 10.33 & 19.30  \\ 
+    Coverage plot generation   & 0.33 & -    & -     & 4.20  & -     & -     & 1.93  & -     & -      \\ \midrule
+    \textbf{No of samples}     & 1    & 10   & 20    & 1     & 10    & 20    & 1     & 10    & 20     \\ \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\subsection{Gene Panel Analysis: Breast Cancer Panel}
+
+Table \ref{tab:gene-panel-performance} presents the performance results for the "Breast Cancer Panel" analysis, which contains 27 genes, for 1 and 2 samples. As expected, increasing the number of samples caused a noticeable rise in execution time, \ac{cpu} usage, and memory consumption across all measured functions.
+
+For the "Streamlit load" function, the execution time remained almost constant, ranging from 0.27 seconds for 1 sample to 0.30 seconds for 2 samples. \ac{cpu} and memory usage followed a similar pattern, showing little variation between the two sample sizes.
+
+The \texttt{samtools depth} function exhibited a significant increase in both execution time and resource usage when moving from 1 to 2 samples. The execution time grew from 4.36 seconds to 11.47 seconds, while \ac{cpu} usage increased from 1.80\% to 3.30\%. Memory usage also rose, from 5.93 \ac{mb} for 1 sample to 6.33 \ac{mb} for 2 samples.
+
+The report generation function showed a substantial increase in both execution time and resource usage, with the execution time rising from 9.88 seconds for 1 sample to 24.46 seconds for 2 samples. \ac{cpu} usage increased from 6.50\% to 8.30\%, and memory consumption surged from 1.52 \ac{mb} to 29.19 \ac{mb}, indicating that this function is particularly resource-intensive with larger datasets.
+
+\begin{table}[htbp] 
+    \centering 
+    \caption{Performance of Gene Panel Analysis (Breast Cancer Panel) for 1 and 2 Samples}
+    \label{tab:gene-panel-performance}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}l>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}>{\raggedleft\arraybackslash}p{1cm}@{}}
+    \toprule
+    \textbf{Function} & \multicolumn{2}{c}{\textbf{Execution Time (s)}} & \multicolumn{2}{c}{\textbf{\ac{cpu} usage (\%)}} & \multicolumn{2}{c}{\textbf{Memory Usage (\ac{mb})}} \\ \midrule
+    Streamlit load           & 0.27 & 0.30  & 11.25 & 10.90 & 12.21 & 12.02 \\
+    Samtools depth function  & 4.36 & 11.47 & 1.80  & 3.30  & 5.93  & 6.33  \\
+    Report build             & 9.88 & 24.46 & 6.50  & 8.30  & 1.52  & 29.19 \\ \midrule
+    \textbf{No of samples}   & 1    & 2     & 1     & 2     & 1     & 2     \\ \bottomrule
+    \end{tabular}% 
+    }
+\end{table}
+
+The performance analysis of the software shows that it scales predictably with the number of samples processed, particularly in the \texttt{samtools depth} and report generation functions. The "Single Gene" analysis, while resource-efficient for a small number of samples, exhibits a noticeable increase in execution time and resource consumption as the sample size grows, particularly in the depth calculation function. 
+
+For the "Gene Panel" analysis, which involves a more complex dataset (27 genes), the resource usage for even a small number of samples is significantly higher than for single gene analyses. The report generation function, in particular, exhibits substantial growth in both \ac{cpu} and memory usage, which may indicate a need for optimization in future versions of the software to handle larger datasets more efficiently.
+
 
 \section{Users feedback}
 
 In order to evaluate the usability and effectiveness of the developed software, a feedback questionnaire was designed and distributed to a group of 14 users from Unilabs Genetics team with diverse professional backgrounds. The primary objective of this questionnaire was to gather insights into the user experience, performance, and overall satisfaction with the software. Given that the software was intended to cater to a wide range of technical expertise, from laboratory technicians to bioinformatics specialists, it was crucial to ensure that it met the functional and usability needs of these varied audiences.
 
-The questionnaire consisted of multiple sections aimed at assessing specific aspects of the software, including the ease of navigation, clarity of the interface, speed of performance, and the usefulness of the analytical metrics provided. Participants were asked to rate their experience on a numerical scale while also providing qualitative feedback on areas where the software excelled or required improvement.
+The questionnaire consisted of multiple sections aimed at assessing specific aspects of the software, including the ease of navigation, clarity of the interface, speed of performance, and the usefulness of the analytical metrics provided. Participants were asked to rate their experience on a numerical scale while also providing qualitative feedback on areas where the software excelled or required improvement. The results from these ratings are visually represented in the following figures:
+
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.6\textwidth]{figs/overall_satisfaction_graph.png} 
+    \caption{Overall User Satisfaction Ratings.} 
+    \label{fig:overall_satisfaction}
+\end{figure}
+
+Figure \ref{fig:overall_satisfaction} shows the distribution of user satisfaction ratings, where most users rated their experience between 4 and 5, indicating a high level of overall satisfaction.
 
 In addition to rating the software's technical performance, respondents were encouraged to share their thoughts on the software's design, user interface, and the clarity of instructions provided throughout the analysis process. This approach allowed for a comprehensive evaluation that encompassed both the functional and aesthetic dimensions of the user experience. The ultimate goal of this survey was to identify key areas that could be optimized to further align the software with the needs of its users, while also validating its current performance and utility in the field of genomic analysis.
 
-Overall, the feedback was overwhelmingly positive. Most users reported a high level of satisfaction with the software's intuitive interface, with many describing it as "very intuitive" and "user-friendly." All respondents confirmed that they did not experience any difficulties navigating the software. Additionally, the explanations provided for the functionalities were considered clear by all users, indicating that the design and guidance within the software successfully facilitated a smooth user experience.
+In terms of performance, the software was well-regarded for its speed and efficiency, as depicted in Figure \ref{fig:performance}:
 
-In terms of performance, the software was well-regarded for its speed and efficiency. The majority of users rated the software's performance highly (considering the test dataset), with ratings ranging from 3 to 5 on a scale of 1 to 5, with 5 representing the fastest performance. The respondents also praised the ease with which they could input data and obtain analysis results, with all participants stating that the process was straightforward. This indicates that the software effectively supports the users workflow, minimizing potential barriers to data input and result interpretation.
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.6\textwidth]{figs/performance_pie_chart.png} 
+    \caption{Performance Ratings for the Software.}
+    \label{fig:performance}
+\end{figure}
+
+The majority of users rated the software's performance positively, with most respondents giving it a "Fast" or "Very Fast" rating. The clear separation of user ratings shows that speed was a strong positive aspect of the software.
+
+The analysis of the usability of the software is represented in Figure \ref{fig:usability}:
+
+\begin{figure}[H] 
+    \centering 
+    \includegraphics[width=0.6\textwidth]{figs/usability_grouped_bars.png} 
+    \caption{Usability Evaluation: Ease of Navigation and Clarity of Instructions.}
+    \label{fig:usability}
+\end{figure}
+
+Users rated both the ease of navigation and the clarity of instructions provided. As shown in Figure \ref{fig:usability}, both categories received high ratings, indicating that the software's interface was intuitive and well-designed.
+
+Overall, the feedback was overwhelmingly positive. Most users reported a high level of satisfaction with the software's intuitive interface, with many describing it as "very intuitive" and "user-friendly." All respondents confirmed that they did not experience any difficulties navigating the software. Additionally, the explanations provided for the functionalities were considered clear by all users, indicating that the design and guidance within the software successfully facilitated a smooth user experience.
 
 The analysis results themselves were deemed clear and comprehensible, with users unanimously agreeing that the software met or exceeded their expectations. Notably, the metrics provided by the software were highlighted as particularly useful for their work, suggesting that the software successfully addresses key analytical needs in genomic analysis. Users expressed a high likelihood of recommending the software to colleagues, demonstrating strong approval of its functionality and usefulness.
 
-Suggestions for improvement were minimal, with a few users recommending performance enhancements and the inclusion of additional features, such as tailoring the software for \ac{cnvs} analysis. Nevertheless, users appreciated the versatility of the software, particularly the ability to zoom into specific regions and generate metrics for gene panels, genes and exons.
+Suggestions for improvement were minimal, with a few users recommending performance enhancements and the inclusion of additional features, such as tailoring the software for \ac{cnvs} analysis. Nevertheless, users appreciated the versatility of the software, particularly the ability to zoom into specific regions and generate metrics for gene panels, genes, and exons.
 
-The feedback from the questionnaire indicates that the software is well-received, providing a user-friendly, intuitive, and efficient tool that meets the needs of various professionals in the genomic field. The overwhelmingly positive responses suggest that the software has significant potential for widespread adoption, with only minor adjustments needed to further enhance its performance and expand its capabilities.
+The qualitative feedback collected highlights the most common positive aspects and suggested improvements. Overall, the feedback from the questionnaire indicates that the software is well-received, providing a user-friendly, intuitive, and efficient tool that meets the needs of various professionals in the genomic field. The overwhelmingly positive responses suggest that the software has significant potential for widespread adoption, with only minor adjustments needed to further enhance its performance and expand its capabilities.
 
 
 
