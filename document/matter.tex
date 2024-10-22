@@ -214,11 +214,13 @@
 % Use the built-in division styling
 \headstyles{memman}
 
-% Include subsections in the TOC
+% Inclui subseções no sumário
 \settocdepth{subsection}
 
-% Numbering down to subsections as well
-\setsecnumdepth{subsection}
+% Numeração até subsubseções
+\setsecnumdepth{subsubsection}
+
+
 
 % extra index for first lines
 \makeindex[lines]
@@ -322,7 +324,9 @@
 \raggedbottom
 
 \setcounter{tocdepth}{2} %subsections are added to the TOC
-\setcounter{secnumdepth}{4} %subsubsections are numbered
+\setcounter{secnumdepth}{3} %subsubsections are numbered
+\setsubsubsecheadstyle{\bfseries}
+
 
 % Initial document tables start here: TOC, LOF, LOT, Glossary
 % Table of contents with slightly smaller font
