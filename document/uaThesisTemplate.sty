@@ -514,39 +514,35 @@
 % Cover page (use only one of the first two \TitlePage)
 %
 % First alternative, with a figure
-%
-%  \TitlePage
-%     \HEADER{\BAR} % the \FIG{} is optional
-%           {\ciThesisYear}
-%
-%	\TITLE{\DISPLAYAUTHOR}{\selectlanguage{portuguese}\ciTitlePT\newline}
-%	\TITLE{ }{\selectlanguage{english}\ciTitleEN\newline}
-%
-%
-%  \EndTitlePage
-%  \titlepage\ \endtitlepage % empty page
-%
-%
-% Second alternative, with a citation
-%
-\ifdefined \ciQuoteText
+
   \TitlePage
-    \HEADER{\BAR\FIG{
-           \begin{minipage}{100mm} % no more than 120mm
-            ``\textit{\ciQuoteText}''
-             \begin{flushright}
-	  	  	     --- \ciQuoteAuthor
-             \end{flushright}
-          \end{minipage}
-          }}
+     \HEADER{\BAR} % the \FIG{} is optional
            {\ciThesisYear}
 
 	\TITLE{\DISPLAYAUTHOR}{\selectlanguage{portuguese}\ciTitlePT\newline}
 	\TITLE{ }{\selectlanguage{english}\ciTitleEN\newline}
 
+
   \EndTitlePage
   \titlepage\ \endtitlepage % empty page
+
+%
+% Second alternative, with a citation
+%
+\ifdefined \ciQuoteText
+  \begin{titlepage}
+    \vspace*{\fill} % Centraliza verticalmente na página
+    \begin{flushright} % Alinha à direita
+      \textit{\ciQuoteText}''
+
+      \vskip 1em % Espaço entre a citação e o autor
+
+      --- \ciQuoteAuthor
+    \end{flushright}
+    \vspace*{\fill} % Centraliza verticalmente na página
+  \end{titlepage}
 \fi
+
 
 
 %
